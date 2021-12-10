@@ -33,7 +33,10 @@ class OroApiClient
      */
     protected $apiEndpoint = null;
 
+
     public $authorization;
+
+    public $products;
 
     protected $accessToken;
 
@@ -69,6 +72,7 @@ class OroApiClient
     public function initializeEndpoints()
     {
         $this->authorization = new AuthorizationEndpoint($this);
+        $this->products = New ProductEndpoint($this);
     }
 
     /**
