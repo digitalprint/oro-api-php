@@ -1,23 +1,23 @@
 <?php
 
-namespace Mollie\Api\Endpoints;
+namespace Oro\Api\Endpoints;
 
-use Mollie\Api\Exceptions\ApiException;
-use Mollie\Api\MollieApiClient;
-use Mollie\Api\Resources\BaseCollection;
-use Mollie\Api\Resources\BaseResource;
-use Mollie\Api\Resources\ResourceFactory;
+use Oro\Api\Exceptions\ApiException;
+use Oro\Api\OroApiClient;
+use Oro\Api\Resources\BaseCollection;
+use Oro\Api\Resources\BaseResource;
+use Oro\Api\Resources\ResourceFactory;
 
 abstract class EndpointAbstract
 {
-    const REST_CREATE = MollieApiClient::HTTP_POST;
-    const REST_UPDATE = MollieApiClient::HTTP_PATCH;
-    const REST_READ = MollieApiClient::HTTP_GET;
-    const REST_LIST = MollieApiClient::HTTP_GET;
-    const REST_DELETE = MollieApiClient::HTTP_DELETE;
+    const REST_CREATE = OroApiClient::HTTP_POST;
+    const REST_UPDATE = OroApiClient::HTTP_PATCH;
+    const REST_READ = OroApiClient::HTTP_GET;
+    const REST_LIST = OroApiClient::HTTP_GET;
+    const REST_DELETE = OroApiClient::HTTP_DELETE;
 
     /**
-     * @var MollieApiClient
+     * @var OroApiClient
      */
     protected $client;
 
@@ -32,9 +32,9 @@ abstract class EndpointAbstract
     protected $parentId;
 
     /**
-     * @param MollieApiClient $api
+     * @param OroApiClient $api
      */
-    public function __construct(MollieApiClient $api)
+    public function __construct(OroApiClient $api)
     {
         $this->client = $api;
     }

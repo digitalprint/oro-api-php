@@ -1,6 +1,6 @@
 <?php
 
-namespace Mollie\Api\HttpAdapter;
+namespace Oro\Api\HttpAdapter;
 
 use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Exception\TransferException;

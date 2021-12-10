@@ -1,15 +1,15 @@
 <?php
 
-namespace Mollie\Api;
+namespace Oro\Api;
 
-use Mollie\Api\Exceptions\IncompatiblePlatform;
+use Oro\Api\Exceptions\IncompatiblePlatform;
 
 class CompatibilityChecker
 {
     /**
      * @var string
      */
-    const MIN_PHP_VERSION = "5.6.0";
+    const MIN_PHP_VERSION = "8.0.0";
 
     /**
      * @throws IncompatiblePlatform

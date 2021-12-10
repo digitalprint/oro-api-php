@@ -1,6 +1,6 @@
 <?php
 
-namespace Mollie\Api\Resources;
+namespace Oro\Api\Resources;
 
 abstract class BaseCollection extends \ArrayObject
 {

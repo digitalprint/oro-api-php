@@ -1,20 +1,20 @@
 <?php
 
-namespace Mollie\Api\Resources;
+namespace Oro\Api\Resources;
 
-use Mollie\Api\MollieApiClient;
+use Oro\Api\OroApiClient;
 
 abstract class BaseResource
 {
     /**
-     * @var MollieApiClient
+     * @var OroApiClient
      */
     protected $client;
 
     /**
      * @param $client
      */
-    public function __construct(MollieApiClient $client)
+    public function __construct(OroApiClient $client)
     {
         $this->client = $client;
     }

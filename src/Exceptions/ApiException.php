@@ -1,6 +1,6 @@
 <?php
 
-namespace Mollie\Api\Exceptions;
+namespace Oro\Api\Exceptions;
 
 use DateTime;
 
@@ -40,7 +40,7 @@ class ApiException extends \Exception
      * @param \Psr\Http\Message\RequestInterface|null $request
      * @param \Psr\Http\Message\ResponseInterface|null $response
      * @param \Throwable|null $previous
-     * @throws \Mollie\Api\Exceptions\ApiException
+     * @throws \Oro\Api\Exceptions\ApiException
      */
     public function __construct(
         $message = "",
@@ -92,8 +92,8 @@ class ApiException extends \Exception
      * @param \Psr\Http\Message\ResponseInterface $response
      * @param \Psr\Http\Message\RequestInterface $request
      * @param \Throwable|null $previous
-     * @return \Mollie\Api\Exceptions\ApiException
-     * @throws \Mollie\Api\Exceptions\ApiException
+     * @return \Oro\Api\Exceptions\ApiException
+     * @throws \Oro\Api\Exceptions\ApiException
      */
     public static function createFromResponse($response, $request = null, $previous = null)
     {
@@ -210,7 +210,7 @@ class ApiException extends \Exception
     /**
      * @param \Psr\Http\Message\ResponseInterface $response
      * @return \stdClass
-     * @throws \Mollie\Api\Exceptions\ApiException
+     * @throws \Oro\Api\Exceptions\ApiException
      */
     protected static function parseResponseBody($response)
     {
@@ -219,7 +219,7 @@ class ApiException extends \Exception
         $object = @json_decode($body);
 
         if (json_last_error() !== JSON_ERROR_NONE) {
-            throw new self("Unable to decode Mollie response: '{$body}'.");
+            throw new self("Unable to decode Oro response: '{$body}'.");
         }
 
         return $object;

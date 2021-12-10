@@ -1,6 +1,6 @@
 <?php
 
-namespace Mollie\Api\Exceptions;
+namespace Oro\Api\Exceptions;
 
 class IncompatiblePlatform extends ApiException
 {

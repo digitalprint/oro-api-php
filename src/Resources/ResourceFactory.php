@@ -1,8 +1,8 @@
 <?php
 
-namespace Mollie\Api\Resources;
+namespace Oro\Api\Resources;
 
-use Mollie\Api\MollieApiClient;
+use Oro\Api\OroApiClient;
 
 class ResourceFactory
 {
@@ -24,7 +24,7 @@ class ResourceFactory
     }
 
     /**
-     * @param MollieApiClient $client
+     * @param OroApiClient $client
      * @param string $resourceClass
      * @param array $data
      * @param null $_links
@@ -32,7 +32,7 @@ class ResourceFactory
      * @return mixed
      */
     public static function createBaseResourceCollection(
-        MollieApiClient $client,
+        OroApiClient $client,
         $resourceClass,
         $data,
         $_links = null,
@@ -50,7 +50,7 @@ class ResourceFactory
     }
 
     /**
-     * @param MollieApiClient $client
+     * @param OroApiClient $client
      * @param array $input
      * @param string $resourceClass
      * @param null $_links

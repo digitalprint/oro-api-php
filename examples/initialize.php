@@ -9,10 +9,17 @@ error_reporting(E_ALL);
 require_once __DIR__ . "/../vendor/autoload.php";
 require_once __DIR__ . "/functions.php";
 
-/*
- * Initialize the Mollie API library with your API key.
- *
- * See: https://www.mollie.com/dashboard/developers/api-keys
- */
-$mollie = new \Mollie\Api\MollieApiClient();
-$mollie->setApiKey("test_dHar4XY7LxsDOtmnkVtjNVWXLSlXsM");
+$apiEndoint = 'YOUR_ENDPOINT';
+
+$clientId = 'SECRET';
+$clientSecret = 'SECRET';
+
+$oro = new \Oro\Api\OroApiClient();
+$oro->setApiEndpoint($apiEndoint);
+
+$res = $oro->authorization->create([
+    'client_id' => $clientId,
+    'client_secret' => $clientSecret,
+]);
+
+$oro->setAccessToken($res->access_token);

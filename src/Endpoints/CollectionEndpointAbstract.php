@@ -1,8 +1,8 @@
 <?php
 
-namespace Mollie\Api\Endpoints;
+namespace Oro\Api\Endpoints;
 
-use Mollie\Api\Resources\BaseCollection;
+use Oro\Api\Resources\BaseCollection;
 
 abstract class CollectionEndpointAbstract extends EndpointAbstract
 {

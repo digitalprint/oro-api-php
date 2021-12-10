@@ -1,6 +1,6 @@
 <?php
 
-namespace Mollie\Api\Exceptions;
+namespace Oro\Api\Exceptions;
 
 class UnrecognizedClientException extends ApiException
 {
