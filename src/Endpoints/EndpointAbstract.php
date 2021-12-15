@@ -43,7 +43,7 @@ abstract class EndpointAbstract
      * @param array $filters
      * @return string
      */
-    protected function buildQueryString(array $filters)
+    protected function buildQueryString(array $filters): string
     {
         if (empty($filters)) {
             return "";
@@ -68,7 +68,7 @@ abstract class EndpointAbstract
      * @return BaseResource
      * @throws ApiException
      */
-    protected function rest_create(array $body, array $filters)
+    protected function rest_create(array $body, array $filters): BaseResource
     {
         $result = $this->client->performHttpCall(
             self::REST_CREATE,
@@ -80,7 +80,7 @@ abstract class EndpointAbstract
     }
 
     /**
-     * Sends a PATCH request to a single Molle API object.
+     * Sends a PATCH request to a single Oro API object.
      *
      * @param string $id
      * @param array $body
@@ -88,7 +88,7 @@ abstract class EndpointAbstract
      * @return BaseResource
      * @throws ApiException
      */
-    protected function rest_update($id, array $body = [])
+    protected function rest_update($id, array $body = []): ?BaseResource
     {
         if (empty($id)) {
             throw new ApiException("Invalid resource id.");
@@ -116,7 +116,7 @@ abstract class EndpointAbstract
      * @return BaseResource
      * @throws ApiException
      */
-    protected function rest_read($id, array $filters)
+    protected function rest_read($id, array $filters): BaseResource
     {
         if (empty($id)) {
             throw new ApiException("Invalid resource id.");
@@ -128,7 +128,7 @@ abstract class EndpointAbstract
             "{$this->getResourcePath()}/{$id}" . $this->buildQueryString($filters)
         );
 
-        return ResourceFactory::createFromApiResult($result, $this->getResourceObject());
+        return ResourceFactory::createFromApiResult($result->data, $this->getResourceObject());
     }
 
     /**
@@ -140,7 +140,7 @@ abstract class EndpointAbstract
      * @return BaseResource
      * @throws ApiException
      */
-    protected function rest_delete($id, array $body = [])
+    protected function rest_delete($id, array $body = []): ?BaseResource
     {
         if (empty($id)) {
             throw new ApiException("Invalid resource id.");
@@ -163,25 +163,23 @@ abstract class EndpointAbstract
     /**
      * Get a collection of objects from the REST API.
      *
-     * @param string $from The first resource ID you want to include in your list.
-     * @param int $limit
+     * @param int|null $pageSize
      * @param array $filters
      *
      * @return BaseCollection
      * @throws ApiException
      */
-    protected function rest_list($from = null, $limit = null, array $filters = [])
+    protected function rest_list(int $pageSize = null, array $filters = []): BaseCollection
     {
-        $filters = array_merge(["from" => $from, "limit" => $limit], $filters);
+        $filters = array_merge(["page[size]" => $pageSize], $filters);
 
         $apiPath = $this->getResourcePath() . $this->buildQueryString($filters);
 
         $result = $this->client->performHttpCall(self::REST_LIST, $apiPath);
 
-        /** @var BaseCollection $collection */
-        $collection = $this->getResourceCollectionObject($result->count, $result->_links);
+        $collection = $this->getResourceCollectionObject($result->links);
 
-        foreach ($result->_embedded->{$collection->getCollectionResourceName()} as $dataResult) {
+        foreach ($result->data as $dataResult) {
             $collection[] = ResourceFactory::createFromApiResult($dataResult, $this->getResourceObject());
         }
 
@@ -193,12 +191,12 @@ abstract class EndpointAbstract
      *
      * @return BaseResource
      */
-    abstract protected function getResourceObject();
+    abstract protected function getResourceObject(): BaseResource;
 
     /**
      * @param string $resourcePath
      */
-    public function setResourcePath($resourcePath)
+    public function setResourcePath($resourcePath): void
     {
         $this->resourcePath = strtolower($resourcePath);
     }
@@ -207,7 +205,7 @@ abstract class EndpointAbstract
      * @return string
      * @throws ApiException
      */
-    public function getResourcePath()
+    public function getResourcePath(): string
     {
         if (strpos($this->resourcePath, "_") !== false) {
             list($parentResource, $childResource) = explode("_", $this->resourcePath, 2);
@@ -227,7 +225,7 @@ abstract class EndpointAbstract
      * @return null|string
      * @throws ApiException
      */
-    protected function parseRequestBody(array $body)
+    protected function parseRequestBody(array $body): ?string
     {
         if (empty($body)) {
             return null;

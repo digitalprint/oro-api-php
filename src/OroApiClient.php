@@ -33,6 +33,8 @@ class OroApiClient
      */
     protected $apiEndpoint = null;
 
+    protected $user = null;
+
 
     public $authorization;
 
@@ -94,6 +96,16 @@ class OroApiClient
         return $this->apiEndpoint;
     }
 
+    public function setUser($user): OroApiClient
+    {
+        $this->user = trim($user);
+        return $this;
+    }
+
+    public function getUser() {
+        return $this->user;
+    }
+
     /**
      * @return array
      */
@@ -122,7 +134,7 @@ class OroApiClient
     /**
      *
      * @param string $httpMethod
-     * @param string $url
+     * @param string $apiMethod
      * @param string|null $httpBody
      *
      * @return \stdClass|null
@@ -132,18 +144,17 @@ class OroApiClient
      */
     public function performHttpCallAuthorization($httpMethod, $apiMethod, $httpBody = null) {
 
-        $url = $this->apiEndpoint . "/" . $apiMethod;
+        $url = "{$this->apiEndpoint}/{$apiMethod}";
 
         $userAgent = implode(' ', $this->versionStrings);
 
         $headers = [
             'Content-Type' => 'application/json',
             'Accept' => "application/json",
-            'User-Agent' => $userAgent
+            'User-Agent' => $userAgent,
         ];
 
         return $this->httpClient->send($httpMethod, $url, $headers, $httpBody);
-
     }
 
     /**
@@ -160,7 +171,7 @@ class OroApiClient
      */
     public function performHttpCall($httpMethod, $apiMethod, $httpBody = null)
     {
-        $url = $this->apiEndpoint . "/" . $apiMethod;
+        $url = "{$this->apiEndpoint}/{$this->user}/{$apiMethod}";
         return $this->performHttpCallToFullUrl($httpMethod, $url, $httpBody);
     }
 
@@ -190,6 +201,7 @@ class OroApiClient
         $headers = [
             'Accept' => "application/vnd.api+json",
             'Authorization' => "Bearer {$this->accessToken}",
+            'X-Include' => "totalCount",
             'User-Agent' => $userAgent,
         ];
 
