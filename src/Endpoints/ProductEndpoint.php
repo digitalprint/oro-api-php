@@ -36,7 +36,21 @@ class ProductEndpoint extends CollectionEndpointAbstract
     }
 
     /**
-     * Retrieve an Invoice from Mollie.
+     * Creates a product in Oro.
+     *
+     * @param array $data
+     * @param array $filters
+     *
+     * @return Product
+     * @throws ApiException
+     */
+    public function create(array $data = [], array $filters = [])
+    {
+        return $this->rest_create($data, $filters);
+    }
+
+    /**
+     * Retrieve an Invoice from Oro.
      *
      * Will throw a ApiException if the invoice id is invalid or the resource cannot be found.
      *
@@ -52,7 +66,7 @@ class ProductEndpoint extends CollectionEndpointAbstract
     }
 
     /**
-     * Retrieves a collection of Invoices from Mollie.
+     * Retrieves a collection of products from Oro.
      *
      * @param int $limit
      * @param array $parameters
@@ -64,5 +78,4 @@ class ProductEndpoint extends CollectionEndpointAbstract
     {
         return $this->rest_list($pageSize, $parameters);
     }
-
 }

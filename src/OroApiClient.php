@@ -74,7 +74,7 @@ class OroApiClient
     public function initializeEndpoints()
     {
         $this->authorization = new AuthorizationEndpoint($this);
-        $this->products = New ProductEndpoint($this);
+        $this->products = new ProductEndpoint($this);
     }
 
     /**
@@ -85,6 +85,7 @@ class OroApiClient
     public function setApiEndpoint($url)
     {
         $this->apiEndpoint = rtrim(trim($url), '/');
+
         return $this;
     }
 
@@ -99,10 +100,12 @@ class OroApiClient
     public function setUser($user): OroApiClient
     {
         $this->user = trim($user);
+
         return $this;
     }
 
-    public function getUser() {
+    public function getUser()
+    {
         return $this->user;
     }
 
@@ -117,6 +120,7 @@ class OroApiClient
     public function setAccessToken($accessToken)
     {
         $this->accessToken = trim($accessToken);
+
         return $this;
     }
 
@@ -128,6 +132,7 @@ class OroApiClient
     public function addVersionString($versionString)
     {
         $this->versionStrings[] = str_replace([" ", "\t", "\n", "\r"], '-', $versionString);
+
         return $this;
     }
 
@@ -142,8 +147,8 @@ class OroApiClient
      *
      * @codeCoverageIgnore
      */
-    public function performHttpCallAuthorization($httpMethod, $apiMethod, $httpBody = null) {
-
+    public function performHttpCallAuthorization($httpMethod, $apiMethod, $httpBody = null)
+    {
         $url = "{$this->apiEndpoint}/{$apiMethod}";
 
         $userAgent = implode(' ', $this->versionStrings);
@@ -172,6 +177,7 @@ class OroApiClient
     public function performHttpCall($httpMethod, $apiMethod, $httpBody = null)
     {
         $url = "{$this->apiEndpoint}/{$this->user}/{$apiMethod}";
+
         return $this->performHttpCallToFullUrl($httpMethod, $url, $httpBody);
     }
 
@@ -201,12 +207,15 @@ class OroApiClient
         $headers = [
             'Accept' => "application/vnd.api+json",
             'Authorization' => "Bearer {$this->accessToken}",
-            'X-Include' => "totalCount",
             'User-Agent' => $userAgent,
         ];
 
+        if ($httpMethod === 'GET') {
+            $headers['X-Include'] = 'totalCount';
+        }
+
         if ($httpBody !== null) {
-            $headers['Content-Type'] = "application/json";
+            $headers['Content-Type'] = "application/vnd.api+json";
         }
 
         if (function_exists("php_uname")) {

@@ -30,7 +30,7 @@ abstract class CursorCollection extends BaseCollection
      * @return CursorCollection|null
      * @throws \Oro\Api\Exceptions\ApiException
      */
-    final public function next(): static
+    final public function next(): ?static
     {
         if (! $this->hasNext()) {
             return null;
@@ -53,7 +53,7 @@ abstract class CursorCollection extends BaseCollection
      * @return CursorCollection|null
      * @throws \Oro\Api\Exceptions\ApiException
      */
-    final public function previous(): static
+    final public function previous(): ?static
     {
         if (! $this->hasPrevious()) {
             return null;

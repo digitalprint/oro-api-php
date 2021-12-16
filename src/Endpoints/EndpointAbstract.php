@@ -31,6 +31,8 @@ abstract class EndpointAbstract
      */
     protected $parentId;
 
+    public $status;
+
     /**
      * @param OroApiClient $api
      */
@@ -76,7 +78,7 @@ abstract class EndpointAbstract
             $this->parseRequestBody($body)
         );
 
-        return ResourceFactory::createFromApiResult($result, $this->getResourceObject());
+        return ResourceFactory::createFromApiResult($result->data, $this->getResourceObject());
     }
 
     /**
