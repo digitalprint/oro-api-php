@@ -4,6 +4,7 @@ namespace Oro\Api;
 
 use Oro\Api\Endpoints\AuthorizationEndpoint;
 use Oro\Api\Endpoints\ProductEndpoint;
+use Oro\Api\Endpoints\AsyncoperationEndpoint;
 use Oro\Api\Exceptions\ApiException;
 use Oro\Api\Exceptions\IncompatiblePlatform;
 use Oro\Api\HttpAdapter\OroHttpAdapterPicker;
@@ -38,6 +39,7 @@ class OroApiClient
 
     public $authorization;
 
+    public $asyncoperations;
     public $products;
 
     protected $accessToken;
@@ -74,6 +76,7 @@ class OroApiClient
     public function initializeEndpoints()
     {
         $this->authorization = new AuthorizationEndpoint($this);
+        $this->asyncoperations = new AsyncoperationEndpoint($this);
         $this->products = new ProductEndpoint($this);
     }
 
