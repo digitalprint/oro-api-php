@@ -2,12 +2,15 @@
 
 namespace Oro\Api\Resources;
 
-abstract class BaseCollection extends \ArrayObject
+use ArrayObject;
+use stdClass;
+
+abstract class BaseCollection extends ArrayObject
 {
     public $links;
 
     /**
-     * @param \stdClass $links
+     * @param stdClass $links
      */
     public function __construct($links)
     {

@@ -2,30 +2,35 @@
 
 namespace Oro\Api;
 
+use GuzzleHttp\ClientInterface;
+use Oro\Api\Endpoints\AsyncoperationEndpoint;
 use Oro\Api\Endpoints\AuthorizationEndpoint;
 use Oro\Api\Endpoints\ProductEndpoint;
-use Oro\Api\Endpoints\AsyncoperationEndpoint;
 use Oro\Api\Exceptions\ApiException;
 use Oro\Api\Exceptions\IncompatiblePlatform;
+use Oro\Api\Exceptions\UnrecognizedClientException;
+use Oro\Api\HttpAdapter\OroHttpAdapterInterface;
 use Oro\Api\HttpAdapter\OroHttpAdapterPicker;
+use Oro\Api\HttpAdapter\OroHttpAdapterPickerInterface;
+use stdClass;
 
 class OroApiClient
 {
     /**
      * Version of our client.
      */
-    const CLIENT_VERSION = "1.0.0";
+    public const CLIENT_VERSION = "1.0.0";
 
     /**
      * HTTP Methods
      */
-    const HTTP_GET = "GET";
-    const HTTP_POST = "POST";
-    const HTTP_DELETE = "DELETE";
-    const HTTP_PATCH = "PATCH";
+    public const HTTP_GET = "GET";
+    public const HTTP_POST = "POST";
+    public const HTTP_DELETE = "DELETE";
+    public const HTTP_PATCH = "PATCH";
 
     /**
-     * @var \Oro\Api\HttpAdapter\OroHttpAdapterInterface
+     * @var OroHttpAdapterInterface
      */
     protected $httpClient;
 
@@ -50,11 +55,11 @@ class OroApiClient
     protected $versionStrings = [];
 
     /**
-     * @param \GuzzleHttp\ClientInterface|\Oro\Api\HttpAdapter\OroHttpAdapterInterface|null $httpClient
-     * @param \Oro\Api\HttpAdapter\OroHttpAdapterPickerInterface|null $httpAdapterPicker
-     * @throws \Oro\Api\Exceptions\IncompatiblePlatform|\Oro\Api\Exceptions\UnrecognizedClientException
+     * @param ClientInterface|OroHttpAdapterInterface|null $httpClient
+     * @param OroHttpAdapterPickerInterface|null $httpAdapterPicker
+     * @throws IncompatiblePlatform|UnrecognizedClientException
      */
-    public function __construct($httpClient = null, $httpAdapterPicker = null)
+    public function __construct($httpClient = null, OroHttpAdapterPickerInterface $httpAdapterPicker = null)
     {
         $httpAdapterPicker = $httpAdapterPicker ?: new OroHttpAdapterPicker;
         $this->httpClient = $httpAdapterPicker->pickHttpAdapter($httpClient);
@@ -73,7 +78,7 @@ class OroApiClient
         }
     }
 
-    public function initializeEndpoints()
+    public function initializeEndpoints(): void
     {
         $this->authorization = new AuthorizationEndpoint($this);
         $this->asyncoperations = new AsyncoperationEndpoint($this);
@@ -85,7 +90,7 @@ class OroApiClient
      *
      * @return OroApiClient
      */
-    public function setApiEndpoint($url)
+    public function setApiEndpoint(string $url): OroApiClient
     {
         $this->apiEndpoint = rtrim(trim($url), '/');
 
@@ -95,19 +100,27 @@ class OroApiClient
     /**
      * @return string
      */
-    public function getApiEndpoint()
+    public function getApiEndpoint(): ?string
     {
         return $this->apiEndpoint;
     }
 
-    public function setUser($user): OroApiClient
+    /*
+     * @param string $user
+     *
+     * @return OroApiClient
+     */
+    public function setUser(string $user): OroApiClient
     {
         $this->user = trim($user);
 
         return $this;
     }
 
-    public function getUser()
+    /**
+     * @return string
+     */
+    public function getUser(): string
     {
         return $this->user;
     }
@@ -115,12 +128,17 @@ class OroApiClient
     /**
      * @return array
      */
-    public function getVersionStrings()
+    public function getVersionStrings(): array
     {
         return $this->versionStrings;
     }
 
-    public function setAccessToken($accessToken)
+    /*
+     * @param string accessToken
+     *
+     * @return OroApiClient
+     */
+    public function setAccessToken(string $accessToken): OroApiClient
     {
         $this->accessToken = trim($accessToken);
 
@@ -132,7 +150,7 @@ class OroApiClient
      *
      * @return OroApiClient
      */
-    public function addVersionString($versionString)
+    public function addVersionString(string $versionString): OroApiClient
     {
         $this->versionStrings[] = str_replace([" ", "\t", "\n", "\r"], '-', $versionString);
 
@@ -145,12 +163,12 @@ class OroApiClient
      * @param string $apiMethod
      * @param string|null $httpBody
      *
-     * @return \stdClass|null
+     * @return stdClass
      * @throws ApiException
      *
      * @codeCoverageIgnore
      */
-    public function performHttpCallAuthorization($httpMethod, $apiMethod, $httpBody = null)
+    public function performHttpCallAuthorization(string $httpMethod, string $apiMethod, string $httpBody = null): stdClass
     {
         $url = "{$this->apiEndpoint}/{$apiMethod}";
 
@@ -172,12 +190,12 @@ class OroApiClient
      * @param string $apiMethod
      * @param string|null $httpBody
      *
-     * @return \stdClass
+     * @return stdClass
      * @throws ApiException
      *
      * @codeCoverageIgnore
      */
-    public function performHttpCall($httpMethod, $apiMethod, $httpBody = null)
+    public function performHttpCall(string $httpMethod, string $apiMethod, string $httpBody = null): stdClass
     {
         $url = "{$this->apiEndpoint}/{$this->user}/{$apiMethod}";
 
@@ -185,21 +203,18 @@ class OroApiClient
     }
 
     /**
-     * Perform an http call to a full url. This method is used by the resource specific classes.
-     *
-     * @see $payments
-     * @see $isuers
+     * Perform a http call to a full url. This method is used by the resource specific classes.
      *
      * @param string $httpMethod
      * @param string $url
      * @param string|null $httpBody
      *
-     * @return \stdClass|null
+     * @return stdClass
      * @throws ApiException
      *
      * @codeCoverageIgnore
      */
-    public function performHttpCallToFullUrl($httpMethod, $url, $httpBody = null)
+    public function performHttpCallToFullUrl(string $httpMethod, string $url, string $httpBody = null): stdClass
     {
         if (empty($this->accessToken)) {
             throw new ApiException("You have not set an OAuth access token.");
@@ -215,6 +230,8 @@ class OroApiClient
 
         if ($httpMethod === 'GET') {
             $headers['X-Include'] = 'totalCount';
+        } elseif ($httpMethod === 'DELETE') {
+            $headers['X-Include'] = 'totalCount;deletedCount';
         }
 
         if ($httpBody !== null) {

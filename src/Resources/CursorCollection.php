@@ -2,7 +2,9 @@
 
 namespace Oro\Api\Resources;
 
+use Oro\Api\Exceptions\ApiException;
 use Oro\Api\OroApiClient;
+use stdClass;
 
 abstract class CursorCollection extends BaseCollection
 {
@@ -10,7 +12,7 @@ abstract class CursorCollection extends BaseCollection
 
     /**
      * @param $client
-     * @param \stdClass $links
+     * @param stdClass $links
      */
     final public function __construct($client, $links)
     {
@@ -28,7 +30,7 @@ abstract class CursorCollection extends BaseCollection
      * Return the next set of resources when available
      *
      * @return CursorCollection|null
-     * @throws \Oro\Api\Exceptions\ApiException
+     * @throws ApiException
      */
     final public function next(): ?static
     {
@@ -51,7 +53,7 @@ abstract class CursorCollection extends BaseCollection
      * Return the previous set of resources when available
      *
      * @return CursorCollection|null
-     * @throws \Oro\Api\Exceptions\ApiException
+     * @throws ApiException
      */
     final public function previous(): ?static
     {

@@ -5,33 +5,35 @@ namespace Oro\Api\HttpAdapter;
 use Composer\CaBundle\CaBundle;
 use Oro\Api\Exceptions\ApiException;
 use Oro\Api\OroApiClient;
+use stdClass;
+use Symfony\Contracts\Service\ResetInterface;
 
 final class CurlOroHttpAdapter implements OroHttpAdapterInterface
 {
     /**
      * Default response timeout (in seconds).
      */
-    const DEFAULT_TIMEOUT = 10;
+    public const DEFAULT_TIMEOUT = 10;
 
     /**
      * Default connect timeout (in seconds).
      */
-    const DEFAULT_CONNECT_TIMEOUT = 2;
+    public const DEFAULT_CONNECT_TIMEOUT = 2;
 
     /**
      * HTTP status code for an empty ok response.
      */
-    const HTTP_NO_CONTENT = 204;
+    public const HTTP_NO_CONTENT = 204;
 
     /**
      * @param string $httpMethod
      * @param string $url
      * @param array $headers
      * @param $httpBody
-     * @return \stdClass|void|null
-     * @throws \Oro\Api\Exceptions\ApiException
+     * @return ResponseInterface|null
+     * @throws ApiException
      */
-    public function send($httpMethod, $url, $headers, $httpBody)
+    public function send($httpMethod, $url, $headers, $httpBody): ?ResponseInterface
     {
         $curl = curl_init($url);
         $headers["Content-Type"] = "application/json";
@@ -84,7 +86,7 @@ final class CurlOroHttpAdapter implements OroHttpAdapterInterface
      *
      * @return string|null
      */
-    public function versionString()
+    public function versionString(): ?string
     {
         return 'Curl/*';
     }
@@ -93,10 +95,10 @@ final class CurlOroHttpAdapter implements OroHttpAdapterInterface
      * @param string $response
      * @param int $statusCode
      * @param string $httpBody
-     * @return \stdClass|null
-     * @throws \Oro\Api\Exceptions\ApiException
+     * @return stdClass|null
+     * @throws ApiException
      */
-    protected function parseResponseBody($response, $statusCode, $httpBody)
+    protected function parseResponseBody($response, $statusCode, $httpBody): ?stdClass
     {
         if (empty($response)) {
             if ($statusCode === self::HTTP_NO_CONTENT) {
@@ -126,10 +128,6 @@ final class CurlOroHttpAdapter implements OroHttpAdapterInterface
                 $field = $body->field;
             }
 
-            if (isset($body->_links, $body->_links->documentation)) {
-                $message .= ". Documentation: {$body->_links->documentation->href}";
-            }
-
             if ($httpBody) {
                 $message .= ". Request body: {$httpBody}";
             }
@@ -140,7 +138,7 @@ final class CurlOroHttpAdapter implements OroHttpAdapterInterface
         return $body;
     }
 
-    protected function parseHeaders($headers)
+    protected function parseHeaders($headers): array
     {
         $result = [];
 

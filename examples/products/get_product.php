@@ -2,7 +2,9 @@
 
     require "../initialize.php";
 
-    $products = $oro->products->get(1);
+    $products = $oro->products->get(['id' => 104]);
 
-    echo $products->id . "<br>";
-    echo $products->type;
+    foreach ($products as $product) {
+        echo $product->id . "<br>";
+        echo $product->type;
+    }

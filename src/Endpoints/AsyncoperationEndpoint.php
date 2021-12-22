@@ -9,7 +9,7 @@ use stdClass;
 
 class AsyncoperationEndpoint extends EndpointAbstract
 {
-    protected $resourcePath = "api/asyncoperations";
+    protected string $resourcePath = "api/asyncoperations";
 
     /**
      * Get the object that is used by this API. Every API uses one type of object.

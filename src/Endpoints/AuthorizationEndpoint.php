@@ -9,7 +9,7 @@ use Oro\Api\Resources\ResourceFactory;
 
 class AuthorizationEndpoint extends EndpointAbstract
 {
-    protected $resourcePath = "oauth2-token";
+    protected string $resourcePath = "oauth2-token";
 
     protected function getResourceCollectionObject($count, $links): BaseCollection
     {

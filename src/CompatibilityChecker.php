@@ -9,13 +9,13 @@ class CompatibilityChecker
     /**
      * @var string
      */
-    const MIN_PHP_VERSION = "8.0.0";
+    public const MIN_PHP_VERSION = "8.0.0";
 
     /**
      * @throws IncompatiblePlatform
      * @return void
      */
-    public function checkCompatibility()
+    public function checkCompatibility(): void
     {
         if (! $this->satisfiesPhpVersion()) {
             throw new IncompatiblePlatform(
@@ -36,7 +36,7 @@ class CompatibilityChecker
      * @return bool
      * @codeCoverageIgnore
      */
-    public function satisfiesPhpVersion()
+    public function satisfiesPhpVersion(): bool
     {
         return (bool)version_compare(PHP_VERSION, self::MIN_PHP_VERSION, ">=");
     }
@@ -45,12 +45,14 @@ class CompatibilityChecker
      * @return bool
      * @codeCoverageIgnore
      */
-    public function satisfiesJsonExtension()
+    public function satisfiesJsonExtension(): bool
     {
         // Check by extension_loaded
         if (function_exists('extension_loaded') && extension_loaded('json')) {
             return true;
-        } elseif (function_exists('json_encode')) {
+        }
+
+        if (function_exists('json_encode')) {
             return true;
         }
 

@@ -11,26 +11,27 @@ use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\RequestOptions as GuzzleRequestOptions;
 use Oro\Api\Exceptions\ApiException;
 use Psr\Http\Message\ResponseInterface;
+use stdClass;
 
 final class Guzzle6And7OroHttpAdapter implements OroHttpAdapterInterface
 {
     /**
      * Default response timeout (in seconds).
      */
-    const DEFAULT_TIMEOUT = 10;
+    public const DEFAULT_TIMEOUT = 10;
 
     /**
      * Default connect timeout (in seconds).
      */
-    const DEFAULT_CONNECT_TIMEOUT = 2;
+    public const DEFAULT_CONNECT_TIMEOUT = 2;
 
     /**
      * HTTP status code for an empty ok response.
      */
-    const HTTP_NO_CONTENT = 204;
+    public const HTTP_NO_CONTENT = 204;
 
     /**
-     * @var \GuzzleHttp\ClientInterface
+     * @var ClientInterface
      */
     protected $httpClient;
 
@@ -44,7 +45,7 @@ final class Guzzle6And7OroHttpAdapter implements OroHttpAdapterInterface
      *
      * @return static
      */
-    public static function createDefault()
+    public static function createDefault(): Guzzle6And7OroHttpAdapter
     {
         $retryMiddlewareFactory = new Guzzle6And7RetryMiddlewareFactory;
         $handlerStack = HandlerStack::create();
@@ -67,10 +68,10 @@ final class Guzzle6And7OroHttpAdapter implements OroHttpAdapterInterface
      * @param $url
      * @param $headers
      * @param $httpBody
-     * @return \stdClass|null
-     * @throws \Oro\Api\Exceptions\ApiException
+     * @return stdClass|null
+     * @throws ApiException
      */
-    public function send($httpMethod, $url, $headers, $httpBody)
+    public function send($httpMethod, $url, $headers, $httpBody): ?stdClass
     {
         $request = new Request($httpMethod, $url, $headers, $httpBody);
 
@@ -99,10 +100,10 @@ final class Guzzle6And7OroHttpAdapter implements OroHttpAdapterInterface
      * Parse the PSR-7 Response body
      *
      * @param ResponseInterface $response
-     * @return \stdClass|null
+     * @return stdClass|null
      * @throws ApiException
      */
-    private function parseResponseBody(ResponseInterface $response)
+    private function parseResponseBody(ResponseInterface $response): ?stdClass
     {
         $body = (string) $response->getBody();
         if (empty($body)) {
@@ -133,7 +134,7 @@ final class Guzzle6And7OroHttpAdapter implements OroHttpAdapterInterface
      *
      * @return string|null
      */
-    public function versionString()
+    public function versionString(): ?string
     {
         if (defined('\GuzzleHttp\ClientInterface::MAJOR_VERSION')) { // Guzzle 7
             return "Guzzle/" . ClientInterface::MAJOR_VERSION;

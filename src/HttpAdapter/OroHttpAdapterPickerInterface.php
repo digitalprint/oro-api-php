@@ -2,12 +2,14 @@
 
 namespace Oro\Api\HttpAdapter;
 
+use GuzzleHttp\ClientInterface;
+
 interface OroHttpAdapterPickerInterface
 {
     /**
-     * @param \GuzzleHttp\ClientInterface|\Oro\Api\HttpAdapter\OroHttpAdapterInterface $httpClient
+     * @param ClientInterface|OroHttpAdapterInterface $httpClient
      *
-     * @return \Oro\Api\HttpAdapter\OroHttpAdapterInterface
+     * @return OroHttpAdapterInterface
      */
     public function pickHttpAdapter($httpClient);
 }

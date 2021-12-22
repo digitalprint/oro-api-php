@@ -2,6 +2,9 @@
 
 namespace Oro\Api\HttpAdapter;
 
+use Oro\Api\Exceptions\ApiException;
+use stdClass;
+
 interface OroHttpAdapterInterface
 {
     /**
@@ -11,10 +14,10 @@ interface OroHttpAdapterInterface
      * @param $url
      * @param $headers
      * @param $httpBody
-     * @return \stdClass|null
-     * @throws \Oro\Api\Exceptions\ApiException
+     * @return stdClass|null
+     * @throws ApiException
      */
-    public function send($httpMethod, $url, $headers, $httpBody);
+    public function send($httpMethod, $url, $headers, $httpBody): ?stdClass;
 
     /**
      * The version number for the underlying http client, if available.
@@ -22,5 +25,5 @@ interface OroHttpAdapterInterface
      *
      * @return string|null
      */
-    public function versionString();
+    public function versionString(): ?string;
 }

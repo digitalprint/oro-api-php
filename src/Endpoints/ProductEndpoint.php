@@ -2,16 +2,21 @@
 
 namespace Oro\Api\Endpoints;
 
-use Oro\Api\Exceptions\ApiException;
 use Oro\Api\Resources\BaseCollection;
 use Oro\Api\Resources\BaseResource;
 use Oro\Api\Resources\Product;
 use Oro\Api\Resources\ProductCollection;
 use stdClass;
 
+/**
+ *
+ */
 class ProductEndpoint extends CollectionEndpointAbstract
 {
-    protected $resourcePath = "api/products";
+    /**
+     * @var string
+     */
+    protected string $resourcePath = "api/products";
 
     /**
      * Get the object that is used by this API. Every API uses one type of object.
@@ -26,56 +31,36 @@ class ProductEndpoint extends CollectionEndpointAbstract
     /**
      * Get the collection object that is used by this API. Every API uses one type of collection object.
      *
-     * @param stdClass $_links
+     * @param stdClass $links
      *
      * @return \Oro\Api\Resources\BaseCollection
      */
-    protected function getResourceCollectionObject(stdClass $_links): BaseCollection
+    protected function getResourceCollectionObject(stdClass $links): BaseCollection
     {
-        return new ProductCollection($this->client, $_links);
+        return new ProductCollection($this->client, $links);
     }
 
-    /**
-     * Creates a product in Oro.
-     *
-     * @param array $data
-     * @param array $filters
-     *
-     * @return Product
-     * @throws ApiException
-     */
-    public function create(array $data = [], array $filters = [])
+
+    public function create(array $data = null): BaseResource
     {
-        return $this->rest_create($data, $filters);
+        return $this->rest_create($data);
     }
 
-    /**
-     * Retrieve an Invoice from Oro.
-     *
-     * Will throw a ApiException if the invoice id is invalid or the resource cannot be found.
-     *
-     * @param string $productId
-     * @param array $parameters
-     *
-     * @return \Oro\Api\Resources\BaseResource
-     * @throws ApiException
-     */
-    public function get($productId, array $parameters = [])
+
+    public function get(array $filters = [])
     {
-        return $this->rest_read($productId, $parameters);
+        return $this->rest_read($filters);
     }
 
-    /**
-     * Retrieves a collection of products from Oro.
-     *
-     * @param int $limit
-     * @param array $parameters
-     *
-     * @return \Oro\Api\Resources\BaseCollection
-     * @throws ApiException
-     */
-    public function page($pageSize = null, array $parameters = [])
+
+    public function update(array $data = []): ?BaseResource
     {
-        return $this->rest_list($pageSize, $parameters);
+        return $this->rest_update($data);
+    }
+
+
+    public function delete(array $filter = []): ?BaseResource
+    {
+        return $this->rest_delete($filter);
     }
 }

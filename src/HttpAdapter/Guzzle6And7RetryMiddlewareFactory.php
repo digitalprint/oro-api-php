@@ -13,19 +13,19 @@ class Guzzle6And7RetryMiddlewareFactory
     /**
      * The maximum number of retries
      */
-    const MAX_RETRIES = 5;
+    public const MAX_RETRIES = 5;
 
     /**
      * The amount of milliseconds the delay is being increased with on each retry.
      */
-    const DELAY_INCREASE_MS = 1000;
+    public const DELAY_INCREASE_MS = 1000;
 
     /**
      * @param bool $delay default to true, can be false to speed up tests
      *
      * @return callable
      */
-    public function retry($delay = true)
+    public function retry(bool $delay = true): callable
     {
         return Middleware::retry(
             $this->newRetryDecider(),
@@ -39,9 +39,9 @@ class Guzzle6And7RetryMiddlewareFactory
      *
      * @return callable
      */
-    private function getRetryDelay()
+    private function getRetryDelay(): callable
     {
-        return function ($numberOfRetries) {
+        return static function ($numberOfRetries) {
             return static::DELAY_INCREASE_MS * $numberOfRetries;
         };
     }
@@ -51,9 +51,9 @@ class Guzzle6And7RetryMiddlewareFactory
      *
      * @return callable
      */
-    private function getZeroRetryDelay()
+    private function getZeroRetryDelay(): callable
     {
-        return function ($numberOfRetries) {
+        return static function ($numberOfRetries) {
             return 0;
         };
     }
@@ -61,9 +61,9 @@ class Guzzle6And7RetryMiddlewareFactory
     /**
      * @return callable
      */
-    private function newRetryDecider()
+    private function newRetryDecider(): callable
     {
-        return function (
+        return static function (
             $retries,
             Request $request,
             Response $response = null,

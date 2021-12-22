@@ -2,14 +2,11 @@
 
     require "../initialize.php";
 
-    $ts = strtotime('now');
-    $sku = 'test-api-' . $ts;
-
     $res = $oro->products->create([
       'data' => [
         'type' => 'products',
         'attributes' => [
-          'sku' => $sku,
+          'sku' => 'test-api-' . strtotime('now'),
           'status' => 'enabled',
           'variantFields' => [],
           'productType' => 'simple',
