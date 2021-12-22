@@ -2,12 +2,15 @@
 
 namespace Tests\Oro\API\HttpAdapter;
 
-class MockOroHttpAdapter implements \Oro\Api\HttpAdapter\OroHttpAdapterInterface
+use Oro\Api\HttpAdapter\OroHttpAdapterInterface;
+use stdClass;
+
+class MockOroHttpAdapter implements OroHttpAdapterInterface
 {
     /**
      * @inheritDoc
      */
-    public function send($httpMethod, $url, $headers, $httpBody)
+    public function send($httpMethod, $url, $headers, $httpBody): ?stdClass
     {
         return (object) ['foo' => 'bar'];
     }
@@ -15,7 +18,7 @@ class MockOroHttpAdapter implements \Oro\Api\HttpAdapter\OroHttpAdapterInterface
     /**
      * @inheritDoc
      */
-    public function versionString()
+    public function versionString(): ?string
     {
         return 'mock-client/1.0';
     }

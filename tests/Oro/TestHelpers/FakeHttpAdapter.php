@@ -2,13 +2,15 @@
 
 namespace Tests\Oro\TestHelpers;
 
-use Oro\Api\HttpAdapter\MollieHttpAdapterInterface;
+use Oro\Api\HttpAdapter\OroHttpAdapterInterface;
+use Psr\Http\Message\ResponseInterface;
+use stdClass;
 
 class FakeHttpAdapter implements OroHttpAdapterInterface
 {
 
     /**
-     * @var \stdClass|null
+     * @var stdClass|null
      */
     private $response;
 
@@ -47,22 +49,22 @@ class FakeHttpAdapter implements OroHttpAdapterInterface
      * @param $url
      * @param $headers
      * @param $httpBody
-     * @return \stdClass|void|null
+     * @return stdClass
      */
-    public function send($httpMethod, $url, $headers, $httpBody)
+    public function send($httpMethod, $url, $headers, $httpBody): stdClass
     {
         $this->usedMethod = $httpMethod;
         $this->usedUrl = $url;
         $this->usedHeaders = $headers;
         $this->usedBody = $httpBody;
 
-        return $this->response;
+        return $this->parseResponseBody($this->response);
     }
 
     /**
      * @return string
      */
-    public function versionString()
+    public function versionString(): string
     {
         return 'fake';
     }
@@ -70,7 +72,7 @@ class FakeHttpAdapter implements OroHttpAdapterInterface
     /**
      * @return mixed
      */
-    public function getUsedMethod()
+    public function getUsedMethod(): mixed
     {
         return $this->usedMethod;
     }
@@ -78,7 +80,7 @@ class FakeHttpAdapter implements OroHttpAdapterInterface
     /**
      * @return mixed
      */
-    public function getUsedUrl()
+    public function getUsedUrl(): mixed
     {
         return $this->usedUrl;
     }
@@ -86,7 +88,7 @@ class FakeHttpAdapter implements OroHttpAdapterInterface
     /**
      * @return mixed
      */
-    public function getUsedHeaders()
+    public function getUsedHeaders(): mixed
     {
         return $this->usedHeaders;
     }
@@ -94,8 +96,21 @@ class FakeHttpAdapter implements OroHttpAdapterInterface
     /**
      * @return mixed
      */
-    public function getUsedBody()
+    public function getUsedBody(): mixed
     {
         return $this->usedBody;
+    }
+
+    /**
+     * Parse the PSR-7 Response body
+     *
+     * @param ResponseInterface $response
+     * @return stdClass|null
+     */
+    private function parseResponseBody(ResponseInterface $response): ?stdClass
+    {
+        $body = (string) $response->getBody();
+
+        return @json_decode($body, false);
     }
 }

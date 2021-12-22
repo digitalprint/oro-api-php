@@ -1,12 +1,15 @@
 <?php
-namespace Tests\Mollie\Api;
+namespace Tests\Oro\Api;
 
-use \Mollie\Api\CompatibilityChecker;
+use \Oro\Api\CompatibilityChecker;
+use Oro\Api\Exceptions\IncompatiblePlatform;
+use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\MockObject\MockObject;
 
-class CompatibilityCheckerTest extends \PHPUnit\Framework\TestCase
+class CompatibilityCheckerTest extends TestCase
 {
     /**
-     * @var CompatibilityChecker|\PHPUnit_Framework_MockObject_MockObject
+     * @var CompatibilityChecker|MockObject
      */
     protected $checker;
 
@@ -22,12 +25,12 @@ class CompatibilityCheckerTest extends \PHPUnit\Framework\TestCase
             ->getMock();
     }
 
-    public function testCheckCompatibilityThrowsExceptionOnPhpVersion()
+    public function testCheckCompatibilityThrowsExceptionOnPhpVersion(): void
     {
-        $this->expectException(\Mollie\Api\Exceptions\IncompatiblePlatform::class);
+        $this->expectException(IncompatiblePlatform::class);
         $this->checker->expects($this->once())
             ->method("satisfiesPhpVersion")
-            ->will($this->returnValue(false)); // Fail
+            ->willReturn(false); // Fail
 
         $this->checker->expects($this->never())
             ->method("satisfiesJsonExtension");
@@ -35,16 +38,16 @@ class CompatibilityCheckerTest extends \PHPUnit\Framework\TestCase
         $this->checker->checkCompatibility();
     }
 
-    public function testCheckCompatibilityThrowsExceptionOnJsonExtension()
+    public function testCheckCompatibilityThrowsExceptionOnJsonExtension(): void
     {
-        $this->expectException(\Mollie\Api\Exceptions\IncompatiblePlatform::class);
+        $this->expectException(IncompatiblePlatform::class);
         $this->checker->expects($this->once())
             ->method("satisfiesPhpVersion")
-            ->will($this->returnValue(true));
+            ->willReturn(true);
 
         $this->checker->expects($this->once())
             ->method("satisfiesJsonExtension")
-            ->will($this->returnValue(false)); // Fail
+            ->willReturn(false); // Fail
 
         $this->checker->checkCompatibility();
     }

@@ -1,53 +1,53 @@
 <?php
 
-namespace Tests\Mollie\API\HttpAdapter;
+namespace Tests\Oro\API\HttpAdapter;
 
 use GuzzleHttp\Client as GuzzleClient;
-use Mollie\Api\Exceptions\UnrecognizedClientException;
-use Mollie\Api\HttpAdapter\Guzzle6And7MollieHttpAdapter;
-use Mollie\Api\HttpAdapter\MollieHttpAdapterPicker;
+use Oro\Api\Exceptions\UnrecognizedClientException;
+use Oro\Api\HttpAdapter\Guzzle6And7OroHttpAdapter;
+use Oro\Api\HttpAdapter\OroHttpAdapterPicker;
 use PHPUnit\Framework\TestCase;
 
-class MollieHttpAdapterPickerTest extends TestCase
+class OroHttpAdapterPickerTest extends TestCase
 {
     /** @test */
-    public function createsAGuzzleAdapterIfNullIsPassedAndGuzzleIsDetected()
+    public function createsAGuzzleAdapterIfNullIsPassedAndGuzzleIsDetected(): void
     {
-        $picker = new MollieHttpAdapterPicker;
+        $picker = new OroHttpAdapterPicker;
 
         $adapter = $picker->pickHttpAdapter(null);
 
-        $this->assertInstanceOf(Guzzle6And7MollieHttpAdapter::class, $adapter);
+        $this->assertInstanceOf(Guzzle6And7OroHttpAdapter::class, $adapter);
     }
 
     /** @test */
-    public function returnsTheAdapterThatWasPassedIn()
+    public function returnsTheAdapterThatWasPassedIn(): void
     {
-        $picker = new MollieHttpAdapterPicker;
-        $mockAdapter = new MockMollieHttpAdapter;
+        $picker = new OroHttpAdapterPicker;
+        $mockAdapter = new MockOroHttpAdapter;
 
         $adapter = $picker->pickHttpAdapter($mockAdapter);
 
-        $this->assertInstanceOf(MockMollieHttpAdapter::class, $adapter);
+        $this->assertInstanceOf(MockOroHttpAdapter::class, $adapter);
         $this->assertEquals($mockAdapter, $adapter);
     }
 
     /** @test */
     public function wrapsAGuzzleClientIntoAnAdapter()
     {
-        $picker = new MollieHttpAdapterPicker;
+        $picker = new OroHttpAdapterPicker;
         $guzzleClient = new GuzzleClient;
 
         $adapter = $picker->pickHttpAdapter($guzzleClient);
 
-        $this->assertInstanceOf(Guzzle6And7MollieHttpAdapter::class, $adapter);
+        $this->assertInstanceOf(Guzzle6And7OroHttpAdapter::class, $adapter);
     }
 
     /** @test */
     public function throwsAnExceptionWhenReceivingAnUnrecognizedClient()
     {
         $this->expectExceptionObject(new UnrecognizedClientException('The provided http client or adapter was not recognized'));
-        $picker = new MollieHttpAdapterPicker;
+        $picker = new OroHttpAdapterPicker;
         $unsupportedClient = (object) ['foo' => 'bar'];
 
         $picker->pickHttpAdapter($unsupportedClient);

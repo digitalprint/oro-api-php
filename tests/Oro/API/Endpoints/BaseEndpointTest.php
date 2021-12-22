@@ -15,7 +15,7 @@ abstract class BaseEndpointTest extends \PHPUnit\Framework\TestCase
     protected $guzzleClient;
 
     /**
-     * @var MollieApiClient
+     * @var OroApiClient
      */
     protected $apiClient;
 
@@ -25,11 +25,9 @@ abstract class BaseEndpointTest extends \PHPUnit\Framework\TestCase
 
         $this->apiClient = new OroApiClient($this->guzzleClient);
 
-        if (! $oAuthClient) {
-            $this->apiClient->setApiKey("test_dHar4XY7LxsDOtmnkVtjNVWXLSlXsM");
-        } else {
-            $this->apiClient->setAccessToken("access_Wwvu7egPcJLLJ9Kb7J632x8wJ2zMeJ");
-        }
+        $this->apiClient->setAccessToken("access_Wwvu7egPcJLLJ9Kb7J632x8wJ2zMeJ");
+        $this->apiClient->setApiEndpoint('https://myoroproxy.local');
+        $this->apiClient->setUser('ppbackoffice');
 
         $this->guzzleClient
             ->expects($this->once())

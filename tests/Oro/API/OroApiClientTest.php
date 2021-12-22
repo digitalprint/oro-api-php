@@ -7,7 +7,9 @@ use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Psr7\Response;
 use Oro\Api\Exceptions\ApiException;
-use Oro\Api\HttpAdapter\Guzzle6And7MollieHttpAdapter;
+use Oro\Api\Exceptions\IncompatiblePlatform;
+use Oro\Api\Exceptions\UnrecognizedClientException;
+use Oro\Api\HttpAdapter\Guzzle6And7OroHttpAdapter;
 use Oro\Api\OroApiClient;
 use Tests\Oro\TestHelpers\FakeHttpAdapter;
 
@@ -30,12 +32,16 @@ class OroApiClientTest extends \PHPUnit\Framework\TestCase
         $this->guzzleClient = $this->createMock(Client::class);
         $this->oroApiClient = new OroApiClient($this->guzzleClient);
 
-        $this->oroApiClient->setApiKey('test_foobarfoobarfoobarfoobarfoobar');
+        $this->oroApiClient->setAccessToken('test_foobarfoobarfoobarfoobarfoobar');
+
+        $this->oroApiClient->setApiEndpoint('https://printplanet-stage.oro-cloud.com');
+        $this->oroApiClient->setUser('ppbackoffice');
+
     }
 
-    public function testPerformHttpCallReturnsBodyAsObject()
+    public function testPerformHttpCallReturnsBodyAsObject(): void
     {
-        $response = new Response(200, [], '{"resource": "payment"}');
+        $response = new Response(200, [], '{"resource": "products"}');
 
         $this->guzzleClient
             ->expects($this->once())
@@ -46,29 +52,39 @@ class OroApiClientTest extends \PHPUnit\Framework\TestCase
         $parsedResponse = $this->oroApiClient->performHttpCall('GET', '');
 
         $this->assertEquals(
-            (object)['resource' => 'payment'],
+            (object)['resource' => 'products'],
             $parsedResponse
         );
     }
 
-    public function testPerformHttpCallCreatesApiExceptionCorrectly()
+    public function testPerformHttpCallCreatesApiExceptionCorrectly(): void
     {
         $this->expectException(ApiException::class);
         $this->expectExceptionMessage('Error executing API call (422: Unprocessable Entity): Non-existent parameter "recurringType" for this API call. Did you mean: "sequenceType"?');
         $this->expectExceptionCode(422);
 
         $response = new Response(422, [], '{
-            "status": 422,
-            "title": "Unprocessable Entity",
-            "detail": "Non-existent parameter \"recurringType\" for this API call. Did you mean: \"sequenceType\"?",
-            "field": "recurringType",
-            "_links": {
-                "documentation": {
-                    "href": "https://docs.mollie.com/guides/handling-errors",
-                    "type": "text/html"
-                }
-            }
+            "errors": [{
+              "status": 422,
+              "title": "Unprocessable Entity",
+              "detail": "Non-existent parameter \"recurringType\" for this API call. Did you mean: \"sequenceType\"?",
+              "field": "recurringType",
+            }] 
         }');
+
+
+        $response = new Response(422, [],
+          /** @lang JSON */
+          '{
+                      "errors": [{
+                        "status": 422,
+                        "title": "Unprocessable Entity",
+                        "detail": "Non-existent parameter \"recurringType\" for this API call. Did you mean: \"sequenceType\"?",
+                        "field": "recurringType"
+                    }]
+                  }'
+        );
+
 
         $this->guzzleClient
             ->expects($this->once())
@@ -79,23 +95,24 @@ class OroApiClientTest extends \PHPUnit\Framework\TestCase
             $parsedResponse = $this->oroApiClient->performHttpCall('GET', '');
         } catch (ApiException $e) {
             $this->assertEquals('recurringType', $e->getField());
-            $this->assertEquals('https://docs.mollie.com/guides/handling-errors', $e->getDocumentationUrl());
             $this->assertEquals($response, $e->getResponse());
 
             throw $e;
         }
     }
 
-    public function testPerformHttpCallCreatesApiExceptionWithoutFieldAndDocumentationUrl()
+    public function testPerformHttpCallCreatesApiExceptionWithoutField(): void
     {
         $this->expectException(ApiException::class);
         $this->expectExceptionMessage('Error executing API call (422: Unprocessable Entity): Non-existent parameter "recurringType" for this API call. Did you mean: "sequenceType"?');
         $this->expectExceptionCode(422);
 
         $response = new Response(422, [], '{
-            "status": 422,
-            "title": "Unprocessable Entity",
-            "detail": "Non-existent parameter \"recurringType\" for this API call. Did you mean: \"sequenceType\"?"
+            "errors": [{        
+              "status": 422,
+              "title": "Unprocessable Entity",
+              "detail": "Non-existent parameter \"recurringType\" for this API call. Did you mean: \"sequenceType\"?"
+            }]
         }');
 
         $this->guzzleClient
@@ -104,38 +121,33 @@ class OroApiClientTest extends \PHPUnit\Framework\TestCase
             ->willReturn($response);
 
         try {
-            $parsedResponse = $this->mollieApiClient->performHttpCall('GET', '');
+            $parsedResponse = $this->oroApiClient->performHttpCall('GET', '');
         } catch (ApiException $e) {
             $this->assertNull($e->getField());
-            $this->assertNull($e->getDocumentationUrl());
             $this->assertEquals($response, $e->getResponse());
-
             throw $e;
         }
     }
 
-    public function testCanBeSerializedAndUnserialized()
+    public function testCanBeSerializedAndUnserialized(): void
     {
-        $this->mollieApiClient->setApiEndpoint("https://myoroproxy.local");
-        $serialized = \serialize($this->mollieApiClient);
+        $this->oroApiClient->setApiEndpoint("https://myoroproxy.local");
+        $serialized = \serialize($this->oroApiClient);
 
         $this->assertStringNotContainsString('test_foobarfoobarfoobarfoobarfoobar', $serialized, "API key should not be in serialized data or it will end up in caches.");
 
-        /** @var MollieApiClient $client_copy */
+        /** @var OroApiClient $client_copy */
         $client_copy = Liberator::liberate(unserialize($serialized));
 
-        $this->assertEmpty($client_copy->apiKey, "API key should not have been remembered");
-        $this->assertInstanceOf(Guzzle6And7MollieHttpAdapter::class, $client_copy->httpClient, "A Guzzle client should have been set.");
-        $this->assertNull($client_copy->usesOAuth());
+        $this->assertEmpty($client_copy->accessToken, "API key should not have been remembered");
+        $this->assertInstanceOf(Guzzle6And7OroHttpAdapter::class, $client_copy->httpClient, "A Guzzle client should have been set.");
         $this->assertEquals("https://myoroproxy.local", $client_copy->getApiEndpoint(), "The API endpoint should be remembered");
 
-        $this->assertNotEmpty($client_copy->customerPayments);
-        $this->assertNotEmpty($client_copy->payments);
-        $this->assertNotEmpty($client_copy->methods);
+        $this->assertNotEmpty($client_copy->products);
         // no need to assert them all.
     }
 
-    public function testResponseBodyCanBeReadMultipleTimesIfMiddlewareReadsItFirst()
+    public function testResponseBodyCanBeReadMultipleTimesIfMiddlewareReadsItFirst(): void
     {
         $response = new Response(200, [], '{"resource": "payment"}');
 
@@ -147,7 +159,7 @@ class OroApiClientTest extends \PHPUnit\Framework\TestCase
             ->method('send')
             ->willReturn($response);
 
-        $parsedResponse = $this->mollieApiClient->performHttpCall('GET', '');
+        $parsedResponse = $this->oroApiClient->performHttpCall('GET', '');
 
         $this->assertEquals(
             '{"resource": "payment"}',
@@ -166,15 +178,15 @@ class OroApiClientTest extends \PHPUnit\Framework\TestCase
      *
      * @throws ApiException
      */
-    public function testCorrectRequestHeaders()
+    public function testCorrectRequestHeaders(): void
     {
         $response = new Response(200, [], '{"resource": "payment"}');
         $fakeAdapter = new FakeHttpAdapter($response);
 
-        $mollieClient = new MollieApiClient($fakeAdapter);
-        $mollieClient->setApiKey('test_foobarfoobarfoobarfoobarfoobar');
+        $oroClient = new OroApiClient($fakeAdapter);
+        $oroClient->setAccessToken('test_foobarfoobarfoobarfoobarfoobar');
 
-        $mollieClient->performHttpCallToFullUrl('GET', '', '');
+        $oroClient->performHttpCallToFullUrl('GET', '', '');
 
         $usedHeaders = $fakeAdapter->getUsedHeaders();
 
@@ -185,8 +197,7 @@ class OroApiClientTest extends \PHPUnit\Framework\TestCase
 
         # these should be exactly the expected values
         $this->assertEquals('Bearer test_foobarfoobarfoobarfoobarfoobar', $usedHeaders['Authorization']);
-        $this->assertEquals('application/json', $usedHeaders['Accept']);
-        $this->assertEquals('application/json', $usedHeaders['Content-Type']);
+        $this->assertEquals('application/vnd.api+json', $usedHeaders['Accept']);
     }
 
     /**
@@ -195,18 +206,18 @@ class OroApiClientTest extends \PHPUnit\Framework\TestCase
      * In this case it has to be skipped.
      *
      * @throws ApiException
-     * @throws \Mollie\Api\Exceptions\IncompatiblePlatform
-     * @throws \Mollie\Api\Exceptions\UnrecognizedClientException
+     * @throws IncompatiblePlatform
+     * @throws UnrecognizedClientException
      */
-    public function testNoContentTypeWithoutProvidedBody()
+    public function testNoContentTypeWithoutProvidedBody(): void
     {
         $response = new Response(200, [], '{"resource": "payment"}');
         $fakeAdapter = new FakeHttpAdapter($response);
 
-        $mollieClient = new OroApiClient($fakeAdapter);
-        $mollieClient->setApiKey('test_foobarfoobarfoobarfoobarfoobar');
+        $oroClient = new OroApiClient($fakeAdapter);
+        $oroClient->setAccessToken('test_foobarfoobarfoobarfoobarfoobar');
 
-        $mollieClient->performHttpCallToFullUrl('GET', '');
+        $oroClient->performHttpCallToFullUrl('GET', '');
 
         $this->assertEquals(false, isset($fakeAdapter->getUsedHeaders()['Content-Type']));
     }
