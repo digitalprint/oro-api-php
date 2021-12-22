@@ -9,13 +9,15 @@ error_reporting(E_ALL);
 require_once __DIR__ . "/../vendor/autoload.php";
 require_once __DIR__ . "/functions.php";
 
-$apiEndoint = 'YOUR_ENDPOINT';
+$apiEndpoint = 'YOUR_ENDPOINT';
+$apiUser = 'YOUR_API_USER';
 
 $clientId = 'SECRET';
 $clientSecret = 'SECRET';
 
 $oro = new \Oro\Api\OroApiClient();
-$oro->setApiEndpoint($apiEndoint);
+$oro->setApiEndpoint($apiEndpoint);
+$oro->setUser($apiUser);
 
 $res = $oro->authorization->create([
     'client_id' => $clientId,
