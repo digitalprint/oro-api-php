@@ -41,24 +41,44 @@ class ProductEndpoint extends CollectionEndpointAbstract
     }
 
 
+    /**
+     * @param array|null $data
+     * @return BaseResource
+     * @throws \Oro\Api\Exceptions\ApiException
+     */
     public function create(array $data = null): BaseResource
     {
         return $this->rest_create($data);
     }
 
 
+    /**
+     * @param array $filters
+     * @return \Oro\Api\Resources\CursorCollection|null
+     * @throws \Oro\Api\Exceptions\ApiException
+     */
     public function get(array $filters = [])
     {
         return $this->rest_read($filters);
     }
 
 
+    /**
+     * @param array $data
+     * @return BaseResource|null
+     * @throws \Oro\Api\Exceptions\ApiException
+     */
     public function update(array $data = []): ?BaseResource
     {
         return $this->rest_update($data);
     }
 
 
+    /**
+     * @param array $filter
+     * @return BaseResource|null
+     * @throws \Oro\Api\Exceptions\ApiException
+     */
     public function delete(array $filter = []): ?BaseResource
     {
         return $this->rest_delete($filter);

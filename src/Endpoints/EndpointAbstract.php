@@ -10,6 +10,7 @@ use Oro\Api\Resources\ResourceFactory;
 
 abstract class EndpointAbstract
 {
+
     public const REST_CREATE = OroApiClient::HTTP_POST;
     public const REST_UPDATE = OroApiClient::HTTP_PATCH;
     public const REST_READ = OroApiClient::HTTP_GET;
@@ -56,6 +57,10 @@ abstract class EndpointAbstract
         return "?" . http_build_query($filters, "", "&");
     }
 
+    /**
+     * @param array $filters
+     * @return array
+     */
     protected function buildFilters(array $filters): array
     {
         if (empty($filters)) {
@@ -79,6 +84,11 @@ abstract class EndpointAbstract
         return $res;
     }
 
+    /**
+     * @param array $body
+     * @return BaseResource
+     * @throws ApiException
+     */
     protected function rest_create(array $body): BaseResource
     {
         $result = $this->client->performHttpCall(
@@ -90,6 +100,11 @@ abstract class EndpointAbstract
         return ResourceFactory::createFromApiResult($result->data, $this->getResourceObject());
     }
 
+    /**
+     * @param array $filters
+     * @return CursorCollection|null
+     * @throws ApiException
+     */
     protected function rest_read(array $filters = []): ?CursorCollection
     {
         $filters = $this->buildFilters($filters);
@@ -111,7 +126,12 @@ abstract class EndpointAbstract
 
         return $collection;
     }
-    
+
+    /**
+     * @param array $body
+     * @return BaseResource|null
+     * @throws ApiException
+     */
     protected function rest_update(array $body = []): ?BaseResource
     {
         $result = $this->client->performHttpCall(
@@ -127,6 +147,11 @@ abstract class EndpointAbstract
         return ResourceFactory::createFromApiResult($result->data, $this->getResourceObject());
     }
 
+    /**
+     * @param array $filters
+     * @return BaseResource|null
+     * @throws ApiException
+     */
     protected function rest_delete(array $filters = []): ?BaseResource
     {
         $filters = $this->buildFilters($filters);

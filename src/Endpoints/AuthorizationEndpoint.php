@@ -9,18 +9,34 @@ use Oro\Api\Resources\ResourceFactory;
 
 class AuthorizationEndpoint extends EndpointAbstract
 {
+    /**
+     * @var string
+     */
     protected string $resourcePath = "oauth2-token";
 
+    /**
+     * @param $count
+     * @param $links
+     * @return BaseCollection
+     */
     protected function getResourceCollectionObject($count, $links): BaseCollection
     {
         throw new \BadMethodCallException('not implemented');
     }
 
+    /**
+     * @return BaseResource
+     */
     protected function getResourceObject(): BaseResource
     {
         return new Authorization($this->client);
     }
 
+    /**
+     * @param $parameters
+     * @return BaseResource
+     * @throws \Oro\Api\Exceptions\ApiException
+     */
     public function create($parameters)
     {
         $body = $this->parseRequestBody(array_merge([
