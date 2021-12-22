@@ -56,8 +56,7 @@ class Product extends BaseResource
      */
     public function update(array $body = []): ?BaseResource
     {
-
-        $result = $this->client->performHttpCall(
+        $result = $this->client->performHttpCallToFullUrl(
             OroApiClient::HTTP_PATCH,
             $this->links->self,
             json_encode($body)
