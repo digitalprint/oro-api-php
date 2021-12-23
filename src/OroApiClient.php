@@ -6,6 +6,7 @@ use GuzzleHttp\ClientInterface;
 use Oro\Api\Endpoints\AsyncoperationEndpoint;
 use Oro\Api\Endpoints\AuthorizationEndpoint;
 use Oro\Api\Endpoints\ProductEndpoint;
+use Oro\Api\Endpoints\ProductpricesEndpoint;
 use Oro\Api\Exceptions\ApiException;
 use Oro\Api\Exceptions\IncompatiblePlatform;
 use Oro\Api\Exceptions\UnrecognizedClientException;
@@ -41,11 +42,11 @@ class OroApiClient
 
     protected $user = null;
 
-
     public $authorization;
 
     public $asyncoperations;
     public $products;
+    public $productprices;
 
     protected $accessToken;
 
@@ -83,6 +84,7 @@ class OroApiClient
         $this->authorization = new AuthorizationEndpoint($this);
         $this->asyncoperations = new AsyncoperationEndpoint($this);
         $this->products = new ProductEndpoint($this);
+        $this->productprices = new ProductpricesEndpoint($this);
     }
 
     /**
