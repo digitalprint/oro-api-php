@@ -5,6 +5,7 @@ namespace Oro\Api;
 use GuzzleHttp\ClientInterface;
 use Oro\Api\Endpoints\AsyncoperationEndpoint;
 use Oro\Api\Endpoints\AuthorizationEndpoint;
+use Oro\Api\Endpoints\AddressEndpoint;
 use Oro\Api\Endpoints\AddresstypeEndpoint;
 use Oro\Api\Endpoints\ProductEndpoint;
 use Oro\Api\Endpoints\ProductpricesEndpoint;
@@ -48,6 +49,7 @@ class OroApiClient
     public $asyncoperations;
     public $products;
     public $productprices;
+    public $addresses;
     public $addresstypes;
 
     protected $accessToken;
@@ -87,6 +89,7 @@ class OroApiClient
         $this->asyncoperations = new AsyncoperationEndpoint($this);
         $this->products = new ProductEndpoint($this);
         $this->productprices = new ProductpricesEndpoint($this);
+        $this->addresses = new AddressEndpoint($this);
         $this->addresstypes = new AddresstypeEndpoint($this);
     }
 
