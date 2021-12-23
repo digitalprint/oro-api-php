@@ -195,12 +195,12 @@ class OroApiClient
      * @param string $apiMethod
      * @param string|null $httpBody
      *
-     * @return stdClass
+     * @return stdClass|null
      * @throws ApiException
      *
      * @codeCoverageIgnore
      */
-    public function performHttpCall(string $httpMethod, string $apiMethod, string $httpBody = null): stdClass
+    public function performHttpCall(string $httpMethod, string $apiMethod, string $httpBody = null): ?stdClass
     {
         $url = "{$this->apiEndpoint}/{$this->user}/{$apiMethod}";
 
@@ -214,12 +214,12 @@ class OroApiClient
      * @param string $url
      * @param string|null $httpBody
      *
-     * @return stdClass
+     * @return stdClass|null
      * @throws ApiException
      *
      * @codeCoverageIgnore
      */
-    public function performHttpCallToFullUrl(string $httpMethod, string $url, string $httpBody = null): stdClass
+    public function performHttpCallToFullUrl(string $httpMethod, string $url, string $httpBody = null): ?stdClass
     {
         if (empty($this->accessToken)) {
             throw new ApiException("You have not set an OAuth access token.");
