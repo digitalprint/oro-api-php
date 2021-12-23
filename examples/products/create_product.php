@@ -1,8 +1,9 @@
 <?php
 
+try {
     require "../initialize.php";
 
-    $res = $oro->products->create([
+    $product = $oro->products->create([
       'data' => [
         'type' => 'products',
         'attributes' => [
@@ -86,5 +87,8 @@
       ],
     ]);
 
-   echo $res->id . "<br>";
-   echo $res->type . "<br>";
+  echo "<p>Product created: {$product->id}</p>";
+
+} catch (\Oro\Api\Exceptions\ApiException $e) {
+    echo "API call failed: " . $e->getMessage();
+}

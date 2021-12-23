@@ -1,18 +1,11 @@
 <?php
 
-  require "../initialize.php";
+try {
+    require "../initialize.php";
 
-  $products = $oro->products->get(['id' => 104]);
+    $products = $oro->products->get(['id' => 104]);
 
-  echo $products[0]->id . "<br>";
-  echo $products[0]->attributes->status . "<br>";
-
-  $status = 'disabled';
-  if ($products[0]->attributes->status === 'disabled') {
-      $status = 'enabled';
-  }
-
-  $res = $products[0]->update([
+    $res = $products[0]->update([
       'data' => [
         'meta' => [
           'update' => true,
@@ -20,10 +13,13 @@
         'type' => 'products',
         'id' => $products[0]->id,
         'attributes' => [
-          'status' => $status,
+          'status' => ($products[0]->attributes->status === 'disabled' ? "enabled" : "disabled"),
         ],
       ],
     ]);
 
-  $products = $oro->products->get(['id' => 104]);
-  echo $products[0]->attributes->status . "<br>";
+    $products = $oro->products->get(['id' => 104]);
+    echo "<p>Product updated: {$products[0]->id}</p>";
+} catch (\Oro\Api\Exceptions\ApiException $e) {
+    echo "API call failed: " . $e->getMessage();
+}
