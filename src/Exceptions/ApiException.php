@@ -105,7 +105,12 @@ class ApiException extends Exception
         $message = "Unknown Error executing API call";
 
         if (! empty($object->errors)) {
-            $message = "Error executing API call ({$object->errors[0]->status}: {$object->errors[0]->title}): {$object->errors[0]->detail}";
+          
+            $message = "Error executing API call ({$object->errors[0]->status}: {$object->errors[0]->title})";
+
+            if (! empty($object->errors[0]->detail)) {
+                $message .= ": {$object->errors[0]->detail}";
+            }
 
             if (! empty($object->errors[0]->field)) {
                 $field = $object->errors[0]->field;
