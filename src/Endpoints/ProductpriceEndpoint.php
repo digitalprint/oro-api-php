@@ -8,7 +8,7 @@ use Oro\Api\Resources\Productprice;
 use Oro\Api\Resources\ProductpriceCollection;
 use stdClass;
 
-class ProductpricesEndpoint extends CollectionEndpointAbstract
+class ProductpriceEndpoint extends CollectionEndpointAbstract
 {
     /**
      * @var string
@@ -37,7 +37,6 @@ class ProductpricesEndpoint extends CollectionEndpointAbstract
         return new ProductpriceCollection($this->client, $links);
     }
 
-
     /**
      * @param array|null $data
      * @return BaseResource
@@ -47,7 +46,6 @@ class ProductpricesEndpoint extends CollectionEndpointAbstract
     {
         return $this->rest_create($data);
     }
-
 
     /**
      * @param array $filters
@@ -59,7 +57,6 @@ class ProductpricesEndpoint extends CollectionEndpointAbstract
         return $this->rest_read($filters);
     }
 
-
     /**
      * @param array $data
      * @return BaseResource|null
@@ -69,7 +66,6 @@ class ProductpricesEndpoint extends CollectionEndpointAbstract
     {
         return $this->rest_update($data);
     }
-
 
     /**
      * @param array $filter
