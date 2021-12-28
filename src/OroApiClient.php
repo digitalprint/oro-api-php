@@ -9,6 +9,7 @@ use Oro\Api\Endpoints\AddressEndpoint;
 use Oro\Api\Endpoints\AddresstypeEndpoint;
 use Oro\Api\Endpoints\ProductEndpoint;
 use Oro\Api\Endpoints\ProductpricesEndpoint;
+use Oro\Api\Endpoints\UserroleEndpoint;
 use Oro\Api\Exceptions\ApiException;
 use Oro\Api\Exceptions\IncompatiblePlatform;
 use Oro\Api\Exceptions\UnrecognizedClientException;
@@ -46,11 +47,12 @@ class OroApiClient
 
     public $authorization;
 
+    public $addresses;
+    public $addresstypes;
     public $asyncoperations;
     public $products;
     public $productprices;
-    public $addresses;
-    public $addresstypes;
+    public $userroles;
 
     protected $accessToken;
 
@@ -86,11 +88,13 @@ class OroApiClient
     public function initializeEndpoints(): void
     {
         $this->authorization = new AuthorizationEndpoint($this);
+
+        $this->addresses = new AddressEndpoint($this);
+        $this->addresstypes = new AddresstypeEndpoint($this);
         $this->asyncoperations = new AsyncoperationEndpoint($this);
         $this->products = new ProductEndpoint($this);
         $this->productprices = new ProductpricesEndpoint($this);
-        $this->addresses = new AddressEndpoint($this);
-        $this->addresstypes = new AddresstypeEndpoint($this);
+        $this->userroles = new UserroleEndpoint($this);
     }
 
     /**
