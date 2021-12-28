@@ -7,10 +7,7 @@ try {
 
     $res = $productprices[0]->update([
       'data' => [
-        'meta' => [
-          'update' => true,
-        ],
-        'type' => 'products',
+        'type' => 'productprices',
         'id' => $productprices[0]->id,
         'attributes' => [
           'quantity' => 30,
@@ -19,8 +16,8 @@ try {
         ],
       ],
     ]);
-
-    echo "<p>Product updated: {$res[0]->id}</p>";
+    
+    echo "<p>Productprice updated: {$res[0]->id}</p>";
 } catch (\Oro\Api\Exceptions\ApiException $e) {
     echo "API call failed: " . $e->getMessage();
 }
