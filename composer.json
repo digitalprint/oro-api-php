@@ -1,17 +1,11 @@
 {
-  "name": "oro/oro-api-php",
-  "description": "Oro API client library for PHP.",
+  "name": "digitalprint/oro-api-php",
+  "description": "OroCommerce API client for PHP applications.",
   "keywords": [
-    "oro"
+    "Oro",
+    "OroCommerce"
   ],
-  "homepage": "https://www.mollie.com/en/developers",
   "license": "BSD-2-Clause",
-  "authors": [
-    {
-      "name": "digital print Laserdruck Centrum Garbsen GmbH",
-      "email": "technik@digital-print.net"
-    }
-  ],
   "require": {
     "php": ">=8.1",
     "ext-curl": "*",
