@@ -3,12 +3,13 @@
 namespace Oro\Api;
 
 use GuzzleHttp\ClientInterface;
-use Oro\Api\Endpoints\AsyncoperationEndpoint;
-use Oro\Api\Endpoints\AuthorizationEndpoint;
 use Oro\Api\Endpoints\AddressEndpoint;
 use Oro\Api\Endpoints\AddresstypeEndpoint;
+use Oro\Api\Endpoints\AsyncoperationEndpoint;
+use Oro\Api\Endpoints\AuthorizationEndpoint;
 use Oro\Api\Endpoints\ProductEndpoint;
 use Oro\Api\Endpoints\ProductpriceEndpoint;
+use Oro\Api\Endpoints\UserEndpoint;
 use Oro\Api\Endpoints\UserroleEndpoint;
 use Oro\Api\Exceptions\ApiException;
 use Oro\Api\Exceptions\IncompatiblePlatform;
@@ -52,6 +53,7 @@ class OroApiClient
     public $asyncoperations;
     public $products;
     public $productprices;
+    public $users;
     public $userroles;
 
     protected $accessToken;
@@ -94,6 +96,7 @@ class OroApiClient
         $this->asyncoperations = new AsyncoperationEndpoint($this);
         $this->products = new ProductEndpoint($this);
         $this->productprices = new ProductpriceEndpoint($this);
+        $this->users = new UserEndpoint($this);
         $this->userroles = new UserroleEndpoint($this);
     }
 
@@ -110,7 +113,7 @@ class OroApiClient
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getApiEndpoint(): ?string
     {

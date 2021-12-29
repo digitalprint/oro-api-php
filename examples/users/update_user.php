@@ -3,20 +3,19 @@
 try {
     require "../initialize.php";
 
-    $users = $oro->users->get(['id' => 54]);
+    $user = $oro->users->get(11);
 
-    $res = $users[0]->update([
+    $res = $user->update([
       'data' => [
         'type' => 'users',
         'id' => '54',
         'attributes' => [
-          'enabled' => ! $users[0]->attributes->enabled,
+          'enabled' => ! $user->attributes->enabled,
         ],
       ],
     ]);
 
-    $user = $oro->users->get(['id' => 54]);
-    echo "<p>Userrole updated: {$user[0]->id}</p>";
+    echo "<p>Userrole updated: {$res->id}</p>";
 } catch (\Oro\Api\Exceptions\ApiException $e) {
     echo "API call failed: " . $e->getMessage();
 }
