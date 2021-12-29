@@ -3,16 +3,17 @@
 try {
     require "../initialize.php";
 
-    $userrole = $oro->userroles->get(10);
+    $product = $oro->products->get(116);
 
-    echo '<b>' . $userrole->type . ' ' . $userrole->id . '</b><br>';
-    foreach ($userrole->attributes as $key => $val) {
+    echo '<b>' . $product->type . ' ' . $product->id . '</b><br>';
+    foreach ($product->attributes as $key => $val) {
         if (is_array($val)) {
             echo $key . ': ' . implode(', ', $val) . '<br>';
         } else {
             echo "{$key}: {$val}<br>";
         }
     }
+
 } catch (\Oro\Api\Exceptions\ApiException $e) {
     echo "API call failed: " . $e->getMessage();
 }

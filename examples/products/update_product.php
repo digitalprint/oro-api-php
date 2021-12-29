@@ -3,23 +3,22 @@
 try {
     require "../initialize.php";
 
-    $products = $oro->products->get(['id' => 104]);
+    $product = $oro->products->get(104);
 
-    $res = $products[0]->update([
+    $res = $product->update([
       'data' => [
         'meta' => [
           'update' => true,
         ],
         'type' => 'products',
-        'id' => $products[0]->id,
+        'id' => $product->id,
         'attributes' => [
-          'status' => ($products[0]->attributes->status === 'disabled' ? "enabled" : "disabled"),
+          'status' => ($product->attributes->status === 'disabled' ? "enabled" : "disabled"),
         ],
       ],
     ]);
 
-    $products = $oro->products->get(['id' => 104]);
-    echo "<p>Product updated: {$products[0]->id}</p>";
+    echo "<p>Product updated: {$res->id}</p>";
 } catch (\Oro\Api\Exceptions\ApiException $e) {
     echo "API call failed: " . $e->getMessage();
 }

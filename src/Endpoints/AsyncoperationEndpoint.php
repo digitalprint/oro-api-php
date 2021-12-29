@@ -3,9 +3,8 @@
 namespace Oro\Api\Endpoints;
 
 use Oro\Api\Exceptions\ApiException;
-use Oro\Api\Resources\BaseResource;
 use Oro\Api\Resources\Asyncoperation;
-use stdClass;
+use Oro\Api\Resources\BaseResource;
 
 class AsyncoperationEndpoint extends EndpointAbstract
 {
@@ -22,16 +21,14 @@ class AsyncoperationEndpoint extends EndpointAbstract
     }
 
     /**
-     * Retrieve an Asyncoperation from Oro.
-     *
      * @param string $asyncoperationId
-     *
-     * @return \Oro\Api\Resources\BaseResource
+     * @param array $parameters
+     * @return Asyncoperation
      * @throws ApiException
      */
-    public function get(string $asyncoperationId): BaseResource
+    public function get(string $asyncoperationId, array $filter = []): Asyncoperation
     {
-        return $this->rest_read($asyncoperationId, []);
+        return $this->rest_read($asyncoperationId, $filters);
     }
 
 }

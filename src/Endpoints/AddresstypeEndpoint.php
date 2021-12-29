@@ -2,10 +2,11 @@
 
 namespace Oro\Api\Endpoints;
 
-use Oro\Api\Resources\BaseCollection;
-use Oro\Api\Resources\BaseResource;
+use Oro\Api\Exceptions\ApiException;
 use Oro\Api\Resources\Addresstype;
 use Oro\Api\Resources\AddresstypeCollection;
+use Oro\Api\Resources\BaseCollection;
+use Oro\Api\Resources\BaseResource;
 use stdClass;
 
 /**
@@ -21,7 +22,7 @@ class AddresstypeEndpoint extends CollectionEndpointAbstract
     /**
      * Get the object that is used by this API. Every API uses one type of object.
      *
-     * @return \Oro\Api\Resources\BaseResource
+     * @return BaseResource
      */
     protected function getResourceObject(): BaseResource
     {
@@ -33,7 +34,7 @@ class AddresstypeEndpoint extends CollectionEndpointAbstract
      *
      * @param stdClass $links
      *
-     * @return \Oro\Api\Resources\BaseCollection
+     * @return BaseCollection
      */
     protected function getResourceCollectionObject(stdClass $links): BaseCollection
     {
@@ -41,13 +42,26 @@ class AddresstypeEndpoint extends CollectionEndpointAbstract
     }
 
     /**
-     * @param array $filters
-     * @return \Oro\Api\Resources\CursorCollection|null
-     * @throws \Oro\Api\Exceptions\ApiException
+     * @param string $addresstypeId
+     * @param array $filter
+     * @return Addresstype
+     * @throws ApiException
      */
-    public function get(array $filters = [])
+    public function get(string $addresstypeId, array $filter = []): Addresstype
     {
-        return $this->rest_read($filters);
+        return $this->rest_read($addresstypeId, $filter);
     }
 
+    /**
+     * @param string|null $number
+     * @param string|null $size
+     * @param array $filter
+     *
+     * @return AddresstypeCollection
+     * @throws ApiException
+     */
+    public function page(string $number = null, string $size = null, array $filter = []): AddresstypeCollection
+    {
+        return $this->rest_list($number, $size, $filter);
+    }
 }

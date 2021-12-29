@@ -7,9 +7,9 @@ try {
       'data' => [
         'type' => 'productprices',
         'attributes' => [
-          'quantity' => 31,
+          'quantity' => 29,
           'currency' => 'EUR',
-          'value' => 131.00,
+          'value' => 129.00,
         ],
         'relationships' => [
           'priceList' => [

@@ -1,10 +1,18 @@
 <?php
 
-  require "../initialize.php";
+try {
+    require "../initialize.php";
 
-  $operation = $oro->asyncoperations->get(12);
+    $operation = $oro->asyncoperations->get(12);
 
-  echo "<pre>";
-  print_r($operation);
-  echo "</pre>";
-  
+    echo "<b>{$operation->type} {$operation->id}</b><br>";
+    foreach ($operation->attributes as $key => $val) {
+        if (is_array($val)) {
+            echo $key . ': ' . implode(', ', $val) . '<br>';
+        } else {
+            echo "{$key}: {$val}<br>";
+        }
+    }
+} catch (\Oro\Api\Exceptions\ApiException $e) {
+    echo "API call failed: {$e->getMessage()}";
+}

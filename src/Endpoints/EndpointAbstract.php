@@ -4,16 +4,16 @@ namespace Oro\Api\Endpoints;
 
 use Oro\Api\Exceptions\ApiException;
 use Oro\Api\OroApiClient;
+use Oro\Api\Resources\BaseCollection;
 use Oro\Api\Resources\BaseResource;
-use Oro\Api\Resources\CursorCollection;
 use Oro\Api\Resources\ResourceFactory;
 
 abstract class EndpointAbstract
 {
-
     public const REST_CREATE = OroApiClient::HTTP_POST;
     public const REST_UPDATE = OroApiClient::HTTP_PATCH;
     public const REST_READ = OroApiClient::HTTP_GET;
+    public const REST_LIST = OroApiClient::HTTP_GET;
     public const REST_DELETE = OroApiClient::HTTP_DELETE;
 
     /**
@@ -70,14 +70,16 @@ abstract class EndpointAbstract
         $res = [];
 
         foreach ($filters as $key => $value) {
-            if (! in_array($key, ['include', 'meta', 'sort'])) {
-                if (in_array($key, ['size', 'number'])) {
-                    $res["page[${key}]"] = $value;
+            if (! empty($value)) {
+                if (! in_array($key, ['include', 'meta', 'sort'])) {
+                    if (in_array($key, ['size', 'number'])) {
+                        $res["page[${key}]"] = $value;
+                    } else {
+                        $res["filter[${key}]"] = $value;
+                    }
                 } else {
-                    $res["filter[${key}]"] = $value;
+                    $res[$key] = $value;
                 }
-            } else {
-                $res[$key] = $value;
             }
         }
 
@@ -101,23 +103,49 @@ abstract class EndpointAbstract
     }
 
     /**
+     * Retrieves a single object from the REST API.
+     *
+     * @param string $id Id of the object to retrieve.
      * @param array $filters
-     * @return CursorCollection|null
+     * @return BaseResource
      * @throws ApiException
      */
-    protected function rest_read(array $filters = []): ?CursorCollection
+    protected function rest_read($id, array $filter)
     {
-        $filters = $this->buildFilters($filters);
-
-        $result = $this->client->performHttpCall(
-            self::REST_READ,
-            $this->getResourcePath() . $this->buildQueryString($filters)
-        );
-
-        if ($result === null) {
-            return null;
+        if (empty($id)) {
+            throw new ApiException("Invalid resource id.");
         }
 
+        $id = urlencode($id);
+        $result = $this->client->performHttpCall(
+            self::REST_READ,
+            "{$this->getResourcePath()}/{$id}" . $this->buildQueryString($filter)
+        );
+
+        return ResourceFactory::createFromApiResult($result->data, $this->getResourceObject());
+    }
+
+    /**
+     * Get a collection of objects from the REST API.
+     *
+     * @param int $number The first resource ID you want to include in your list.
+     * @param int $size
+     * @param array $filter
+     *
+     * @return BaseCollection
+     * @throws ApiException
+     */
+    protected function rest_list(int $number = null, int $size = null, array $filter = []): BaseCollection
+    {
+        $filter = array_merge(["number" => $number, "size" => $size], $filter);
+        $filter = $this->buildFilters($filter);
+
+        $result = $this->client->performHttpCall(
+            self::REST_LIST,
+            $this->getResourcePath() . $this->buildQueryString($filter)
+        );
+
+        /** @var BaseCollection $collection */
         $collection = $this->getResourceCollectionObject($result->links);
 
         foreach ($result->data as $dataResult) {
@@ -148,17 +176,17 @@ abstract class EndpointAbstract
     }
 
     /**
-     * @param array $filters
+     * @param array $filter
      * @return BaseResource|null
      * @throws ApiException
      */
-    protected function rest_delete(array $filters = []): ?BaseResource
+    protected function rest_delete(array $filter = []): ?BaseResource
     {
-        $filters = $this->buildFilters($filters);
+        $filter = $this->buildFilters($filter);
 
         $result = $this->client->performHttpCall(
             self::REST_DELETE,
-            $this->getResourcePath() . $this->buildQueryString($filters)
+            $this->getResourcePath() . $this->buildQueryString($filter)
         );
         
         if ($result === null) {

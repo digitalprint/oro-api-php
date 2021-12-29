@@ -3,12 +3,12 @@
 try {
     require "../initialize.php";
 
-    $userroles = $oro->userroles->get(['id' => 10]);
+    $userrole = $oro->userroles->get(10);
 
-    $res = $userroles[0]->update([
+    $res = $userrole->update([
       'data' => [
         'type' => 'userroles',
-        'id' => $userroles[0]->id,
+        'id' => $userrole->id,
         'attributes' => [
           'extend_description' => 'A guest role new',
           'role' => 'IS_AUTHENTICATED_AT_FIRST',
@@ -25,8 +25,7 @@ try {
       ],
     ]);
 
-    $userroles = $oro->userroles->get(['id' => 10]);
-    echo "<p>Userrole updated: {$userroles[0]->id}</p>";
+    echo "<p>Userrole updated: {$res->id}</p>";
 } catch (\Oro\Api\Exceptions\ApiException $e) {
     echo "API call failed: " . $e->getMessage();
 }

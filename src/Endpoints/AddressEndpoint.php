@@ -2,10 +2,11 @@
 
 namespace Oro\Api\Endpoints;
 
-use Oro\Api\Resources\BaseCollection;
-use Oro\Api\Resources\BaseResource;
+use Oro\Api\Exceptions\ApiException;
 use Oro\Api\Resources\Address;
 use Oro\Api\Resources\AddressCollection;
+use Oro\Api\Resources\BaseCollection;
+use Oro\Api\Resources\BaseResource;
 use stdClass;
 
 class AddressEndpoint extends CollectionEndpointAbstract
@@ -18,7 +19,7 @@ class AddressEndpoint extends CollectionEndpointAbstract
     /**
      * Get the object that is used by this API. Every API uses one type of object.
      *
-     * @return \Oro\Api\Resources\BaseResource
+     * @return BaseResource
      */
     protected function getResourceObject(): BaseResource
     {
@@ -30,7 +31,7 @@ class AddressEndpoint extends CollectionEndpointAbstract
      *
      * @param stdClass $links
      *
-     * @return \Oro\Api\Resources\BaseCollection
+     * @return BaseCollection
      */
     protected function getResourceCollectionObject(stdClass $links): BaseCollection
     {
@@ -40,7 +41,7 @@ class AddressEndpoint extends CollectionEndpointAbstract
     /**
      * @param array|null $data
      * @return BaseResource
-     * @throws \Oro\Api\Exceptions\ApiException
+     * @throws ApiException
      */
     public function create(array $data = null): BaseResource
     {
@@ -48,19 +49,33 @@ class AddressEndpoint extends CollectionEndpointAbstract
     }
 
     /**
-     * @param array $filters
-     * @return \Oro\Api\Resources\CursorCollection|null
-     * @throws \Oro\Api\Exceptions\ApiException
+     * @param string $addressId
+     * @param array $filter
+     * @return Address
+     * @throws ApiException
      */
-    public function get(array $filters = [])
+    public function get(string $addressId, array $filter = []): Address
     {
-        return $this->rest_read($filters);
+        return $this->rest_read($addressId, $filter);
+    }
+
+    /**
+     * @param string|null $number
+     * @param string|null $size
+     * @param array $filter
+     *
+     * @return AddressCollection
+     * @throws ApiException
+     */
+    public function page(string $number = null, string $size = null, array $filter = []): AddressCollection
+    {
+        return $this->rest_list($number, $size, $filter);
     }
 
     /**
      * @param array $filter
      * @return BaseResource|null
-     * @throws \Oro\Api\Exceptions\ApiException
+     * @throws ApiException
      */
     public function delete(array $filter = []): ?BaseResource
     {

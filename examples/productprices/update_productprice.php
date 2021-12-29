@@ -3,12 +3,12 @@
 try {
     require "../initialize.php";
 
-    $productprices = $oro->productprices->get(['priceList' => 1, 'id' => '5eaa0c39-6d5e-41dc-b4df-fc2dde028bb8-1']);
+    $productprice = $oro->productprices->get('5eaa0c39-6d5e-41dc-b4df-fc2dde028bb8-1');
 
-    $res = $productprices[0]->update([
+    $res = $productprice->update([
       'data' => [
         'type' => 'productprices',
-        'id' => $productprices[0]->id,
+        'id' => $productprice->id,
         'attributes' => [
           'quantity' => 30,
           'currency' => 'EUR',
@@ -17,7 +17,7 @@ try {
       ],
     ]);
     
-    echo "<p>Productprice updated: {$res[0]->id}</p>";
+    echo "<p>Productprice updated: {$res->id}</p>";
 } catch (\Oro\Api\Exceptions\ApiException $e) {
     echo "API call failed: " . $e->getMessage();
 }

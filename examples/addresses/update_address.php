@@ -3,15 +3,15 @@
 try {
     require "../initialize.php";
 
-    $addresses = $oro->addresses->get(['id' => 3]);
+    $address = $oro->addresses->get(3);
 
-    $res = $addresses[0]->update([
+    $res = $address->update([
       'data' => [
         'meta' => [
           'update' => true,
         ],
         'type' => 'addresses',
-        'id' => $addresses[0]->id,
+        'id' => $address[0]->id,
         'attributes' => [
           'city' => 'Dallas',
         ],

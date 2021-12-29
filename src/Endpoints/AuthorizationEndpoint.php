@@ -2,6 +2,7 @@
 
 namespace Oro\Api\Endpoints;
 
+use Oro\Api\Exceptions\ApiException;
 use Oro\Api\Resources\Authorization;
 use Oro\Api\Resources\BaseCollection;
 use Oro\Api\Resources\BaseResource;
@@ -35,7 +36,7 @@ class AuthorizationEndpoint extends EndpointAbstract
     /**
      * @param $parameters
      * @return BaseResource
-     * @throws \Oro\Api\Exceptions\ApiException
+     * @throws ApiException
      */
     public function create($parameters)
     {

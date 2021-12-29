@@ -2,6 +2,7 @@
 
 namespace Oro\Api\Endpoints;
 
+use Oro\Api\Exceptions\ApiException;
 use Oro\Api\Resources\BaseCollection;
 use Oro\Api\Resources\BaseResource;
 use Oro\Api\Resources\Userrole;
@@ -18,7 +19,7 @@ class UserroleEndpoint extends CollectionEndpointAbstract
     /**
      * Get the object that is used by this API. Every API uses one type of object.
      *
-     * @return \Oro\Api\Resources\BaseResource
+     * @return BaseResource
      */
     protected function getResourceObject(): BaseResource
     {
@@ -30,9 +31,9 @@ class UserroleEndpoint extends CollectionEndpointAbstract
      *
      * @param stdClass $links
      *
-     * @return \Oro\Api\Resources\BaseCollection
+     * @return BaseCollection
      */
-    protected function getResourceCollectionObject(stdClass $links): BaseCollection
+    protected function getResourceCollectionObject($links): BaseCollection
     {
         return new UserroleCollection($this->client, $links);
     }
@@ -40,7 +41,7 @@ class UserroleEndpoint extends CollectionEndpointAbstract
     /**
      * @param array|null $data
      * @return BaseResource
-     * @throws \Oro\Api\Exceptions\ApiException
+     * @throws ApiException
      */
     public function create(array $data = null): BaseResource
     {
@@ -48,19 +49,33 @@ class UserroleEndpoint extends CollectionEndpointAbstract
     }
 
     /**
-     * @param array $filters
-     * @return \Oro\Api\Resources\CursorCollection|null
-     * @throws \Oro\Api\Exceptions\ApiException
+     * @param string $productId
+     * @param array $filter
+     * @return Userrole
+     * @throws ApiException
      */
-    public function get(array $filters = [])
+    public function get(string $productId, array $filter = []): Userrole
     {
-        return $this->rest_read($filters);
+        return $this->rest_read($productId, $filter);
+    }
+
+    /**
+     * @param string|null $number
+     * @param string|null $size
+     * @param array $filter
+     *
+     * @return UserroleCollection
+     * @throws ApiException
+     */
+    public function page(string $number = null, string $size = null, array $filter = []): UserroleCollection
+    {
+        return $this->rest_list($number, $size, $filter);
     }
 
     /**
      * @param array $data
      * @return BaseResource|null
-     * @throws \Oro\Api\Exceptions\ApiException
+     * @throws ApiException
      */
     public function update(array $data = []): ?BaseResource
     {
@@ -70,7 +85,7 @@ class UserroleEndpoint extends CollectionEndpointAbstract
     /**
      * @param array $filter
      * @return BaseResource|null
-     * @throws \Oro\Api\Exceptions\ApiException
+     * @throws ApiException
      */
     public function delete(array $filter = []): ?BaseResource
     {
