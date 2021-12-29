@@ -56,9 +56,6 @@ class Address extends BaseResource
      */
     public function update(array $body = []): ?BaseResource
     {
-
-
-
         $result = $this->client->performHttpCallToFullUrl(
             OroApiClient::HTTP_PATCH,
             $this->links->self,
@@ -73,19 +70,18 @@ class Address extends BaseResource
     }
 
     /**
-     * @return BaseResource
+     * @return null
      * @throws ApiException
      */
-    public function delete(): BaseResource
+    public function delete()
     {
-        $result = $this->client->performHttpCallToFullUrl(
+        if (! isset($this->links->self)) {
+            return $this;
+        }
+
+        return $this->client->performHttpCallToFullUrl(
             OroApiClient::HTTP_DELETE,
             $this->links->self
-        );
-
-        return ResourceFactory::createFromApiResult(
-            $result,
-            new Address($this->client)
         );
     }
 }

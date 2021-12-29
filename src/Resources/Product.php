@@ -70,19 +70,18 @@ class Product extends BaseResource
     }
 
     /**
-     * @return BaseResource
+     * @return null
      * @throws ApiException
      */
-    public function delete(): BaseResource
+    public function delete()
     {
-        $result = $this->client->performHttpCallToFullUrl(
+        if (! isset($this->links->self)) {
+            return $this;
+        }
+
+        return $this->client->performHttpCallToFullUrl(
             OroApiClient::HTTP_DELETE,
             $this->links->self
-        );
-
-        return ResourceFactory::createFromApiResult(
-            $result,
-            new Product($this->client)
         );
     }
 }
