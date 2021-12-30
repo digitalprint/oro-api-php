@@ -106,11 +106,11 @@ abstract class EndpointAbstract
      * Retrieves a single object from the REST API.
      *
      * @param string $id Id of the object to retrieve.
-     * @param array $filters
+     * @param array $filter
      * @return BaseResource
      * @throws ApiException
      */
-    protected function rest_read($id, array $filter)
+    protected function rest_read(string $id, array $filter)
     {
         if (empty($id)) {
             throw new ApiException("Invalid resource id.");
@@ -128,8 +128,8 @@ abstract class EndpointAbstract
     /**
      * Get a collection of objects from the REST API.
      *
-     * @param int $number The first resource ID you want to include in your list.
-     * @param int $size
+     * @param int|null $number The first resource ID you want to include in your list.
+     * @param int|null $size
      * @param array $filter
      *
      * @return BaseCollection
