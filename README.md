@@ -47,7 +47,7 @@ $oro->setAccessToken($res->access_token);
 
 ### 3.2 Product Examples
 
-#### Retrieve a single product
+#### Get a single product
 ```php
 $product = $oro->products->get(100);
 ``` 
@@ -105,6 +105,10 @@ $product = $oro->products->create([
 ]);
 ``` 
 
+#### Delete a single product
+```php
+$names = $oro->products->get(100)->delete();
+``` 
 ### 3.3 More Examples
 
 More examples are in the [examples folder](examples)
