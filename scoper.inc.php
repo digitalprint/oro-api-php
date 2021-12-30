@@ -8,6 +8,6 @@ return [
     'finders' => [],                        // Finder[]
     'patchers' => [],                       // callable[]
     'whitelist' => [
-        'Mollie\\Api\\*',
+        'Oro\\Api\\*',
     ],
 ];
