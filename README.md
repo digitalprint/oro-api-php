@@ -57,10 +57,14 @@ $product = $oro->products->get(100);
 $products = $oro->products->page();
 ``` 
 
+#### Get a list of featured products
+```php
+$products = $oro->products->page(1, 10, ['featured' => true]);
+```
+
 #### Get names of a product
 ```php
-$product = $oro->products->get(100);
-$names = $product->names();
+$names = $oro->products->get(100)->names();
 ``` 
 
 #### Update an existing product
