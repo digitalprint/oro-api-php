@@ -62,7 +62,7 @@ final class Guzzle6And7OroHttpAdapter implements OroHttpAdapterInterface
     }
 
     /**
-     * Send a request to the specified Mollie api url.
+     * Send a request to the specified Oro api url.
      *
      * @param $httpMethod
      * @param $url
@@ -128,7 +128,7 @@ final class Guzzle6And7OroHttpAdapter implements OroHttpAdapterInterface
     }
 
     /**
-     * The version number for the underlying http client, if available. This is used to report the UserAgent to Mollie,
+     * The version number for the underlying http client, if available. This is used to report the UserAgent to Oro,
      * for convenient support.
      * @example Guzzle/6.3
      *

@@ -151,7 +151,7 @@ class OroApiClientTest extends \PHPUnit\Framework\TestCase
     {
         $response = new Response(200, [], '{"resource": "payment"}');
 
-        // Before the MollieApiClient gets the response, some middleware reads the body first.
+        // Before the OroApiClient gets the response, some middleware reads the body first.
         $bodyAsReadFromMiddleware = (string)$response->getBody();
 
         $this->guzzleClient
@@ -173,7 +173,7 @@ class OroApiClientTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * This test verifies that our request headers are correctly sent to Mollie.
+     * This test verifies that our request headers are correctly sent to Oro.
      * If these are broken, it could be that some payments do not work.
      *
      * @throws ApiException

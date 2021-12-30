@@ -8,7 +8,7 @@ use stdClass;
 interface OroHttpAdapterInterface
 {
     /**
-     * Send a request to the specified Mollie api url.
+     * Send a request to the specified Oro api url.
      *
      * @param $httpMethod
      * @param $url
