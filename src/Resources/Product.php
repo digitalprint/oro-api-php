@@ -130,4 +130,27 @@ class Product extends BaseResource
             $result->links
         );
     }
+
+    /**
+     * @return ProductimageCollection
+     * @throws ApiException
+     */
+    public function images(): ProductimageCollection
+    {
+        if (! isset($this->relationships->images->links->related)) {
+            return new ProductimageCollection($this->client, null);
+        }
+
+        $result = $this->client->performHttpCallToFullUrl(
+            OroApiClient::HTTP_GET,
+            $this->relationships->images->links->related
+        );
+
+        return ResourceFactory::createCursorResourceCollection(
+            $this->client,
+            $result->data,
+            Productimage::class,
+            $result->links
+        );
+    }
 }
