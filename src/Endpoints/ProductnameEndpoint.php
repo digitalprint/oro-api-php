@@ -54,10 +54,10 @@ class ProductnameEndpoint extends CollectionEndpointAbstract
     /**
      * @param string $productnameId
      * @param array $filter
-     * @return Product
+     * @return Productname
      * @throws ApiException
      */
-    public function get(string $productnameId, array $filter = []): Product
+    public function get(string $productnameId, array $filter = []): Productname
     {
         return $this->rest_read($productnameId, $filter);
     }
