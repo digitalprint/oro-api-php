@@ -117,7 +117,7 @@ final class Guzzle6And7OroHttpAdapter implements OroHttpAdapterInterface
         $object = @json_decode($body);
 
         if (json_last_error() !== JSON_ERROR_NONE) {
-            throw new ApiException("Unable to decode Ora response: '{$body}'.");
+            throw new ApiException("Unable to decode Oro response: '{$body}'.");
         }
 
         if ($response->getStatusCode() >= 400) {
