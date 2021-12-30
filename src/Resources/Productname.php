@@ -5,7 +5,7 @@ namespace Oro\Api\Resources;
 use Oro\Api\Exceptions\ApiException;
 use Oro\Api\OroApiClient;
 
-class Product extends BaseResource
+class Productname extends BaseResource
 {
     /**
      * @var string
@@ -66,7 +66,7 @@ class Product extends BaseResource
             return null;
         }
 
-        return ResourceFactory::createFromApiResult($result->data, new Product($this->client));
+        return ResourceFactory::createFromApiResult($result->data, new Productname($this->client));
     }
 
     /**
@@ -85,22 +85,4 @@ class Product extends BaseResource
         );
     }
 
-    public function names()
-    {
-        if (! isset($this->relationships->names->links->related)) {
-            return new ProductnameCollection($this->client, null);
-        }
-
-        $result = $this->client->performHttpCallToFullUrl(
-            OroApiClient::HTTP_GET,
-            $this->relationships->names->links->related
-        );
-
-        return ResourceFactory::createCursorResourceCollection(
-            $this->client,
-            $result->data,
-            Productname::class,
-            $result->links
-        );
-    }
 }
