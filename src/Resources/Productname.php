@@ -45,7 +45,7 @@ class Productname extends BaseResource
 
         return ResourceFactory::createFromApiResult(
             $result->data,
-            new Product($this->client)
+            new Productname($this->client)
         );
     }
 
