@@ -88,4 +88,26 @@ class User extends BaseResource
         );
     }
 
+    /**
+     * @return UserroleCollection
+     * @throws ApiException
+     */
+    public function roles(): UserroleCollection
+    {
+        if (! isset($this->relationships->roles->links->related)) {
+            return new UserroleCollection($this->client, null);
+        }
+
+        $result = $this->client->performHttpCallToFullUrl(
+            OroApiClient::HTTP_GET,
+            $this->relationships->roles->links->related
+        );
+
+        return ResourceFactory::createCursorResourceCollection(
+            $this->client,
+            $result->data,
+            Userrole::class,
+            $result->links
+        );
+    }
 }
