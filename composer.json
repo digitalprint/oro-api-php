@@ -2,6 +2,9 @@
   "name": "digitalprint/oro-api-php",
   "description": "OroCommerce API client for PHP applications.",
   "keywords": [
+    "api",
+    "api-client",
+    "php",
     "Oro",
     "OroCommerce"
   ],
