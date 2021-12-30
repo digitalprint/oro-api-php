@@ -57,6 +57,12 @@ $product = $oro->products->get(100);
 $products = $oro->products->page();
 ``` 
 
+#### Get names of a product
+```php
+$product = $oro->products->get(100);
+$names = $product->names();
+``` 
+
 #### Update an existing product
 ```php
 $product = $oro->products->get(100);
