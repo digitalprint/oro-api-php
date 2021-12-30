@@ -7,6 +7,7 @@ use Oro\Api\Endpoints\AddressEndpoint;
 use Oro\Api\Endpoints\AddresstypeEndpoint;
 use Oro\Api\Endpoints\AsyncoperationEndpoint;
 use Oro\Api\Endpoints\AuthorizationEndpoint;
+use Oro\Api\Endpoints\ProductdescriptionEndpoint;
 use Oro\Api\Endpoints\ProductEndpoint;
 use Oro\Api\Endpoints\ProductnameEndpoint;
 use Oro\Api\Endpoints\ProductpriceEndpoint;
@@ -53,6 +54,7 @@ class OroApiClient
     public $addresstypes;
     public $asyncoperations;
     public $products;
+    public $productdescriptions;
     public $productnames;
     public $productprices;
     public $users;
@@ -97,6 +99,7 @@ class OroApiClient
         $this->addresstypes = new AddresstypeEndpoint($this);
         $this->asyncoperations = new AsyncoperationEndpoint($this);
         $this->products = new ProductEndpoint($this);
+        $this->productdescriptions = new ProductdescriptionEndpoint($this);
         $this->productnames = new ProductnameEndpoint($this);
         $this->productprices = new ProductpriceEndpoint($this);
         $this->users = new UserEndpoint($this);

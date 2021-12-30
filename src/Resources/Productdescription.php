@@ -5,7 +5,7 @@ namespace Oro\Api\Resources;
 use Oro\Api\Exceptions\ApiException;
 use Oro\Api\OroApiClient;
 
-class Product extends BaseResource
+class Productdescription extends BaseResource
 {
     /**
      * @var string
@@ -45,7 +45,7 @@ class Product extends BaseResource
 
         return ResourceFactory::createFromApiResult(
             $result->data,
-            new Product($this->client)
+            new Productdescription($this->client)
         );
     }
 
@@ -66,7 +66,7 @@ class Product extends BaseResource
             return null;
         }
 
-        return ResourceFactory::createFromApiResult($result->data, new Product($this->client));
+        return ResourceFactory::createFromApiResult($result->data, new Productdescription($this->client));
     }
 
     /**
@@ -85,49 +85,4 @@ class Product extends BaseResource
         );
     }
 
-    /**
-     * @return ProductnameCollection
-     * @throws ApiException
-     */
-    public function names(): ProductnameCollection
-    {
-        if (! isset($this->relationships->names->links->related)) {
-            return new ProductnameCollection($this->client, null);
-        }
-
-        $result = $this->client->performHttpCallToFullUrl(
-            OroApiClient::HTTP_GET,
-            $this->relationships->names->links->related
-        );
-
-        return ResourceFactory::createCursorResourceCollection(
-            $this->client,
-            $result->data,
-            Productname::class,
-            $result->links
-        );
-    }
-
-    /**
-     * @return ProductdescriptionCollection
-     * @throws ApiException
-     */
-    public function descriptions(): ProductdescriptionCollection
-    {
-        if (! isset($this->relationships->descriptions->links->related)) {
-            return new ProductdescriptionCollection($this->client, null);
-        }
-
-        $result = $this->client->performHttpCallToFullUrl(
-            OroApiClient::HTTP_GET,
-            $this->relationships->descriptions->links->related
-        );
-
-        return ResourceFactory::createCursorResourceCollection(
-            $this->client,
-            $result->data,
-            Productdescription::class,
-            $result->links
-        );
-    }
 }
