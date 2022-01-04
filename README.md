@@ -33,7 +33,7 @@ This package integrates OroCommerce API functions into your php application.
 Initializing the OroCommerce API client.
 
 ```php
-$oro = new \Oro\Api\OroApiClient();
+$oro = new \Digitalprint\Oro\Api\OroApiClient();
 $oro->setApiEndpoint('YOUR_ORO_API_ENDPOINT');
 $oro->setUser('YOUR_ORO_API_USER');
 

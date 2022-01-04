@@ -1,6 +1,6 @@
 <?php
 
-namespace Oro\Api\HttpAdapter;
+namespace Digitalprint\Oro\Api\HttpAdapter;
 
 use GuzzleHttp\ClientInterface;
 

@@ -1,11 +1,11 @@
 <?php
 
-namespace Tests\Oro\Api\Endpoints;
+namespace Tests\Digitalprint\Oro\API\Endpoints;
 
+use Digitalprint\Oro\Api\OroApiClient;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
-use Oro\Api\OroApiClient;
 
 abstract class BaseEndpointTest extends \PHPUnit\Framework\TestCase
 {

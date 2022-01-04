@@ -1,9 +1,9 @@
 <?php
 
-namespace Oro\Api\Resources;
+namespace Digitalprint\Oro\Api\Resources;
 
-use Oro\Api\Exceptions\ApiException;
-use Oro\Api\OroApiClient;
+use Digitalprint\Oro\Api\Exceptions\ApiException;
+use Digitalprint\Oro\Api\OroApiClient;
 
 class Userrole extends BaseResource
 {

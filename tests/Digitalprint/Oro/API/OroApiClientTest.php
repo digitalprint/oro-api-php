@@ -1,17 +1,17 @@
 <?php
 
-namespace Tests\Oro\Api;
+namespace Tests\Digitalprint\Oro\API;
 
+use Digitalprint\Oro\Api\Exceptions\ApiException;
+use Digitalprint\Oro\Api\Exceptions\IncompatiblePlatform;
+use Digitalprint\Oro\Api\Exceptions\UnrecognizedClientException;
+use Digitalprint\Oro\Api\HttpAdapter\Guzzle6And7OroHttpAdapter;
+use Digitalprint\Oro\Api\OroApiClient;
 use Eloquent\Liberator\Liberator;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Psr7\Response;
-use Oro\Api\Exceptions\ApiException;
-use Oro\Api\Exceptions\IncompatiblePlatform;
-use Oro\Api\Exceptions\UnrecognizedClientException;
-use Oro\Api\HttpAdapter\Guzzle6And7OroHttpAdapter;
-use Oro\Api\OroApiClient;
-use Tests\Oro\TestHelpers\FakeHttpAdapter;
+use Tests\Digitalprint\Oro\TestHelpers\FakeHttpAdapter;
 
 class OroApiClientTest extends \PHPUnit\Framework\TestCase
 {

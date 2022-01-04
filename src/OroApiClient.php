@@ -1,25 +1,25 @@
 <?php
 
-namespace Oro\Api;
+namespace Digitalprint\Oro\Api;
 
+use Digitalprint\Oro\Api\Endpoints\AddressEndpoint;
+use Digitalprint\Oro\Api\Endpoints\AddresstypeEndpoint;
+use Digitalprint\Oro\Api\Endpoints\AsyncoperationEndpoint;
+use Digitalprint\Oro\Api\Endpoints\AuthorizationEndpoint;
+use Digitalprint\Oro\Api\Endpoints\ProductdescriptionEndpoint;
+use Digitalprint\Oro\Api\Endpoints\ProductEndpoint;
+use Digitalprint\Oro\Api\Endpoints\ProductimageEndpoint;
+use Digitalprint\Oro\Api\Endpoints\ProductnameEndpoint;
+use Digitalprint\Oro\Api\Endpoints\ProductpriceEndpoint;
+use Digitalprint\Oro\Api\Endpoints\UserEndpoint;
+use Digitalprint\Oro\Api\Endpoints\UserroleEndpoint;
+use Digitalprint\Oro\Api\Exceptions\ApiException;
+use Digitalprint\Oro\Api\Exceptions\IncompatiblePlatform;
+use Digitalprint\Oro\Api\Exceptions\UnrecognizedClientException;
+use Digitalprint\Oro\Api\HttpAdapter\OroHttpAdapterInterface;
+use Digitalprint\Oro\Api\HttpAdapter\OroHttpAdapterPicker;
+use Digitalprint\Oro\Api\HttpAdapter\OroHttpAdapterPickerInterface;
 use GuzzleHttp\ClientInterface;
-use Oro\Api\Endpoints\AddressEndpoint;
-use Oro\Api\Endpoints\AddresstypeEndpoint;
-use Oro\Api\Endpoints\AsyncoperationEndpoint;
-use Oro\Api\Endpoints\AuthorizationEndpoint;
-use Oro\Api\Endpoints\ProductdescriptionEndpoint;
-use Oro\Api\Endpoints\ProductEndpoint;
-use Oro\Api\Endpoints\ProductnameEndpoint;
-use Oro\Api\Endpoints\ProductimageEndpoint;
-use Oro\Api\Endpoints\ProductpriceEndpoint;
-use Oro\Api\Endpoints\UserEndpoint;
-use Oro\Api\Endpoints\UserroleEndpoint;
-use Oro\Api\Exceptions\ApiException;
-use Oro\Api\Exceptions\IncompatiblePlatform;
-use Oro\Api\Exceptions\UnrecognizedClientException;
-use Oro\Api\HttpAdapter\OroHttpAdapterInterface;
-use Oro\Api\HttpAdapter\OroHttpAdapterPicker;
-use Oro\Api\HttpAdapter\OroHttpAdapterPickerInterface;
 use stdClass;
 
 class OroApiClient

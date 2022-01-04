@@ -1,6 +1,6 @@
 <?php
 
-namespace Oro\Api\Resources;
+namespace Digitalprint\Oro\Api\Resources;
 
 class ProductimageCollection extends CursorCollection
 {

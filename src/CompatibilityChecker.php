@@ -1,8 +1,8 @@
 <?php
 
-namespace Oro\Api;
+namespace Digitalprint\Oro\Api;
 
-use Oro\Api\Exceptions\IncompatiblePlatform;
+use Digitalprint\Oro\Api\Exceptions\IncompatiblePlatform;
 
 class CompatibilityChecker
 {

@@ -12,10 +12,10 @@ require_once __DIR__ . "/functions.php";
 $apiEndpoint = 'YOUR_ENDPOINT';
 $apiUser = 'YOUR_API_USER';
 
-$clientId = 'SECRET';
-$clientSecret = 'SECRET';
+$clientId = 'YOUR_CLIENT_ID';
+$clientSecret = 'YOUR_CLIENT_SECRET';
 
-$oro = new \Oro\Api\OroApiClient();
+$oro = new \Digitalprint\Oro\Api\OroApiClient();
 $oro->setApiEndpoint($apiEndpoint);
 $oro->setUser($apiUser);
 

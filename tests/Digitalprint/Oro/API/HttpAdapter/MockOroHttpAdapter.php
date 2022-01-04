@@ -1,8 +1,8 @@
 <?php
 
-namespace Tests\Oro\API\HttpAdapter;
+namespace Tests\Digitalprint\Oro\API\HttpAdapter;
 
-use Oro\Api\HttpAdapter\OroHttpAdapterInterface;
+use Digitalprint\Oro\Api\HttpAdapter\OroHttpAdapterInterface;
 use stdClass;
 
 class MockOroHttpAdapter implements OroHttpAdapterInterface

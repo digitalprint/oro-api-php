@@ -1,9 +1,9 @@
 <?php
 
-namespace Oro\Api\HttpAdapter;
+namespace Digitalprint\Oro\Api\HttpAdapter;
 
+use Digitalprint\Oro\Api\Exceptions\UnrecognizedClientException;
 use GuzzleHttp\ClientInterface;
-use Oro\Api\Exceptions\UnrecognizedClientException;
 
 class OroHttpAdapterPicker implements OroHttpAdapterPickerInterface
 {

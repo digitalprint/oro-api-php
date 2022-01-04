@@ -1,10 +1,10 @@
 <?php
 
-namespace Oro\Api\HttpAdapter;
+namespace Digitalprint\Oro\Api\HttpAdapter;
 
 use Composer\CaBundle\CaBundle;
-use Oro\Api\Exceptions\ApiException;
-use Oro\Api\OroApiClient;
+use Digitalprint\Oro\Api\Exceptions\ApiException;
+use Digitalprint\Oro\Api\OroApiClient;
 use stdClass;
 use Symfony\Contracts\Service\ResetInterface;
 

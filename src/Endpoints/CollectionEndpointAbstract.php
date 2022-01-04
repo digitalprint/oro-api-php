@@ -1,8 +1,8 @@
 <?php
 
-namespace Oro\Api\Endpoints;
+namespace Digitalprint\Oro\Api\Endpoints;
 
-use Oro\Api\Resources\BaseCollection;
+use Digitalprint\Oro\Api\Resources\BaseCollection;
 use stdClass;
 
 abstract class CollectionEndpointAbstract extends EndpointAbstract

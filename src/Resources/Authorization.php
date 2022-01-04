@@ -1,8 +1,8 @@
 <?php
 
-namespace Oro\Api\Resources;
+namespace Digitalprint\Oro\Api\Resources;
 
-use Oro\Api\Exceptions\ApiException;
+use Digitalprint\Oro\Api\Exceptions\ApiException;
 
 class Authorization extends BaseResource
 {

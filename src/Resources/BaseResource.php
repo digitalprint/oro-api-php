@@ -1,8 +1,8 @@
 <?php
 
-namespace Oro\Api\Resources;
+namespace Digitalprint\Oro\Api\Resources;
 
-use Oro\Api\OroApiClient;
+use Digitalprint\Oro\Api\OroApiClient;
 
 abstract class BaseResource
 {

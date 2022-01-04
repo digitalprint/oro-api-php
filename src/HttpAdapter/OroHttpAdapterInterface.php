@@ -1,8 +1,8 @@
 <?php
 
-namespace Oro\Api\HttpAdapter;
+namespace Digitalprint\Oro\Api\HttpAdapter;
 
-use Oro\Api\Exceptions\ApiException;
+use Digitalprint\Oro\Api\Exceptions\ApiException;
 use stdClass;
 
 interface OroHttpAdapterInterface

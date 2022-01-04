@@ -1,11 +1,11 @@
 <?php
 
-namespace Tests\Oro\API\HttpAdapter;
+namespace Tests\Digitalprint\Oro\API\HttpAdapter;
 
+use Digitalprint\Oro\Api\Exceptions\UnrecognizedClientException;
+use Digitalprint\Oro\Api\HttpAdapter\Guzzle6And7OroHttpAdapter;
+use Digitalprint\Oro\Api\HttpAdapter\OroHttpAdapterPicker;
 use GuzzleHttp\Client as GuzzleClient;
-use Oro\Api\Exceptions\UnrecognizedClientException;
-use Oro\Api\HttpAdapter\Guzzle6And7OroHttpAdapter;
-use Oro\Api\HttpAdapter\OroHttpAdapterPicker;
 use PHPUnit\Framework\TestCase;
 
 class OroHttpAdapterPickerTest extends TestCase

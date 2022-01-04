@@ -1,12 +1,12 @@
 <?php
 
-namespace Oro\Api\Endpoints;
+namespace Digitalprint\Oro\Api\Endpoints;
 
-use Oro\Api\Exceptions\ApiException;
-use Oro\Api\Resources\Address;
-use Oro\Api\Resources\AddressCollection;
-use Oro\Api\Resources\BaseCollection;
-use Oro\Api\Resources\BaseResource;
+use Digitalprint\Oro\Api\Exceptions\ApiException;
+use Digitalprint\Oro\Api\Resources\Address;
+use Digitalprint\Oro\Api\Resources\AddressCollection;
+use Digitalprint\Oro\Api\Resources\BaseCollection;
+use Digitalprint\Oro\Api\Resources\BaseResource;
 use stdClass;
 
 class AddressEndpoint extends CollectionEndpointAbstract

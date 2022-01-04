@@ -1,8 +1,8 @@
 <?php
 
-namespace Tests\Oro\TestHelpers;
+namespace Tests\Digitalprint\Oro\TestHelpers;
 
-use Oro\Api\HttpAdapter\OroHttpAdapterInterface;
+use Digitalprint\Oro\Api\HttpAdapter\OroHttpAdapterInterface;
 use Psr\Http\Message\ResponseInterface;
 use stdClass;
 

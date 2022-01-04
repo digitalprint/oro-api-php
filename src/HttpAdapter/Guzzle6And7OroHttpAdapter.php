@@ -1,15 +1,15 @@
 <?php
 
-namespace Oro\Api\HttpAdapter;
+namespace Digitalprint\Oro\Api\HttpAdapter;
 
 use Composer\CaBundle\CaBundle;
+use Digitalprint\Oro\Api\Exceptions\ApiException;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\RequestOptions as GuzzleRequestOptions;
-use Oro\Api\Exceptions\ApiException;
 use Psr\Http\Message\ResponseInterface;
 use stdClass;
 

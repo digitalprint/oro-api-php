@@ -27,13 +27,13 @@
   },
   "autoload": {
     "psr-4": {
-      "Oro\\Api\\": "src/"
+      "Digitalprint\\Oro\\Api\\": "src/"
     }
   },
   "autoload-dev": {
     "psr-4": {
       "Tests\\": "tests/",
-      "Tests\\Oro\\Api\\": "tests/Oro/API/"
+      "Tests\\Digitalprint\\Oro\\Api\\": "tests/Digitalprint/Oro/API/"
     }
   },
   "scripts": {

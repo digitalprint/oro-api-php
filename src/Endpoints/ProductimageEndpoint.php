@@ -1,12 +1,12 @@
 <?php
 
-namespace Oro\Api\Endpoints;
+namespace Digitalprint\Oro\Api\Endpoints;
 
-use Oro\Api\Exceptions\ApiException;
-use Oro\Api\Resources\BaseCollection;
-use Oro\Api\Resources\BaseResource;
-use Oro\Api\Resources\Productimage;
-use Oro\Api\Resources\ProductimagesCollection;
+use Digitalprint\Oro\Api\Exceptions\ApiException;
+use Digitalprint\Oro\Api\Resources\BaseCollection;
+use Digitalprint\Oro\Api\Resources\BaseResource;
+use Digitalprint\Oro\Api\Resources\Productimage;
+use Digitalprint\Oro\Api\Resources\ProductimageCollection;
 use stdClass;
 
 /**
@@ -52,7 +52,7 @@ class ProductimageEndpoint extends CollectionEndpointAbstract
     }
 
     /**
-     * @param string $productnameId
+     * @param string $productimageId
      * @param array $filter
      * @return Productimage
      * @throws ApiException

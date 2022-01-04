@@ -1,10 +1,10 @@
 <?php
-namespace Tests\Oro\Api;
+namespace Tests\Digitalprint\Oro\API;
 
-use \Oro\Api\CompatibilityChecker;
-use Oro\Api\Exceptions\IncompatiblePlatform;
-use PHPUnit\Framework\TestCase;
+use Digitalprint\Oro\Api\CompatibilityChecker;
+use Digitalprint\Oro\Api\Exceptions\IncompatiblePlatform;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
 class CompatibilityCheckerTest extends TestCase
 {

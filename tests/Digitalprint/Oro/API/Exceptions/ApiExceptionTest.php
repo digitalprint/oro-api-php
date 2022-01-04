@@ -1,10 +1,10 @@
 <?php
 
-namespace Tests\Oro\API\Exceptions;
+namespace Tests\Digitalprint\Oro\API\Exceptions;
 
+use Digitalprint\Oro\Api\Exceptions\ApiException;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
-use Oro\Api\Exceptions\ApiException;
 use PHPUnit\Framework\TestCase;
 
 class ApiExceptionTest extends TestCase

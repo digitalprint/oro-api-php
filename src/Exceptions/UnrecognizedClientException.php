@@ -1,6 +1,6 @@
 <?php
 
-namespace Oro\Api\Exceptions;
+namespace Digitalprint\Oro\Api\Exceptions;
 
 class UnrecognizedClientException extends ApiException
 {
