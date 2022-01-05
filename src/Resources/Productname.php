@@ -68,21 +68,5 @@ class Productname extends BaseResource
 
         return ResourceFactory::createFromApiResult($result->data, new Productname($this->client));
     }
-
-    /**
-     * @return null
-     * @throws ApiException
-     */
-    public function delete()
-    {
-        if (! isset($this->links->self)) {
-            return $this;
-        }
-
-        return $this->client->performHttpCallToFullUrl(
-            OroApiClient::HTTP_DELETE,
-            $this->links->self
-        );
-    }
-
+    
 }
