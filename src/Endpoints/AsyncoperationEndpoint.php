@@ -19,14 +19,13 @@ class AsyncoperationEndpoint extends EndpointAbstract
         return new Asyncoperation($this->client);
     }
 
-  /**
-   * @param string $asyncoperationId
-   * @param array $filter
-   * @return Asyncoperation
-   */
-  public function get(string $asyncoperationId, array $filter = []): Asyncoperation
+    /**
+     * @param string $asyncoperationId
+     * @param array $filter
+     * @return Asyncoperation
+     */
+    public function get(string $asyncoperationId, array $filter = []): Asyncoperation
     {
-        return $this->rest_read($asyncoperationId, $filters);
+        return $this->rest_read($asyncoperationId, $filter);
     }
-
 }
