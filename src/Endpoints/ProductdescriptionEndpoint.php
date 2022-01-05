@@ -85,13 +85,4 @@ class ProductdescriptionEndpoint extends CollectionEndpointAbstract
         return $this->rest_update($data);
     }
 
-    /**
-     * @param array $filter
-     * @return BaseResource|null
-     * @throws ApiException
-     */
-    public function delete(array $filter = []): ?BaseResource
-    {
-        return $this->rest_delete($filter);
-    }
 }
