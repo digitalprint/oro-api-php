@@ -73,6 +73,16 @@ class AddressEndpoint extends CollectionEndpointAbstract
     }
 
     /**
+     * @param array $data
+     * @return BaseResource|null
+     * @throws ApiException
+     */
+    public function update(array $data = []): ?BaseResource
+    {
+      return $this->rest_update($data);
+    }
+
+    /**
      * @param array $filter
      * @return BaseResource|null
      * @throws ApiException
