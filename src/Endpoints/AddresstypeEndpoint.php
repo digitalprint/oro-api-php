@@ -7,6 +7,7 @@ use Digitalprint\Oro\Api\Resources\Addresstype;
 use Digitalprint\Oro\Api\Resources\AddresstypeCollection;
 use Digitalprint\Oro\Api\Resources\BaseCollection;
 use Digitalprint\Oro\Api\Resources\BaseResource;
+use Digitalprint\Oro\Api\Resources\ResourceFactory;
 use stdClass;
 
 /**
@@ -36,7 +37,7 @@ class AddresstypeEndpoint extends CollectionEndpointAbstract
      *
      * @return BaseCollection
      */
-    protected function getResourceCollectionObject(stdClass $links): BaseCollection
+    protected function getResourceCollectionObject(stdClass $links = null): BaseCollection
     {
         return new AddresstypeCollection($this->client, $links);
     }
@@ -62,6 +63,21 @@ class AddresstypeEndpoint extends CollectionEndpointAbstract
      */
     public function page(string $number = null, string $size = null, array $filter = []): AddresstypeCollection
     {
-        return $this->rest_list($number, $size, $filter);
+        $filter = array_merge(["number" => $number, "size" => $size], $filter);
+        $filter = $this->buildFilters($filter);
+
+        $result = $this->client->performHttpCall(
+            self::REST_LIST,
+            $this->getResourcePath() . $this->buildQueryString($filter)
+        );
+
+        /** @var AddresstypeCollection $collection */
+        $collection = $this->getResourceCollectionObject();
+
+        foreach ($result->data as $dataResult) {
+            $collection[] = ResourceFactory::createFromApiResult($dataResult, $this->getResourceObject());
+        }
+
+        return $collection;
     }
 }
