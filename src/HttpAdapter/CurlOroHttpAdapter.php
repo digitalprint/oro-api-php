@@ -6,7 +6,6 @@ use Composer\CaBundle\CaBundle;
 use Digitalprint\Oro\Api\Exceptions\ApiException;
 use Digitalprint\Oro\Api\OroApiClient;
 use stdClass;
-use Symfony\Contracts\Service\ResetInterface;
 
 final class CurlOroHttpAdapter implements OroHttpAdapterInterface
 {
@@ -30,10 +29,10 @@ final class CurlOroHttpAdapter implements OroHttpAdapterInterface
      * @param string $url
      * @param array $headers
      * @param $httpBody
-     * @return ResponseInterface|null
+     * @return stdClass|null
      * @throws ApiException
      */
-    public function send($httpMethod, $url, $headers, $httpBody): ?ResponseInterface
+    public function send($httpMethod, $url, $headers, $httpBody): ?stdClass
     {
         $curl = curl_init($url);
         $headers["Content-Type"] = "application/json";
