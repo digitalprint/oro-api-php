@@ -2,6 +2,8 @@
 
 namespace Tests\Digitalprint\Oro\API\Endpoints;
 
+use Digitalprint\Oro\Api\Exceptions\IncompatiblePlatform;
+use Digitalprint\Oro\Api\Exceptions\UnrecognizedClientException;
 use Digitalprint\Oro\Api\OroApiClient;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
@@ -19,7 +21,15 @@ abstract class BaseEndpointTest extends \PHPUnit\Framework\TestCase
      */
     protected $apiClient;
 
-    protected function mockApiCall(Request $expectedRequest, Response $response, $oAuthClient = false)
+    /**
+     * @param Request $expectedRequest
+     * @param Response $response
+     * @param $oAuthClient
+     * @return void
+     * @throws IncompatiblePlatform
+     * @throws UnrecognizedClientException
+     */
+    protected function mockApiCall(Request $expectedRequest, Response $response)
     {
         $this->guzzleClient = $this->createMock(Client::class);
 
@@ -27,7 +37,7 @@ abstract class BaseEndpointTest extends \PHPUnit\Framework\TestCase
 
         $this->apiClient->setAccessToken("access_Wwvu7egPcJLLJ9Kb7J632x8wJ2zMeJ");
         $this->apiClient->setApiEndpoint('https://myoroproxy.local');
-        $this->apiClient->setUser('ppbackoffice');
+        $this->apiClient->setUser('admin');
 
         $this->guzzleClient
             ->expects($this->once())
@@ -63,6 +73,11 @@ abstract class BaseEndpointTest extends \PHPUnit\Framework\TestCase
             });
     }
 
+    /**
+     * @param $array
+     * @param $object
+     * @return mixed
+     */
     protected function copy($array, $object)
     {
         foreach ($array as $property => $value) {

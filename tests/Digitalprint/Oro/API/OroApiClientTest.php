@@ -11,9 +11,10 @@ use Eloquent\Liberator\Liberator;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Psr7\Response;
+use PHPUnit\Framework\TestCase;
 use Tests\Digitalprint\Oro\TestHelpers\FakeHttpAdapter;
 
-class OroApiClientTest extends \PHPUnit\Framework\TestCase
+class OroApiClientTest extends TestCase
 {
     /**
      * @var ClientInterface|\PHPUnit_Framework_MockObject_MockObject
@@ -32,16 +33,15 @@ class OroApiClientTest extends \PHPUnit\Framework\TestCase
         $this->guzzleClient = $this->createMock(Client::class);
         $this->oroApiClient = new OroApiClient($this->guzzleClient);
 
-        $this->oroApiClient->setAccessToken('test_foobarfoobarfoobarfoobarfoobar');
+        $this->oroApiClient->setAccessToken('dbbfcb901fe22d8753841ece7466630fa14c065c52175b2b27f382602d0c2b9c7a972df75683cd8befc7abcf198bcdde6ced863305ca3a2ce49fec5130b4141b');
 
-        $this->oroApiClient->setApiEndpoint('https://printplanet-stage.oro-cloud.com');
-        $this->oroApiClient->setUser('ppbackoffice');
-
+        $this->oroApiClient->setApiEndpoint('https://myoroproxy.local');
+        $this->oroApiClient->setUser('admin');
     }
 
     public function testPerformHttpCallReturnsBodyAsObject(): void
     {
-        $response = new Response(200, [], '{"resource": "products"}');
+        $response = new Response(200, [], '{"data": "products"}');
 
         $this->guzzleClient
             ->expects($this->once())
@@ -52,7 +52,7 @@ class OroApiClientTest extends \PHPUnit\Framework\TestCase
         $parsedResponse = $this->oroApiClient->performHttpCall('GET', '');
 
         $this->assertEquals(
-            (object)['resource' => 'products'],
+            (object)['data' => 'products'],
             $parsedResponse
         );
     }
@@ -60,18 +60,8 @@ class OroApiClientTest extends \PHPUnit\Framework\TestCase
     public function testPerformHttpCallCreatesApiExceptionCorrectly(): void
     {
         $this->expectException(ApiException::class);
-        $this->expectExceptionMessage('Error executing API call (422: Unprocessable Entity): Non-existent parameter "recurringType" for this API call. Did you mean: "sequenceType"?');
+        $this->expectExceptionMessage('Error executing API call (422: Unprocessable Entity): Non-existent parameter "productType" for this API call. Did you mean: "productId"?');
         $this->expectExceptionCode(422);
-
-        $response = new Response(422, [], '{
-            "errors": [{
-              "status": 422,
-              "title": "Unprocessable Entity",
-              "detail": "Non-existent parameter \"recurringType\" for this API call. Did you mean: \"sequenceType\"?",
-              "field": "recurringType",
-            }] 
-        }');
-
 
         $response = new Response(422, [],
           /** @lang JSON */
@@ -79,8 +69,8 @@ class OroApiClientTest extends \PHPUnit\Framework\TestCase
                       "errors": [{
                         "status": 422,
                         "title": "Unprocessable Entity",
-                        "detail": "Non-existent parameter \"recurringType\" for this API call. Did you mean: \"sequenceType\"?",
-                        "field": "recurringType"
+                        "detail": "Non-existent parameter \"productType\" for this API call. Did you mean: \"productId\"?",
+                        "field": "productType"
                     }]
                   }'
         );
@@ -94,7 +84,7 @@ class OroApiClientTest extends \PHPUnit\Framework\TestCase
         try {
             $parsedResponse = $this->oroApiClient->performHttpCall('GET', '');
         } catch (ApiException $e) {
-            $this->assertEquals('recurringType', $e->getField());
+            $this->assertEquals('productType', $e->getField());
             $this->assertEquals($response, $e->getResponse());
 
             throw $e;
@@ -104,14 +94,14 @@ class OroApiClientTest extends \PHPUnit\Framework\TestCase
     public function testPerformHttpCallCreatesApiExceptionWithoutField(): void
     {
         $this->expectException(ApiException::class);
-        $this->expectExceptionMessage('Error executing API call (422: Unprocessable Entity): Non-existent parameter "recurringType" for this API call. Did you mean: "sequenceType"?');
+        $this->expectExceptionMessage('Error executing API call (422: Unprocessable Entity): Non-existent parameter "productType" for this API call. Did you mean: "productId"?');
         $this->expectExceptionCode(422);
 
         $response = new Response(422, [], '{
             "errors": [{        
               "status": 422,
               "title": "Unprocessable Entity",
-              "detail": "Non-existent parameter \"recurringType\" for this API call. Did you mean: \"sequenceType\"?"
+              "detail": "Non-existent parameter \"productType\" for this API call. Did you mean: \"productId\"?"
             }]
         }');
 
@@ -134,7 +124,7 @@ class OroApiClientTest extends \PHPUnit\Framework\TestCase
         $this->oroApiClient->setApiEndpoint("https://myoroproxy.local");
         $serialized = \serialize($this->oroApiClient);
 
-        $this->assertStringNotContainsString('test_foobarfoobarfoobarfoobarfoobar', $serialized, "API key should not be in serialized data or it will end up in caches.");
+        $this->assertStringNotContainsString('dbbfcb901fe22d8753841ece7466630fa14c065c52175b2b27f382602d0c2b9c7a972df75683cd8befc7abcf198bcdde6ced863305ca3a2ce49fec5130b4141b', $serialized, "API key should not be in serialized data or it will end up in caches.");
 
         /** @var OroApiClient $client_copy */
         $client_copy = Liberator::liberate(unserialize($serialized));
@@ -149,7 +139,7 @@ class OroApiClientTest extends \PHPUnit\Framework\TestCase
 
     public function testResponseBodyCanBeReadMultipleTimesIfMiddlewareReadsItFirst(): void
     {
-        $response = new Response(200, [], '{"resource": "payment"}');
+        $response = new Response(200, [], '{"data": "products"}');
 
         // Before the OroApiClient gets the response, some middleware reads the body first.
         $bodyAsReadFromMiddleware = (string)$response->getBody();
@@ -162,12 +152,12 @@ class OroApiClientTest extends \PHPUnit\Framework\TestCase
         $parsedResponse = $this->oroApiClient->performHttpCall('GET', '');
 
         $this->assertEquals(
-            '{"resource": "payment"}',
+            '{"data": "products"}',
             $bodyAsReadFromMiddleware
         );
 
         $this->assertEquals(
-            (object)['resource' => 'payment'],
+            (object)['data' => 'products'],
             $parsedResponse
         );
     }
@@ -180,11 +170,11 @@ class OroApiClientTest extends \PHPUnit\Framework\TestCase
      */
     public function testCorrectRequestHeaders(): void
     {
-        $response = new Response(200, [], '{"resource": "payment"}');
+        $response = new Response(200, [], '{"data": "products"}');
         $fakeAdapter = new FakeHttpAdapter($response);
 
         $oroClient = new OroApiClient($fakeAdapter);
-        $oroClient->setAccessToken('test_foobarfoobarfoobarfoobarfoobar');
+        $oroClient->setAccessToken('dbbfcb901fe22d8753841ece7466630fa14c065c52175b2b27f382602d0c2b9c7a972df75683cd8befc7abcf198bcdde6ced863305ca3a2ce49fec5130b4141b');
 
         $oroClient->performHttpCallToFullUrl('GET', '', '');
 
@@ -196,7 +186,7 @@ class OroApiClientTest extends \PHPUnit\Framework\TestCase
         $this->assertArrayHasKey('X-Oro-Client-Info', $usedHeaders);
 
         # these should be exactly the expected values
-        $this->assertEquals('Bearer test_foobarfoobarfoobarfoobarfoobar', $usedHeaders['Authorization']);
+        $this->assertEquals('Bearer dbbfcb901fe22d8753841ece7466630fa14c065c52175b2b27f382602d0c2b9c7a972df75683cd8befc7abcf198bcdde6ced863305ca3a2ce49fec5130b4141b', $usedHeaders['Authorization']);
         $this->assertEquals('application/vnd.api+json', $usedHeaders['Accept']);
     }
 
@@ -211,11 +201,11 @@ class OroApiClientTest extends \PHPUnit\Framework\TestCase
      */
     public function testNoContentTypeWithoutProvidedBody(): void
     {
-        $response = new Response(200, [], '{"resource": "payment"}');
+        $response = new Response(200, [], '{"data": "products"}');
         $fakeAdapter = new FakeHttpAdapter($response);
 
         $oroClient = new OroApiClient($fakeAdapter);
-        $oroClient->setAccessToken('test_foobarfoobarfoobarfoobarfoobar');
+        $oroClient->setAccessToken('dbbfcb901fe22d8753841ece7466630fa14c065c52175b2b27f382602d0c2b9c7a972df75683cd8befc7abcf198bcdde6ced863305ca3a2ce49fec5130b4141b');
 
         $oroClient->performHttpCallToFullUrl('GET', '');
 
