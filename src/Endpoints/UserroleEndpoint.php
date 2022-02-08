@@ -49,14 +49,14 @@ class UserroleEndpoint extends CollectionEndpointAbstract
     }
 
     /**
-     * @param string $productId
+     * @param string $userroleId
      * @param array $filter
      * @return Userrole
      * @throws ApiException
      */
-    public function get(string $productId, array $filter = []): Userrole
+    public function get(string $userroleId, array $filter = []): Userrole
     {
-        return $this->rest_read($productId, $filter);
+        return $this->rest_read($userroleId, $filter);
     }
 
     /**
