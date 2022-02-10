@@ -119,16 +119,23 @@ final class CurlOroHttpAdapter implements OroHttpAdapterInterface
         }
 
         if ($statusCode >= 400) {
-            $message = "Error executing API call ({$body->status}: {$body->title}): {$body->detail}";
-
             $field = null;
+            $message = "Unknown Error executing API call";
 
-            if (! empty($body->field)) {
-                $field = $body->field;
-            }
+            if (! empty($body->errors)) {
+                $message = "Error executing API call ({$body->errors[0]->status}: {$body->errors[0]->title})";
 
-            if ($httpBody) {
-                $message .= ". Request body: {$httpBody}";
+                if (! empty($body->errors[0]->detail)) {
+                    $message .= ": {$body->errors[0]->detail}";
+                }
+
+                if (! empty($body->errors[0]->field)) {
+                    $field = $body->errors[0]->field;
+                }
+
+                if ($httpBody) {
+                    $message .= ". Request body: {$httpBody}";
+                }
             }
 
             throw new ApiException($message, $statusCode, $field);
