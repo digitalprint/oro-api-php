@@ -10,7 +10,9 @@ use PHPUnit\Framework\TestCase;
 
 class OroHttpAdapterPickerTest extends TestCase
 {
-    /** @test */
+    /** @test
+     * @throws UnrecognizedClientException
+     */
     public function createsAGuzzleAdapterIfNullIsPassedAndGuzzleIsDetected(): void
     {
         $picker = new OroHttpAdapterPicker;
@@ -20,7 +22,9 @@ class OroHttpAdapterPickerTest extends TestCase
         $this->assertInstanceOf(Guzzle6And7OroHttpAdapter::class, $adapter);
     }
 
-    /** @test */
+    /** @test
+     * @throws UnrecognizedClientException
+     */
     public function returnsTheAdapterThatWasPassedIn(): void
     {
         $picker = new OroHttpAdapterPicker;
@@ -32,8 +36,10 @@ class OroHttpAdapterPickerTest extends TestCase
         $this->assertEquals($mockAdapter, $adapter);
     }
 
-    /** @test */
-    public function wrapsAGuzzleClientIntoAnAdapter()
+    /** @test
+     * @throws UnrecognizedClientException
+     */
+    public function wrapsAGuzzleClientIntoAnAdapter(): void
     {
         $picker = new OroHttpAdapterPicker;
         $guzzleClient = new GuzzleClient;
@@ -43,8 +49,10 @@ class OroHttpAdapterPickerTest extends TestCase
         $this->assertInstanceOf(Guzzle6And7OroHttpAdapter::class, $adapter);
     }
 
-    /** @test */
-    public function throwsAnExceptionWhenReceivingAnUnrecognizedClient()
+    /** @test
+     * @throws UnrecognizedClientException
+     */
+    public function throwsAnExceptionWhenReceivingAnUnrecognizedClient(): void
     {
         $this->expectExceptionObject(new UnrecognizedClientException('The provided http client or adapter was not recognized'));
         $picker = new OroHttpAdapterPicker;

@@ -40,41 +40,86 @@ class OroApiClient
     /**
      * @var OroHttpAdapterInterface
      */
-    protected $httpClient;
+    protected OroHttpAdapterInterface $httpClient;
 
     /**
      * @var string
      */
-    protected $apiEndpoint = null;
+    protected string $apiEndpoint;
 
-    protected $user = null;
+    protected string $user;
 
-    public $authorization;
+    /**
+     * @var AuthorizationEndpoint
+     */
+    public AuthorizationEndpoint $authorization;
 
-    public $addresses;
-    public $addresstypes;
-    public $asyncoperations;
-    public $products;
-    public $productdescriptions;
-    public $productimages;
-    public $productnames;
-    public $productprices;
-    public $users;
-    public $userroles;
+    /**
+     * @var AddressEndpoint
+     */
+    public AddressEndpoint $addresses;
 
-    protected $accessToken;
+    /**
+     * @var AddresstypeEndpoint
+     */
+    public AddresstypeEndpoint $addresstypes;
+
+    /**
+     * @var AsyncoperationEndpoint
+     */
+    public AsyncoperationEndpoint $asyncoperations;
+
+    /**
+     * @var ProductEndpoint
+     */
+    public ProductEndpoint $products;
+
+    /**
+     * @var ProductdescriptionEndpoint
+     */
+    public ProductdescriptionEndpoint $productdescriptions;
+
+    /**
+     * @var ProductimageEndpoint
+     */
+    public ProductimageEndpoint $productimages;
+
+    /**
+     * @var ProductnameEndpoint
+     */
+    public ProductnameEndpoint $productnames;
+
+    /**
+     * @var ProductpriceEndpoint
+     */
+    public ProductpriceEndpoint $productprices;
+
+    /**
+     * @var UserEndpoint
+     */
+    public UserEndpoint $users;
+
+    /**
+     * @var UserroleEndpoint
+     */
+    public UserroleEndpoint $userroles;
+
+    /**
+     * @var string|null
+     */
+    protected ?string $accessToken = null;
 
     /**
      * @var array
      */
-    protected $versionStrings = [];
+    protected array $versionStrings = [];
 
     /**
      * @param ClientInterface|OroHttpAdapterInterface|null $httpClient
      * @param OroHttpAdapterPickerInterface|null $httpAdapterPicker
      * @throws IncompatiblePlatform|UnrecognizedClientException
      */
-    public function __construct($httpClient = null, OroHttpAdapterPickerInterface $httpAdapterPicker = null)
+    public function __construct(OroHttpAdapterInterface|ClientInterface $httpClient = null, OroHttpAdapterPickerInterface $httpAdapterPicker = null)
     {
         $httpAdapterPicker = $httpAdapterPicker ?: new OroHttpAdapterPicker;
         $this->httpClient = $httpAdapterPicker->pickHttpAdapter($httpClient);
@@ -85,7 +130,7 @@ class OroApiClient
         $this->initializeEndpoints();
 
         $this->addVersionString("ORO/" . self::CLIENT_VERSION);
-        $this->addVersionString("PHP/" . phpversion());
+        $this->addVersionString("PHP/" . PHP_VERSION);
 
         $httpClientVersionString = $this->httpClient->versionString();
         if ($httpClientVersionString) {
@@ -194,7 +239,7 @@ class OroApiClient
      */
     public function performHttpCallAuthorization(string $httpMethod, string $apiMethod, string $httpBody = null): stdClass
     {
-        $url = "{$this->apiEndpoint}/{$apiMethod}";
+        $url = $this->apiEndpoint . "/" . $apiMethod;
 
         $userAgent = implode(' ', $this->versionStrings);
 
@@ -221,7 +266,7 @@ class OroApiClient
      */
     public function performHttpCall(string $httpMethod, string $apiMethod, string $httpBody = null): ?stdClass
     {
-        $url = "{$this->apiEndpoint}/{$this->user}/{$apiMethod}";
+        $url = $this->apiEndpoint . "/" . $this->user . "/" . $apiMethod;
 
         return $this->performHttpCallToFullUrl($httpMethod, $url, $httpBody);
     }
@@ -248,7 +293,7 @@ class OroApiClient
 
         $headers = [
             'Accept' => "application/vnd.api+json",
-            'Authorization' => "Bearer {$this->accessToken}",
+            'Authorization' => "Bearer $this->accessToken",
             'User-Agent' => $userAgent,
         ];
 
@@ -293,6 +338,7 @@ class OroApiClient
      * Note that if you have set an HttpAdapter, this adapter is lost on wakeup and reset to the default one.
      *
      * @throws IncompatiblePlatform If suddenly unserialized on an incompatible platform.
+     * @throws UnrecognizedClientException
      */
     public function __wakeup()
     {

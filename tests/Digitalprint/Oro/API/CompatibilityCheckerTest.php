@@ -11,7 +11,7 @@ class CompatibilityCheckerTest extends TestCase
     /**
      * @var CompatibilityChecker|MockObject
      */
-    protected $checker;
+    protected CompatibilityChecker|MockObject $checker;
 
     protected function setUp(): void
     {

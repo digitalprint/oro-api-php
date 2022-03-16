@@ -4,34 +4,10 @@ namespace Digitalprint\Oro\Api\Resources;
 
 use Digitalprint\Oro\Api\Exceptions\ApiException;
 use Digitalprint\Oro\Api\OroApiClient;
+use JsonException;
 
 class Productdescription extends BaseResource
 {
-    /**
-     * @var string
-     */
-    public string $resource;
-
-    /**
-     * @var string
-     */
-    public string $type;
-
-    /**
-     * @var string
-     */
-    public string $id;
-
-    /**
-     * @var object
-     */
-    public object $attributes;
-
-    /**
-     * @var object
-     */
-    public object $relationships;
-
     /**
      * @return BaseResource
      * @throws ApiException
@@ -53,13 +29,14 @@ class Productdescription extends BaseResource
      * @param array $body
      * @return BaseResource|null
      * @throws ApiException
+     * @throws JsonException
      */
     public function update(array $body = []): ?BaseResource
     {
         $result = $this->client->performHttpCallToFullUrl(
             OroApiClient::HTTP_PATCH,
             $this->links->self,
-            json_encode($body)
+            json_encode($body, JSON_THROW_ON_ERROR)
         );
 
         if ($result === null) {

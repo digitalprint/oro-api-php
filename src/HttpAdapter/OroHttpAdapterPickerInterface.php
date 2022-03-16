@@ -11,5 +11,5 @@ interface OroHttpAdapterPickerInterface
      *
      * @return OroHttpAdapterInterface
      */
-    public function pickHttpAdapter($httpClient);
+    public function pickHttpAdapter(OroHttpAdapterInterface|ClientInterface $httpClient): OroHttpAdapterInterface;
 }

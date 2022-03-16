@@ -14,7 +14,7 @@ class ResourceFactory
      *
      * @return BaseResource
      */
-    public static function createFromApiResult($apiResult, BaseResource $resource)
+    public static function createFromApiResult(object $apiResult, BaseResource $resource): BaseResource
     {
         foreach ($apiResult as $property => $value) {
             $resource->{$property} = $value;
@@ -33,11 +33,11 @@ class ResourceFactory
      */
     public static function createBaseResourceCollection(
         OroApiClient $client,
-        $resourceClass,
-        $data,
+        string       $resourceClass,
+        array        $data,
         $_links = null,
         $resourceCollectionClass = null
-    ) {
+    ): mixed {
         $resourceCollectionClass = $resourceCollectionClass ?: $resourceClass . 'Collection';
         $data = $data ?: [];
 
@@ -58,12 +58,12 @@ class ResourceFactory
      * @return mixed
      */
     public static function createCursorResourceCollection(
-        $client,
-        array $input,
-        $resourceClass,
+        OroApiClient $client,
+        array        $input,
+        string       $resourceClass,
         $_links = null,
         $resourceCollectionClass = null
-    ) {
+    ): mixed {
         if (null === $resourceCollectionClass) {
             $resourceCollectionClass = $resourceClass.'Collection';
         }

@@ -1,5 +1,8 @@
 <?php
 
+namespace Tests\Digitalprint\Oro\Api\Endpoints;
+
+use Digitalprint\Oro\Api\Exceptions\ApiException;
 use Digitalprint\Oro\Api\Exceptions\IncompatiblePlatform;
 use Digitalprint\Oro\Api\Exceptions\UnrecognizedClientException;
 use Digitalprint\Oro\Api\Resources\Product;
@@ -7,14 +10,16 @@ use Digitalprint\Oro\Api\Resources\Productname;
 use Digitalprint\Oro\Api\Resources\ProductnameCollection;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
-use Tests\Digitalprint\Oro\Api\Endpoints\BaseEndpointTest;
+use JsonException;
 
 class ProductnameEndpointTest extends BaseEndpointTest
 {
     /**
      * @return void
      * @throws IncompatiblePlatform
+     * @throws JsonException
      * @throws UnrecognizedClientException
+     * @throws ApiException
      */
     public function testCreateProductname(): void
     {
@@ -83,7 +88,9 @@ class ProductnameEndpointTest extends BaseEndpointTest
 
     /**
      * @return void
+     * @throws ApiException
      * @throws IncompatiblePlatform
+     * @throws JsonException
      * @throws UnrecognizedClientException
      */
     public function testUpdateProductname(): void
@@ -155,6 +162,7 @@ class ProductnameEndpointTest extends BaseEndpointTest
 
     /**
      * @return void
+     * @throws ApiException
      * @throws IncompatiblePlatform
      * @throws UnrecognizedClientException
      */
@@ -201,7 +209,7 @@ class ProductnameEndpointTest extends BaseEndpointTest
             )
         );
 
-        $product = $this->getProduct(1);
+        $product = $this->getProduct();
 
         $productnames = $product->names();
 
@@ -210,6 +218,7 @@ class ProductnameEndpointTest extends BaseEndpointTest
 
     /**
      * @return void
+     * @throws ApiException
      * @throws IncompatiblePlatform
      * @throws UnrecognizedClientException
      */
@@ -368,10 +377,10 @@ class ProductnameEndpointTest extends BaseEndpointTest
     }
 
     /**
-     * @param $id
      * @return mixed
+     * @throws JsonException
      */
-    protected function getProduct($id): mixed
+    protected function getProduct(): mixed
     {
         $productJson = $this->getProductResponse();
 

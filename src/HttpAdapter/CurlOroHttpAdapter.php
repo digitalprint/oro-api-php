@@ -5,6 +5,8 @@ namespace Digitalprint\Oro\Api\HttpAdapter;
 use Composer\CaBundle\CaBundle;
 use Digitalprint\Oro\Api\Exceptions\ApiException;
 use Digitalprint\Oro\Api\OroApiClient;
+use InvalidArgumentException;
+use JsonException;
 use stdClass;
 
 final class CurlOroHttpAdapter implements OroHttpAdapterInterface
@@ -31,6 +33,7 @@ final class CurlOroHttpAdapter implements OroHttpAdapterInterface
      * @param $httpBody
      * @return stdClass|null
      * @throws ApiException
+     * @throws JsonException
      */
     public function send($httpMethod, $url, $headers, $httpBody): ?stdClass
     {
@@ -63,7 +66,7 @@ final class CurlOroHttpAdapter implements OroHttpAdapterInterface
 
                 break;
             default:
-                throw new \InvalidArgumentException("Invalid http method: ". $httpMethod);
+                throw new InvalidArgumentException("Invalid http method: ". $httpMethod);
         }
 
         $response = curl_exec($curl);
@@ -96,8 +99,9 @@ final class CurlOroHttpAdapter implements OroHttpAdapterInterface
      * @param string $httpBody
      * @return stdClass|null
      * @throws ApiException
+     * @throws JsonException
      */
-    protected function parseResponseBody($response, $statusCode, $httpBody): ?stdClass
+    protected function parseResponseBody(string $response, int $statusCode, string $httpBody): ?stdClass
     {
         if (empty($response)) {
             if ($statusCode === self::HTTP_NO_CONTENT) {
@@ -107,11 +111,11 @@ final class CurlOroHttpAdapter implements OroHttpAdapterInterface
             throw new ApiException("No response body found.");
         }
 
-        $body = @json_decode($response);
+        $body = @json_decode($response, false, 512, JSON_THROW_ON_ERROR);
 
         // GUARDS
         if (json_last_error() !== JSON_ERROR_NONE) {
-            throw new ApiException("Unable to decode Oro response: '{$response}'.");
+            throw new ApiException("Unable to decode Oro response: '$response'.");
         }
 
         if (isset($body->error)) {
@@ -134,7 +138,7 @@ final class CurlOroHttpAdapter implements OroHttpAdapterInterface
                 }
 
                 if ($httpBody) {
-                    $message .= ". Request body: {$httpBody}";
+                    $message .= ". Request body: $httpBody";
                 }
             }
 

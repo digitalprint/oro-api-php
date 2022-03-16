@@ -8,9 +8,9 @@ try {
     echo '<ul>';
     foreach ($productprices as $productprice) {
         echo '<li>';
-        echo "<b>{$productprice->type} {$productprice->id}</b><br>";
+        echo "<b>$productprice->type $productprice->id</b><br>";
         foreach ($productprice->attributes as $key => $val) {
-            echo "{$key}: {$val}<br>";
+            echo "$key: $val<br>";
         }
         echo "</li>";
     }

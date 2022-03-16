@@ -30,7 +30,7 @@ try {
       ],
     ]);
 
-    echo "<p>User created: {$user->id}</p>";
+    echo "<p>User created: $user->id</p>";
 
 } catch (\Digitalprint\Oro\Api\Exceptions\ApiException $e) {
     echo "API call failed: " . $e->getMessage();

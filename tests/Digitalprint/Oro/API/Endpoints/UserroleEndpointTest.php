@@ -1,5 +1,8 @@
 <?php
 
+namespace Tests\Digitalprint\Oro\Api\Endpoints;
+
+use Digitalprint\Oro\Api\Exceptions\ApiException;
 use Digitalprint\Oro\Api\Exceptions\IncompatiblePlatform;
 use Digitalprint\Oro\Api\Exceptions\UnrecognizedClientException;
 use Digitalprint\Oro\Api\Resources\User;
@@ -7,7 +10,7 @@ use Digitalprint\Oro\Api\Resources\Userrole;
 use Digitalprint\Oro\Api\Resources\UserroleCollection;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
-use Tests\Digitalprint\Oro\Api\Endpoints\BaseEndpointTest;
+use JsonException;
 
 class UserroleEndpointTest extends BaseEndpointTest
 {
@@ -15,6 +18,8 @@ class UserroleEndpointTest extends BaseEndpointTest
      * @return void
      * @throws IncompatiblePlatform
      * @throws UnrecognizedClientException
+     * @throws ApiException
+     * @throws JsonException
      */
     public function testCreateUserrole(): void
     {
@@ -73,7 +78,9 @@ class UserroleEndpointTest extends BaseEndpointTest
 
     /**
      * @return void
+     * @throws ApiException
      * @throws IncompatiblePlatform
+     * @throws JsonException
      * @throws UnrecognizedClientException
      */
     public function testUpdateUserrole(): void
@@ -135,6 +142,7 @@ class UserroleEndpointTest extends BaseEndpointTest
 
     /**
      * @return void
+     * @throws ApiException
      * @throws IncompatiblePlatform
      * @throws UnrecognizedClientException
      */
@@ -162,6 +170,7 @@ class UserroleEndpointTest extends BaseEndpointTest
     /**
      * @return void
      * @throws IncompatiblePlatform
+     * @throws JsonException
      * @throws UnrecognizedClientException
      */
     public function testGetUserrolesOnUserresource(): void
@@ -180,7 +189,7 @@ class UserroleEndpointTest extends BaseEndpointTest
             )
         );
 
-        $user = $this->getUser(1);
+        $user = $this->getUser();
 
         $userroles = $user->roles();
 
@@ -190,6 +199,7 @@ class UserroleEndpointTest extends BaseEndpointTest
 
     /**
      * @return void
+     * @throws ApiException
      * @throws IncompatiblePlatform
      * @throws UnrecognizedClientException
      */
@@ -230,6 +240,7 @@ class UserroleEndpointTest extends BaseEndpointTest
 
     /**
      * @return void
+     * @throws ApiException
      * @throws IncompatiblePlatform
      * @throws UnrecognizedClientException
      */
@@ -366,10 +377,10 @@ class UserroleEndpointTest extends BaseEndpointTest
     }
 
     /**
-     * @param $id
      * @return mixed
+     * @throws JsonException
      */
-    protected function getUser($id)
+    protected function getUser(): mixed
     {
         $userJson = $this->getUserResponse();
 

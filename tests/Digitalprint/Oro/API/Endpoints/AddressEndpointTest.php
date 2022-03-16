@@ -1,21 +1,26 @@
 <?php
 
+namespace Tests\Digitalprint\Oro\Api\Endpoints;
+
+use Digitalprint\Oro\Api\Exceptions\ApiException;
 use Digitalprint\Oro\Api\Exceptions\IncompatiblePlatform;
 use Digitalprint\Oro\Api\Exceptions\UnrecognizedClientException;
 use Digitalprint\Oro\Api\Resources\Address;
 use Digitalprint\Oro\Api\Resources\AddressCollection;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
-use Tests\Digitalprint\Oro\Api\Endpoints\BaseEndpointTest;
+use JsonException;
 
 class AddressEndpointTest extends BaseEndpointTest
 {
 
-  /**
-   * @return void
-   * @throws IncompatiblePlatform
-   * @throws UnrecognizedClientException
-   */
+    /**
+     * @return void
+     * @throws ApiException
+     * @throws IncompatiblePlatform
+     * @throws UnrecognizedClientException
+     * @throws JsonException
+     */
     public function testCreateAddress(): void
     {
         $this->mockApiCall(
@@ -99,7 +104,9 @@ class AddressEndpointTest extends BaseEndpointTest
 
     /**
      * @return void
+     * @throws ApiException
      * @throws IncompatiblePlatform
+     * @throws JsonException
      * @throws UnrecognizedClientException
      */
     public function testUpdateAddress(): void
@@ -147,6 +154,7 @@ class AddressEndpointTest extends BaseEndpointTest
 
     /**
      * @return void
+     * @throws ApiException
      * @throws IncompatiblePlatform
      * @throws UnrecognizedClientException
      */
@@ -173,6 +181,7 @@ class AddressEndpointTest extends BaseEndpointTest
 
     /**
      * @return void
+     * @throws ApiException
      * @throws IncompatiblePlatform
      * @throws UnrecognizedClientException
      */
@@ -213,6 +222,7 @@ class AddressEndpointTest extends BaseEndpointTest
 
     /**
      * @return void
+     * @throws ApiException
      * @throws IncompatiblePlatform
      * @throws UnrecognizedClientException
      */

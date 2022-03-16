@@ -8,9 +8,9 @@ try {
     echo '<ul>';
     foreach ($addresses as $address) {
         echo '<li>';
-        echo "<b>{$address->type} {$address->id}</b><br>";
+        echo "<b>$address->type $address->id</b><br>";
         foreach ($address->attributes as $key => $val) {
-            echo "{$key}: {$val}<br>";
+            echo "$key: $val<br>";
         }
         echo "</li>";
     }

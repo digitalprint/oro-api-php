@@ -3,10 +3,9 @@
 namespace Digitalprint\Oro\Api\Endpoints;
 
 use Digitalprint\Oro\Api\Exceptions\ApiException;
-use Digitalprint\Oro\Api\Resources\BaseCollection;
-use Digitalprint\Oro\Api\Resources\BaseResource;
 use Digitalprint\Oro\Api\Resources\Productname;
 use Digitalprint\Oro\Api\Resources\ProductnameCollection;
+use JsonException;
 use stdClass;
 
 /**
@@ -22,9 +21,9 @@ class ProductnameEndpoint extends CollectionEndpointAbstract
     /**
      * Get the object that is used by this API. Every API uses one type of object.
      *
-     * @return BaseResource
+     * @return Productname
      */
-    protected function getResourceObject(): BaseResource
+    protected function getResourceObject(): Productname
     {
         return new Productname($this->client);
     }
@@ -34,19 +33,20 @@ class ProductnameEndpoint extends CollectionEndpointAbstract
      *
      * @param stdClass $links
      *
-     * @return BaseCollection
+     * @return ProductnameCollection
      */
-    protected function getResourceCollectionObject($links): BaseCollection
+    protected function getResourceCollectionObject(stdClass $links): ProductnameCollection
     {
         return new ProductnameCollection($this->client, $links);
     }
 
     /**
      * @param array|null $data
-     * @return BaseResource
+     * @return Productname
      * @throws ApiException
+     * @throws JsonException
      */
-    public function create(array $data = null): BaseResource
+    public function create(array $data = null): Productname
     {
         return $this->rest_create($data);
     }
@@ -77,10 +77,11 @@ class ProductnameEndpoint extends CollectionEndpointAbstract
 
     /**
      * @param array $data
-     * @return BaseResource|null
+     * @return Productname
      * @throws ApiException
+     * @throws JsonException
      */
-    public function update(array $data = []): ?BaseResource
+    public function update(array $data = []): Productname
     {
         return $this->rest_update($data);
     }

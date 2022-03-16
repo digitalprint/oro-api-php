@@ -5,10 +5,14 @@ namespace Tests\Digitalprint\Oro\Api\Resources;
 use Digitalprint\Oro\Api\OroApiClient;
 use Digitalprint\Oro\Api\Resources\Address;
 use Digitalprint\Oro\Api\Resources\ResourceFactory;
+use JsonException;
 use PHPUnit\Framework\TestCase;
 
 class ResourceFactoryTest extends TestCase
 {
+    /**
+     * @throws JsonException
+     */
     public function testCreateFromApiResponseWorks(): void
     {
         $apiResult = json_decode('{

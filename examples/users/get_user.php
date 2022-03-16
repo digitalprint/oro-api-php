@@ -10,7 +10,7 @@ try {
         if (is_array($val)) {
             echo $key . ': ' . implode(', ', $val) . '<br>';
         } else {
-            echo "{$key}: {$val}<br>";
+            echo "$key: $val<br>";
         }
     }
 } catch (\Digitalprint\Oro\Api\Exceptions\ApiException $e) {

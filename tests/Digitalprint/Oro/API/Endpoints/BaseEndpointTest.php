@@ -8,23 +8,24 @@ use Digitalprint\Oro\Api\OroApiClient;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
-abstract class BaseEndpointTest extends \PHPUnit\Framework\TestCase
+abstract class BaseEndpointTest extends TestCase
 {
     /**
-     * @var Client|\PHPUnit_Framework_MockObject_MockObject
+     * @var Client|MockObject
      */
-    protected $guzzleClient;
+    protected Client|MockObject $guzzleClient;
 
     /**
      * @var OroApiClient
      */
-    protected $apiClient;
+    protected OroApiClient $apiClient;
 
     /**
      * @param Request $expectedRequest
      * @param Response $response
-     * @param $oAuthClient
      * @return void
      * @throws IncompatiblePlatform
      * @throws UnrecognizedClientException
@@ -61,7 +62,7 @@ abstract class BaseEndpointTest extends \PHPUnit\Framework\TestCase
                 $requestBody = $request->getBody()->getContents();
                 $expectedBody = $expectedRequest->getBody()->getContents();
 
-                if (strlen($expectedBody) > 0 && strlen($requestBody) > 0) {
+                if ($expectedBody !== '' && $requestBody !== '') {
                     $this->assertJsonStringEqualsJsonString(
                         $expectedBody,
                         $requestBody,
@@ -78,7 +79,7 @@ abstract class BaseEndpointTest extends \PHPUnit\Framework\TestCase
      * @param $object
      * @return mixed
      */
-    protected function copy($array, $object)
+    protected function copy($array, $object): mixed
     {
         foreach ($array as $property => $value) {
             $object->$property = $value;

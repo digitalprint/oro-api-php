@@ -5,8 +5,6 @@ namespace Digitalprint\Oro\Api\Endpoints;
 use Digitalprint\Oro\Api\Exceptions\ApiException;
 use Digitalprint\Oro\Api\Resources\Addresstype;
 use Digitalprint\Oro\Api\Resources\AddresstypeCollection;
-use Digitalprint\Oro\Api\Resources\BaseCollection;
-use Digitalprint\Oro\Api\Resources\BaseResource;
 use Digitalprint\Oro\Api\Resources\ResourceFactory;
 use stdClass;
 
@@ -23,9 +21,9 @@ class AddresstypeEndpoint extends CollectionEndpointAbstract
     /**
      * Get the object that is used by this API. Every API uses one type of object.
      *
-     * @return BaseResource
+     * @return Addresstype
      */
-    protected function getResourceObject(): BaseResource
+    protected function getResourceObject(): Addresstype
     {
         return new Addresstype($this->client);
     }
@@ -33,11 +31,11 @@ class AddresstypeEndpoint extends CollectionEndpointAbstract
     /**
      * Get the collection object that is used by this API. Every API uses one type of collection object.
      *
-     * @param stdClass $links
+     * @param stdClass|null $links
      *
-     * @return BaseCollection
+     * @return AddresstypeCollection
      */
-    protected function getResourceCollectionObject(stdClass $links = null): BaseCollection
+    protected function getResourceCollectionObject(stdClass $links = null): AddresstypeCollection
     {
         return new AddresstypeCollection($this->client, $links);
     }
@@ -71,7 +69,6 @@ class AddresstypeEndpoint extends CollectionEndpointAbstract
             $this->getResourcePath() . $this->buildQueryString($filter)
         );
 
-        /** @var AddresstypeCollection $collection */
         $collection = $this->getResourceCollectionObject();
 
         foreach ($result->data as $dataResult) {

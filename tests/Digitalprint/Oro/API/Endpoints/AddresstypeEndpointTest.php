@@ -1,21 +1,24 @@
 <?php
 
+namespace Tests\Digitalprint\Oro\Api\Endpoints;
+
+use Digitalprint\Oro\Api\Exceptions\ApiException;
 use Digitalprint\Oro\Api\Exceptions\IncompatiblePlatform;
 use Digitalprint\Oro\Api\Exceptions\UnrecognizedClientException;
 use Digitalprint\Oro\Api\Resources\Addresstype;
 use Digitalprint\Oro\Api\Resources\AddresstypeCollection;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
-use Tests\Digitalprint\Oro\Api\Endpoints\BaseEndpointTest;
 
 class AddresstypeEndpointTest extends BaseEndpointTest
 {
 
-  /**
-   * @return void
-   * @throws IncompatiblePlatform
-   * @throws UnrecognizedClientException
-   */
+    /**
+     * @return void
+     * @throws IncompatiblePlatform
+     * @throws UnrecognizedClientException
+     * @throws ApiException
+     */
     public function testGetAddresstype(): void
     {
         $this->mockApiCall(
@@ -39,6 +42,7 @@ class AddresstypeEndpointTest extends BaseEndpointTest
 
     /**
      * @return void
+     * @throws ApiException
      * @throws IncompatiblePlatform
      * @throws UnrecognizedClientException
      */

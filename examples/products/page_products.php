@@ -14,7 +14,7 @@ try {
             if (is_array($val)) {
                 echo $key . ': ' . implode(', ', $val) . '<br>';
             } else {
-                echo "{$key}: {$val}<br>";
+                echo "$key: $val<br>";
             }
         }
         echo "</li>";
@@ -29,14 +29,13 @@ try {
             if (is_array($val)) {
                 echo $key . ': ' . implode(', ', $val) . '<br>';
             } else {
-                echo "{$key}: {$val}<br>";
+                echo "$key: $val<br>";
             }
         }
-      echo "</li>";
+        echo "</li>";
     }
 
     echo '</ul>';
-
 } catch (\Digitalprint\Oro\Api\Exceptions\ApiException $e) {
     echo "API call failed: " . $e->getMessage();
 }

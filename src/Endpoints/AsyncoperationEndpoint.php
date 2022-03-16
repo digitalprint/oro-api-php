@@ -2,8 +2,8 @@
 
 namespace Digitalprint\Oro\Api\Endpoints;
 
+use Digitalprint\Oro\Api\Exceptions\ApiException;
 use Digitalprint\Oro\Api\Resources\Asyncoperation;
-use Digitalprint\Oro\Api\Resources\BaseResource;
 
 class AsyncoperationEndpoint extends EndpointAbstract
 {
@@ -12,9 +12,9 @@ class AsyncoperationEndpoint extends EndpointAbstract
     /**
      * Get the object that is used by this API. Every API uses one type of object.
      *
-     * @return BaseResource
+     * @return Asyncoperation
      */
-    protected function getResourceObject(): BaseResource
+    protected function getResourceObject(): Asyncoperation
     {
         return new Asyncoperation($this->client);
     }
@@ -23,6 +23,7 @@ class AsyncoperationEndpoint extends EndpointAbstract
      * @param string $asyncoperationId
      * @param array $filter
      * @return Asyncoperation
+     * @throws ApiException
      */
     public function get(string $asyncoperationId, array $filter = []): Asyncoperation
     {

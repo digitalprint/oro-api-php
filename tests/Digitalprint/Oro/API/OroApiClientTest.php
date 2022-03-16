@@ -11,21 +11,30 @@ use Eloquent\Liberator\Liberator;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Psr7\Response;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Tests\Digitalprint\Oro\TestHelpers\FakeHttpAdapter;
+use function serialize;
 
 class OroApiClientTest extends TestCase
 {
+
     /**
-     * @var ClientInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var ClientInterface|MockObject
      */
-    private $guzzleClient;
+    private ClientInterface|MockObject $guzzleClient;
 
     /**
      * @var OroApiClient
      */
-    private $oroApiClient;
+    private OroApiClient $oroApiClient;
 
+
+    /**
+     * @return void
+     * @throws IncompatiblePlatform
+     * @throws UnrecognizedClientException
+     */
     protected function setUp(): void
     {
         parent::setUp();
@@ -39,6 +48,10 @@ class OroApiClientTest extends TestCase
         $this->oroApiClient->setUser('admin');
     }
 
+    /**
+     * @return void
+     * @throws ApiException
+     */
     public function testPerformHttpCallReturnsBodyAsObject(): void
     {
         $response = new Response(200, [], '{"data": "products"}');
@@ -57,6 +70,10 @@ class OroApiClientTest extends TestCase
         );
     }
 
+    /**
+     * @return void
+     * @throws ApiException
+     */
     public function testPerformHttpCallCreatesApiExceptionCorrectly(): void
     {
         $this->expectException(ApiException::class);
@@ -64,7 +81,6 @@ class OroApiClientTest extends TestCase
         $this->expectExceptionCode(422);
 
         $response = new Response(422, [],
-          /** @lang JSON */
           '{
                       "errors": [{
                         "status": 422,
@@ -82,7 +98,7 @@ class OroApiClientTest extends TestCase
             ->willReturn($response);
 
         try {
-            $parsedResponse = $this->oroApiClient->performHttpCall('GET', '');
+             $this->oroApiClient->performHttpCall('GET', '');
         } catch (ApiException $e) {
             $this->assertEquals('productType', $e->getField());
             $this->assertEquals($response, $e->getResponse());
@@ -91,6 +107,10 @@ class OroApiClientTest extends TestCase
         }
     }
 
+    /**
+     * @return void
+     * @throws ApiException
+     */
     public function testPerformHttpCallCreatesApiExceptionWithoutField(): void
     {
         $this->expectException(ApiException::class);
@@ -111,7 +131,7 @@ class OroApiClientTest extends TestCase
             ->willReturn($response);
 
         try {
-            $parsedResponse = $this->oroApiClient->performHttpCall('GET', '');
+            $this->oroApiClient->performHttpCall('GET', '');
         } catch (ApiException $e) {
             $this->assertNull($e->getField());
             $this->assertEquals($response, $e->getResponse());
@@ -119,10 +139,13 @@ class OroApiClientTest extends TestCase
         }
     }
 
+    /**
+     * @return void
+     */
     public function testCanBeSerializedAndUnserialized(): void
     {
         $this->oroApiClient->setApiEndpoint("https://myoroproxy.local");
-        $serialized = \serialize($this->oroApiClient);
+        $serialized = serialize($this->oroApiClient);
 
         $this->assertStringNotContainsString('dbbfcb901fe22d8753841ece7466630fa14c065c52175b2b27f382602d0c2b9c7a972df75683cd8befc7abcf198bcdde6ced863305ca3a2ce49fec5130b4141b', $serialized, "API key should not be in serialized data or it will end up in caches.");
 
@@ -137,6 +160,10 @@ class OroApiClientTest extends TestCase
         // no need to assert them all.
     }
 
+    /**
+     * @return void
+     * @throws ApiException
+     */
     public function testResponseBodyCanBeReadMultipleTimesIfMiddlewareReadsItFirst(): void
     {
         $response = new Response(200, [], '{"data": "products"}');

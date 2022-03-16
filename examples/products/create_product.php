@@ -7,7 +7,7 @@ try {
       'data' => [
         'type' => 'products',
         'attributes' => [
-          'sku' => 'test-api-' . strtotime('now'),
+          'sku' => 'test-api-' . time(),
           'status' => 'enabled',
           'variantFields' => [],
           'productType' => 'simple',
@@ -87,8 +87,7 @@ try {
       ],
     ]);
 
-  echo "<p>Product created: {$product->id}</p>";
-
+    echo "<p>Product created: $product->id</p>";
 } catch (\Digitalprint\Oro\Api\Exceptions\ApiException $e) {
     echo "API call failed: " . $e->getMessage();
 }

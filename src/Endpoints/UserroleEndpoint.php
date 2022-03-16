@@ -3,10 +3,9 @@
 namespace Digitalprint\Oro\Api\Endpoints;
 
 use Digitalprint\Oro\Api\Exceptions\ApiException;
-use Digitalprint\Oro\Api\Resources\BaseCollection;
-use Digitalprint\Oro\Api\Resources\BaseResource;
 use Digitalprint\Oro\Api\Resources\Userrole;
 use Digitalprint\Oro\Api\Resources\UserroleCollection;
+use JsonException;
 use stdClass;
 
 class UserroleEndpoint extends CollectionEndpointAbstract
@@ -19,9 +18,9 @@ class UserroleEndpoint extends CollectionEndpointAbstract
     /**
      * Get the object that is used by this API. Every API uses one type of object.
      *
-     * @return BaseResource
+     * @return Userrole
      */
-    protected function getResourceObject(): BaseResource
+    protected function getResourceObject(): Userrole
     {
         return new Userrole($this->client);
     }
@@ -31,19 +30,20 @@ class UserroleEndpoint extends CollectionEndpointAbstract
      *
      * @param stdClass $links
      *
-     * @return BaseCollection
+     * @return UserroleCollection
      */
-    protected function getResourceCollectionObject($links): BaseCollection
+    protected function getResourceCollectionObject(stdClass $links): UserroleCollection
     {
         return new UserroleCollection($this->client, $links);
     }
 
     /**
      * @param array|null $data
-     * @return BaseResource
+     * @return Userrole
      * @throws ApiException
+     * @throws JsonException
      */
-    public function create(array $data = null): BaseResource
+    public function create(array $data = null): Userrole
     {
         return $this->rest_create($data);
     }
@@ -74,20 +74,21 @@ class UserroleEndpoint extends CollectionEndpointAbstract
 
     /**
      * @param array $data
-     * @return BaseResource|null
+     * @return Userrole
      * @throws ApiException
+     * @throws JsonException
      */
-    public function update(array $data = []): ?BaseResource
+    public function update(array $data = []): Userrole
     {
         return $this->rest_update($data);
     }
 
     /**
      * @param array $filter
-     * @return BaseResource|null
+     * @return Userrole|null
      * @throws ApiException
      */
-    public function delete(array $filter = []): ?BaseResource
+    public function delete(array $filter = []): ?Userrole
     {
         return $this->rest_delete($filter);
     }

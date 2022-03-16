@@ -7,6 +7,10 @@ use stdClass;
 
 abstract class BaseCollection extends ArrayObject
 {
+
+    /**
+     * @var stdClass
+     */
     public $links;
 
     /**

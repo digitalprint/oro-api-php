@@ -10,6 +10,7 @@ use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\RequestOptions as GuzzleRequestOptions;
+use JsonException;
 use Psr\Http\Message\ResponseInterface;
 use stdClass;
 
@@ -33,7 +34,7 @@ final class Guzzle6And7OroHttpAdapter implements OroHttpAdapterInterface
     /**
      * @var ClientInterface
      */
-    protected $httpClient;
+    protected ClientInterface $httpClient;
 
     public function __construct(ClientInterface $httpClient)
     {
@@ -70,6 +71,7 @@ final class Guzzle6And7OroHttpAdapter implements OroHttpAdapterInterface
      * @param $httpBody
      * @return stdClass|null
      * @throws ApiException
+     * @throws JsonException
      */
     public function send($httpMethod, $url, $headers, $httpBody): ?stdClass
     {
@@ -80,10 +82,8 @@ final class Guzzle6And7OroHttpAdapter implements OroHttpAdapterInterface
         } catch (GuzzleException $e) {
 
             // Not all Guzzle Exceptions implement hasResponse() / getResponse()
-            if (method_exists($e, 'hasResponse') && method_exists($e, 'getResponse')) {
-                if ($e->hasResponse()) {
-                    throw ApiException::createFromResponse($e->getResponse(), $request);
-                }
+            if (method_exists($e, 'hasResponse') && method_exists($e, 'getResponse') && $e->hasResponse()) {
+                throw ApiException::createFromResponse($e->getResponse(), $request);
             }
 
             throw new ApiException($e->getMessage(), $e->getCode(), null, $request, null);
@@ -102,6 +102,7 @@ final class Guzzle6And7OroHttpAdapter implements OroHttpAdapterInterface
      * @param ResponseInterface $response
      * @return stdClass|null
      * @throws ApiException
+     * @throws JsonException
      */
     private function parseResponseBody(ResponseInterface $response): ?stdClass
     {
@@ -114,14 +115,14 @@ final class Guzzle6And7OroHttpAdapter implements OroHttpAdapterInterface
             throw new ApiException("No response body found.");
         }
 
-        $object = @json_decode($body);
+        $object = @json_decode($body, false, 512, JSON_THROW_ON_ERROR);
 
         if (json_last_error() !== JSON_ERROR_NONE) {
-            throw new ApiException("Unable to decode Oro response: '{$body}'.");
+            throw new ApiException("Unable to decode Oro response: '$body'.");
         }
 
         if ($response->getStatusCode() >= 400) {
-            throw ApiException::createFromResponse($response, null);
+            throw ApiException::createFromResponse($response);
         }
 
         return $object;
@@ -138,7 +139,9 @@ final class Guzzle6And7OroHttpAdapter implements OroHttpAdapterInterface
     {
         if (defined('\GuzzleHttp\ClientInterface::MAJOR_VERSION')) { // Guzzle 7
             return "Guzzle/" . ClientInterface::MAJOR_VERSION;
-        } elseif (defined('\GuzzleHttp\ClientInterface::VERSION')) { // Before Guzzle 7
+        }
+
+        if (defined('\GuzzleHttp\ClientInterface::VERSION')) { // Before Guzzle 7
             return "Guzzle/" . ClientInterface::VERSION;
         }
 

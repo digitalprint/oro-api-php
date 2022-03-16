@@ -25,7 +25,7 @@ try {
       ],
     ]);
 
-    echo "<p>Userrole updated: {$res->id}</p>";
+    echo "<p>Userrole updated: $res->id</p>";
 } catch (\Digitalprint\Oro\Api\Exceptions\ApiException $e) {
     echo "API call failed: " . $e->getMessage();
 }

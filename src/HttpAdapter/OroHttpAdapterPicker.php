@@ -8,7 +8,7 @@ use GuzzleHttp\ClientInterface;
 class OroHttpAdapterPicker implements OroHttpAdapterPickerInterface
 {
     /**
-     * @param ClientInterface|OroHttpAdapterInterface $httpClient
+     * @param ClientInterface|OroHttpAdapterInterface|null $httpClient
      *
      * @return OroHttpAdapterInterface
      * @throws UnrecognizedClientException
@@ -43,7 +43,7 @@ class OroHttpAdapterPicker implements OroHttpAdapterPickerInterface
      */
     private function guzzleIsDetected(): bool
     {
-        return interface_exists("\GuzzleHttp\ClientInterface");
+        return interface_exists(ClientInterface::class);
     }
 
     /**
@@ -53,7 +53,7 @@ class OroHttpAdapterPicker implements OroHttpAdapterPickerInterface
     {
         // Guzzle 7
         if (defined('\GuzzleHttp\ClientInterface::MAJOR_VERSION')) {
-            return (int) ClientInterface::MAJOR_VERSION;
+            return ClientInterface::MAJOR_VERSION;
         }
 
         // Before Guzzle 7

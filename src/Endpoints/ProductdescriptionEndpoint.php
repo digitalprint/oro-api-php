@@ -3,10 +3,9 @@
 namespace Digitalprint\Oro\Api\Endpoints;
 
 use Digitalprint\Oro\Api\Exceptions\ApiException;
-use Digitalprint\Oro\Api\Resources\BaseCollection;
-use Digitalprint\Oro\Api\Resources\BaseResource;
 use Digitalprint\Oro\Api\Resources\Productdescription;
 use Digitalprint\Oro\Api\Resources\ProductdescriptionCollection;
+use JsonException;
 use stdClass;
 
 /**
@@ -22,9 +21,9 @@ class ProductdescriptionEndpoint extends CollectionEndpointAbstract
     /**
      * Get the object that is used by this API. Every API uses one type of object.
      *
-     * @return BaseResource
+     * @return Productdescription
      */
-    protected function getResourceObject(): BaseResource
+    protected function getResourceObject(): Productdescription
     {
         return new Productdescription($this->client);
     }
@@ -34,19 +33,20 @@ class ProductdescriptionEndpoint extends CollectionEndpointAbstract
      *
      * @param stdClass $links
      *
-     * @return BaseCollection
+     * @return ProductdescriptionCollection
      */
-    protected function getResourceCollectionObject($links): BaseCollection
+    protected function getResourceCollectionObject(stdClass $links): ProductdescriptionCollection
     {
         return new ProductdescriptionCollection($this->client, $links);
     }
 
     /**
      * @param array|null $data
-     * @return BaseResource
+     * @return Productdescription
      * @throws ApiException
+     * @throws JsonException
      */
-    public function create(array $data = null): BaseResource
+    public function create(array $data = null): Productdescription
     {
         return $this->rest_create($data);
     }
@@ -77,10 +77,11 @@ class ProductdescriptionEndpoint extends CollectionEndpointAbstract
 
     /**
      * @param array $data
-     * @return BaseResource|null
+     * @return Productdescription
      * @throws ApiException
+     * @throws JsonException
      */
-    public function update(array $data = []): ?BaseResource
+    public function update(array $data = []): Productdescription
     {
         return $this->rest_update($data);
     }

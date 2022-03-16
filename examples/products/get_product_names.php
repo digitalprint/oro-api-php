@@ -11,7 +11,7 @@ try {
 
     foreach ($names as $name) {
         foreach ($name->attributes as $key => $val) {
-            echo "{$key}: {$val}<br>";
+            echo "$key: $val<br>";
         }
     }
 } catch (\Digitalprint\Oro\Api\Exceptions\ApiException $e) {

@@ -3,10 +3,9 @@
 namespace Digitalprint\Oro\Api\Endpoints;
 
 use Digitalprint\Oro\Api\Exceptions\ApiException;
-use Digitalprint\Oro\Api\Resources\BaseCollection;
-use Digitalprint\Oro\Api\Resources\BaseResource;
 use Digitalprint\Oro\Api\Resources\Productimage;
 use Digitalprint\Oro\Api\Resources\ProductimageCollection;
+use JsonException;
 use stdClass;
 
 /**
@@ -22,9 +21,9 @@ class ProductimageEndpoint extends CollectionEndpointAbstract
     /**
      * Get the object that is used by this API. Every API uses one type of object.
      *
-     * @return BaseResource
+     * @return Productimage
      */
-    protected function getResourceObject(): BaseResource
+    protected function getResourceObject(): Productimage
     {
         return new Productimage($this->client);
     }
@@ -34,19 +33,20 @@ class ProductimageEndpoint extends CollectionEndpointAbstract
      *
      * @param stdClass $links
      *
-     * @return BaseCollection
+     * @return ProductimageCollection
      */
-    protected function getResourceCollectionObject($links): BaseCollection
+    protected function getResourceCollectionObject(stdClass $links): ProductimageCollection
     {
         return new ProductimageCollection($this->client, $links);
     }
 
     /**
      * @param array|null $data
-     * @return BaseResource
+     * @return Productimage
      * @throws ApiException
+     * @throws JsonException
      */
-    public function create(array $data = null): BaseResource
+    public function create(array $data = null): Productimage
     {
         return $this->rest_create($data);
     }
@@ -77,20 +77,21 @@ class ProductimageEndpoint extends CollectionEndpointAbstract
 
     /**
      * @param array $data
-     * @return BaseResource|null
+     * @return Productimage
      * @throws ApiException
+     * @throws JsonException
      */
-    public function update(array $data = []): ?BaseResource
+    public function update(array $data = []): Productimage
     {
         return $this->rest_update($data);
     }
 
     /**
      * @param array $filter
-     * @return BaseResource|null
+     * @return Productimage|null
      * @throws ApiException
      */
-    public function delete(array $filter = []): ?BaseResource
+    public function delete(array $filter = []): ?Productimage
     {
         return $this->rest_delete($filter);
     }

@@ -3,22 +3,26 @@
 namespace Digitalprint\Oro\Api\Resources;
 
 use Digitalprint\Oro\Api\Exceptions\ApiException;
+use JsonException;
 
 class Authorization extends BaseResource
 {
     /**
      * @var string
      */
-    public $resource;
+    public string $resource;
 
     /**
      * Either "live" or "test". Indicates this being a test or a live (verified) job.
      *
      * @var string
      */
-    public $mode;
+    public string $mode;
 
-    public $result;
+    /**
+     * @var string
+     */
+    public string $access_token;
 
     /**
      * @param array $options
@@ -26,6 +30,7 @@ class Authorization extends BaseResource
      *
      * @return self
      * @throws ApiException
+     * @throws JsonException
      */
     public function create(array $options = [], array $filters = []): self
     {

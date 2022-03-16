@@ -5,11 +5,16 @@ namespace Tests\Digitalprint\Oro\API\Exceptions;
 use Digitalprint\Oro\Api\Exceptions\ApiException;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
+use JsonException;
 use PHPUnit\Framework\TestCase;
 
 class ApiExceptionTest extends TestCase
 {
 
+    /**
+     * @throws ApiException
+     * @throws JsonException
+     */
     public function testCanGetRequestBodyIfRequestIsSet(): void
     {
         $response = new Response(

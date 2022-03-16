@@ -1,13 +1,15 @@
 <?php
 
+namespace Tests\Digitalprint\Oro\Api\Endpoints;
+
+use Digitalprint\Oro\Api\Exceptions\ApiException;
 use Digitalprint\Oro\Api\Exceptions\IncompatiblePlatform;
 use Digitalprint\Oro\Api\Exceptions\UnrecognizedClientException;
-use Digitalprint\Oro\Api\Resources\Product;
 use Digitalprint\Oro\Api\Resources\Productprice;
 use Digitalprint\Oro\Api\Resources\ProductpriceCollection;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
-use Tests\Digitalprint\Oro\Api\Endpoints\BaseEndpointTest;
+use JsonException;
 
 class ProductpriceEndpointTest extends BaseEndpointTest
 {
@@ -15,6 +17,8 @@ class ProductpriceEndpointTest extends BaseEndpointTest
      * @return void
      * @throws IncompatiblePlatform
      * @throws UnrecognizedClientException
+     * @throws ApiException
+     * @throws JsonException
      */
     public function testCreateProductprice(): void
     {
@@ -97,7 +101,9 @@ class ProductpriceEndpointTest extends BaseEndpointTest
 
     /**
      * @return void
+     * @throws ApiException
      * @throws IncompatiblePlatform
+     * @throws JsonException
      * @throws UnrecognizedClientException
      */
     public function testUpdateProductprice(): void
@@ -171,6 +177,7 @@ class ProductpriceEndpointTest extends BaseEndpointTest
 
     /**
      * @return void
+     * @throws ApiException
      * @throws IncompatiblePlatform
      * @throws UnrecognizedClientException
      */
@@ -199,6 +206,7 @@ class ProductpriceEndpointTest extends BaseEndpointTest
 
     /**
      * @return void
+     * @throws ApiException
      * @throws IncompatiblePlatform
      * @throws UnrecognizedClientException
      */
@@ -239,6 +247,7 @@ class ProductpriceEndpointTest extends BaseEndpointTest
 
     /**
      * @return void
+     * @throws ApiException
      * @throws IncompatiblePlatform
      * @throws UnrecognizedClientException
      */

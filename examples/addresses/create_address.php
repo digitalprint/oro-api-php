@@ -35,7 +35,7 @@ try {
       ],
     ]);
 
-    echo "<p>Address created: {$address->id}</p>";
+    echo "<p>Address created: $address->id</p>";
 } catch (\Digitalprint\Oro\Api\Exceptions\ApiException $e) {
     echo "API call failed: " . $e->getMessage();
 }

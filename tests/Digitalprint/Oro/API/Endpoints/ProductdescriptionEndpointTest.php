@@ -1,5 +1,8 @@
 <?php
 
+namespace Tests\Digitalprint\Oro\Api\Endpoints;
+
+use Digitalprint\Oro\Api\Exceptions\ApiException;
 use Digitalprint\Oro\Api\Exceptions\IncompatiblePlatform;
 use Digitalprint\Oro\Api\Exceptions\UnrecognizedClientException;
 use Digitalprint\Oro\Api\Resources\Product;
@@ -7,7 +10,7 @@ use Digitalprint\Oro\Api\Resources\Productdescription;
 use Digitalprint\Oro\Api\Resources\ProductdescriptionCollection;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
-use Tests\Digitalprint\Oro\Api\Endpoints\BaseEndpointTest;
+use JsonException;
 
 class ProductdescriptionEndpointTest extends BaseEndpointTest
 {
@@ -15,6 +18,8 @@ class ProductdescriptionEndpointTest extends BaseEndpointTest
      * @return void
      * @throws IncompatiblePlatform
      * @throws UnrecognizedClientException
+     * @throws ApiException
+     * @throws JsonException
      */
     public function testCreateProductdescription(): void
     {
@@ -91,6 +96,10 @@ class ProductdescriptionEndpointTest extends BaseEndpointTest
 
     /**
      * @return void
+     * @throws ApiException
+     * @throws IncompatiblePlatform
+     * @throws JsonException
+     * @throws UnrecognizedClientException
      */
     public function testUpdateProductdescription(): void
     {
@@ -169,6 +178,7 @@ class ProductdescriptionEndpointTest extends BaseEndpointTest
 
     /**
      * @return void
+     * @throws ApiException
      * @throws IncompatiblePlatform
      * @throws UnrecognizedClientException
      */
@@ -215,7 +225,7 @@ class ProductdescriptionEndpointTest extends BaseEndpointTest
             )
         );
 
-        $product = $this->getProduct(1);
+        $product = $this->getProduct();
 
         $productdescriptions = $product->descriptions();
 
@@ -224,6 +234,7 @@ class ProductdescriptionEndpointTest extends BaseEndpointTest
 
     /**
      * @return void
+     * @throws ApiException
      * @throws IncompatiblePlatform
      * @throws UnrecognizedClientException
      */
@@ -406,10 +417,10 @@ class ProductdescriptionEndpointTest extends BaseEndpointTest
     }
 
     /**
-     * @param $id
      * @return mixed
+     * @throws JsonException
      */
-    protected function getProduct($id): mixed
+    protected function getProduct(): mixed
     {
         $productJson = $this->getProductResponse();
 

@@ -2,9 +2,10 @@
 
 namespace Digitalprint\Oro\Api\Exceptions;
 
-use DateTime;
 use DateTimeImmutable;
+use DateTimeInterface;
 use Exception;
+use JsonException;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use stdClass;
@@ -13,31 +14,31 @@ use Throwable;
 class ApiException extends Exception
 {
     /**
-     * @var string
+     * @var string|null
      */
-    protected $field;
+    protected ?string $field = null;
 
     /**
      * @var RequestInterface|null
      */
-    protected $request;
+    protected ?RequestInterface $request;
 
     /**
      * @var ResponseInterface|null
      */
-    protected $response;
+    protected ?ResponseInterface $response;
 
     /**
      * ISO8601 representation of the moment this exception was thrown
      *
      * @var DateTimeImmutable
      */
-    protected $raisedAt;
+    protected DateTimeImmutable $raisedAt;
 
     /**
      * @var array
      */
-    protected $links = [];
+    protected array $links = [];
 
     /**
      * @param string $message
@@ -47,6 +48,7 @@ class ApiException extends Exception
      * @param ResponseInterface|null $response
      * @param Throwable|null $previous
      * @throws ApiException
+     * @throws JsonException
      */
     public function __construct(
         string $message = "",
@@ -58,12 +60,12 @@ class ApiException extends Exception
     ) {
         $this->raisedAt = new DateTimeImmutable();
 
-        $formattedRaisedAt = $this->raisedAt->format(DateTime::ISO8601);
-        $message = "[{$formattedRaisedAt}] " . $message;
+        $formattedRaisedAt = $this->raisedAt->format(DateTimeInterface::ATOM);
+        $message = "[$formattedRaisedAt] " . $message;
 
         if (! empty($field)) {
             $this->field = (string)$field;
-            $message .= ". Field: {$this->field}";
+            $message .= ". Field: $this->field";
         }
 
         if ($response !== null) {
@@ -83,7 +85,7 @@ class ApiException extends Exception
             $requestBody = $request->getBody()->__toString();
 
             if ($requestBody) {
-                $message .= ". Request body: {$requestBody}";
+                $message .= ". Request body: $requestBody";
             }
         }
 
@@ -92,12 +94,13 @@ class ApiException extends Exception
 
     /**
      * @param ResponseInterface $response
-     * @param RequestInterface $request
+     * @param RequestInterface|null $request
      * @param Throwable|null $previous
      * @return ApiException
      * @throws ApiException
+     * @throws JsonException
      */
-    public static function createFromResponse($response, $request = null, $previous = null): ApiException
+    public static function createFromResponse(ResponseInterface $response, RequestInterface $request = null, Throwable $previous = null): ApiException
     {
         $object = static::parseResponseBody($response);
 
@@ -162,9 +165,9 @@ class ApiException extends Exception
 
     /**
      * @param $key
-     * @return mixed|null
+     * @return mixed
      */
-    public function getLink($key)
+    public function getLink($key): mixed
     {
         if ($this->hasLink($key)) {
             return $this->links[$key];
@@ -208,15 +211,16 @@ class ApiException extends Exception
      * @param ResponseInterface $response
      * @return stdClass
      * @throws ApiException
+     * @throws JsonException
      */
-    protected static function parseResponseBody($response): stdClass
+    protected static function parseResponseBody(ResponseInterface $response): stdClass
     {
         $body = (string) $response->getBody();
 
-        $object = @json_decode($body);
+        $object = @json_decode($body, false, 512, JSON_THROW_ON_ERROR);
 
         if (json_last_error() !== JSON_ERROR_NONE) {
-            throw new self("Unable to decode Oro response: '{$body}'.");
+            throw new self("Unable to decode Oro response: '$body'.");
         }
 
         return $object;

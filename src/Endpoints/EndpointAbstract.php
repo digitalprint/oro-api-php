@@ -7,6 +7,8 @@ use Digitalprint\Oro\Api\OroApiClient;
 use Digitalprint\Oro\Api\Resources\BaseCollection;
 use Digitalprint\Oro\Api\Resources\BaseResource;
 use Digitalprint\Oro\Api\Resources\ResourceFactory;
+use InvalidArgumentException;
+use JsonException;
 
 abstract class EndpointAbstract
 {
@@ -54,7 +56,7 @@ abstract class EndpointAbstract
             }
         }
 
-        return "?" . http_build_query($filters, "", "&");
+        return "?" . http_build_query($filters);
     }
 
     /**
@@ -73,9 +75,9 @@ abstract class EndpointAbstract
             if (! empty($value)) {
                 if (! in_array($key, ['include', 'meta', 'sort'])) {
                     if (in_array($key, ['size', 'number'])) {
-                        $res["page[${key}]"] = $value;
+                        $res["page[$key]"] = $value;
                     } else {
-                        $res["filter[${key}]"] = $value;
+                        $res["filter[$key]"] = $value;
                     }
                 } else {
                     $res[$key] = $value;
@@ -90,6 +92,7 @@ abstract class EndpointAbstract
      * @param array $body
      * @return BaseResource
      * @throws ApiException
+     * @throws JsonException
      */
     protected function rest_create(array $body): BaseResource
     {
@@ -110,7 +113,7 @@ abstract class EndpointAbstract
      * @return BaseResource
      * @throws ApiException
      */
-    protected function rest_read(string $id, array $filter)
+    protected function rest_read(string $id, array $filter): BaseResource
     {
         if (empty($id)) {
             throw new ApiException("Invalid resource id.");
@@ -119,7 +122,7 @@ abstract class EndpointAbstract
         $id = urlencode($id);
         $result = $this->client->performHttpCall(
             self::REST_READ,
-            "{$this->getResourcePath()}/{$id}" . $this->buildQueryString($filter)
+            $this->getResourcePath() . "/" . $id . $this->buildQueryString($filter)
         );
 
         return ResourceFactory::createFromApiResult($result->data, $this->getResourceObject());
@@ -159,6 +162,7 @@ abstract class EndpointAbstract
      * @param array $body
      * @return BaseResource|null
      * @throws ApiException
+     * @throws JsonException
      */
     protected function rest_update(array $body = []): ?BaseResource
     {
@@ -206,7 +210,7 @@ abstract class EndpointAbstract
     /**
      * @param string $resourcePath
      */
-    public function setResourcePath($resourcePath): void
+    public function setResourcePath(string $resourcePath): void
     {
         $this->resourcePath = strtolower($resourcePath);
     }
@@ -217,14 +221,14 @@ abstract class EndpointAbstract
      */
     public function getResourcePath(): string
     {
-        if (strpos($this->resourcePath, "_") !== false) {
-            list($parentResource, $childResource) = explode("_", $this->resourcePath, 2);
+        if (str_contains($this->resourcePath, "_")) {
+            [$parentResource, $childResource] = explode("_", $this->resourcePath, 2);
 
             if (empty($this->parentId)) {
-                throw new ApiException("Subresource '{$this->resourcePath}' used without parent '$parentResource' ID.");
+                throw new ApiException("Subresource '$this->resourcePath' used without parent '$parentResource' ID.");
             }
 
-            return "$parentResource/{$this->parentId}/$childResource";
+            return $parentResource . "/" . $this->parentId . "/" . $childResource;
         }
 
         return $this->resourcePath;
@@ -234,6 +238,7 @@ abstract class EndpointAbstract
      * @param array $body
      * @return null|string
      * @throws ApiException
+     * @throws JsonException
      */
     protected function parseRequestBody(array $body): ?string
     {
@@ -242,8 +247,8 @@ abstract class EndpointAbstract
         }
 
         try {
-            $encoded = @json_encode($body);
-        } catch (\InvalidArgumentException $e) {
+            $encoded = @json_encode($body, JSON_THROW_ON_ERROR);
+        } catch (InvalidArgumentException $e) {
             throw new ApiException("Error encoding parameters into JSON: '".$e->getMessage()."'.");
         }
 

@@ -1,12 +1,15 @@
 <?php
 
+namespace Tests\Digitalprint\Oro\Api\Endpoints;
+
+use Digitalprint\Oro\Api\Exceptions\ApiException;
 use Digitalprint\Oro\Api\Exceptions\IncompatiblePlatform;
 use Digitalprint\Oro\Api\Exceptions\UnrecognizedClientException;
 use Digitalprint\Oro\Api\Resources\User;
 use Digitalprint\Oro\Api\Resources\UserCollection;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
-use Tests\Digitalprint\Oro\Api\Endpoints\BaseEndpointTest;
+use JsonException;
 
 class UserEndpointTest extends BaseEndpointTest
 {
@@ -14,6 +17,8 @@ class UserEndpointTest extends BaseEndpointTest
      * @return void
      * @throws IncompatiblePlatform
      * @throws UnrecognizedClientException
+     * @throws ApiException
+     * @throws JsonException
      */
     public function testCreateUser(): void
     {
@@ -88,7 +93,9 @@ class UserEndpointTest extends BaseEndpointTest
 
     /**
      * @return void
+     * @throws ApiException
      * @throws IncompatiblePlatform
+     * @throws JsonException
      * @throws UnrecognizedClientException
      */
     public function testUpdateUser(): void
@@ -136,6 +143,7 @@ class UserEndpointTest extends BaseEndpointTest
 
     /**
      * @return void
+     * @throws ApiException
      * @throws IncompatiblePlatform
      * @throws UnrecognizedClientException
      */
@@ -162,6 +170,7 @@ class UserEndpointTest extends BaseEndpointTest
 
     /**
      * @return void
+     * @throws ApiException
      * @throws IncompatiblePlatform
      * @throws UnrecognizedClientException
      */
@@ -202,6 +211,7 @@ class UserEndpointTest extends BaseEndpointTest
 
     /**
      * @return void
+     * @throws ApiException
      * @throws IncompatiblePlatform
      * @throws UnrecognizedClientException
      */

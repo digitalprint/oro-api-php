@@ -1,20 +1,23 @@
 <?php
 
+namespace Tests\Digitalprint\Oro\Api\Endpoints;
+
+use Digitalprint\Oro\Api\Exceptions\ApiException;
 use Digitalprint\Oro\Api\Exceptions\IncompatiblePlatform;
 use Digitalprint\Oro\Api\Exceptions\UnrecognizedClientException;
 use Digitalprint\Oro\Api\Resources\Asyncoperation;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
-use Tests\Digitalprint\Oro\Api\Endpoints\BaseEndpointTest;
 
 class AsyncoperationEndpointTest extends BaseEndpointTest
 {
 
-  /**
-   * @return void
-   * @throws IncompatiblePlatform
-   * @throws UnrecognizedClientException
-   */
+    /**
+     * @return void
+     * @throws IncompatiblePlatform
+     * @throws UnrecognizedClientException
+     * @throws ApiException
+     */
     public function testGetAsyncoperation(): void
     {
         $this->mockApiCall(
