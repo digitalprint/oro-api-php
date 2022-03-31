@@ -26,15 +26,13 @@ class Authorization extends BaseResource
 
     /**
      * @param array $options
-     * @param array $filters
-     *
-     * @return self
+     * @return $this
      * @throws ApiException
      * @throws JsonException
      */
-    public function create(array $options = [], array $filters = []): self
+    public function create(array $options = []): self
     {
-        return $this->client->authorization->create($this->withPresetOptions($options), $filters);
+        return $this->client->authorization->create($this->withPresetOptions($options));
     }
 
     /**

@@ -2,21 +2,30 @@
 
 namespace Digitalprint\Oro\Api\Endpoints;
 
+use BadMethodCallException;
 use Digitalprint\Oro\Api\Exceptions\ApiException;
 use Digitalprint\Oro\Api\Resources\Asyncoperation;
+use Digitalprint\Oro\Api\Resources\BaseCollection;
 
 class AsyncoperationEndpoint extends EndpointAbstract
 {
     protected string $resourcePath = "api/asyncoperations";
 
     /**
-     * Get the object that is used by this API. Every API uses one type of object.
-     *
+     * @param array $included
      * @return Asyncoperation
      */
-    protected function getResourceObject(): Asyncoperation
+    protected function getResourceObject(array $included = []): Asyncoperation
     {
-        return new Asyncoperation($this->client);
+        return new Asyncoperation($this->client, $included);
+    }
+
+    /**
+     * @return BaseCollection
+     */
+    protected function getResourceCollectionObject(): BaseCollection
+    {
+        throw new BadMethodCallException('not implemented');
     }
 
     /**

@@ -1226,6 +1226,44 @@ class ProductEndpointTest extends BaseEndpointTest
         $product = $this->apiClient->products->get("1");
 
         $this->assertProduct($product);
+
+        $this->assertIsArray($product->included);
+
+        $includedArray = (object)
+        [
+            "type" => "productnames",
+            "id" => "19",
+            "links" => (object)[
+                "self" => "https://myoroproxy.local/admin/api/productnames/19",
+            ],
+            "attributes" => (object)[
+                "string" => "Product 1",
+                "fallback" => null,
+            ],
+            "relationships" => (object)[
+                "product" => (object)[
+                    "links" => (object)[
+                        "self" => "https://myoroproxy.local/admin/api/productnames/19/relationships/product",
+                        "related" => "https://myoroproxy.local/admin/api/productnames/19/product",
+                    ],
+                    "data" => (object)[
+                        "type" => "products",
+                        "id" => "7",
+                    ],
+                ],
+                "localization" => (object)[
+                    "links" => (object)[
+                        "self" => "https://myoroproxy.local/admin/api/productnames/19/relationships/localization",
+                        "related" => "https://myoroproxy.local/admin/api/productnames/19/localization",
+                    ],
+                    "data" => null,
+                ],
+            ],
+
+        ];
+
+        $this->assertEquals($includedArray, $product->included[0]);
+
     }
 
     /**
@@ -1267,6 +1305,44 @@ class ProductEndpointTest extends BaseEndpointTest
             "next" => "https://myoroproxy.local/admin/api/products?page%5Bnumber%5D=2&page%5Bsize%5D=1&sort=id",
         ];
         $this->assertEquals($linksObject, $products->links);
+
+        $this->assertIsArray($products->included);
+
+        $includedArray = (object)
+            [
+                "type" => "productnames",
+                "id" => "19",
+                "links" => (object)[
+                    "self" => "https://myoroproxy.local/admin/api/productnames/19",
+                ],
+                "attributes" => (object)[
+                    "string" => "Product 1",
+                    "fallback" => null,
+                ],
+                "relationships" => (object)[
+                    "product" => (object)[
+                        "links" => (object)[
+                            "self" => "https://myoroproxy.local/admin/api/productnames/19/relationships/product",
+                            "related" => "https://myoroproxy.local/admin/api/productnames/19/product",
+                        ],
+                        "data" => (object)[
+                            "type" => "products",
+                            "id" => "7",
+                        ],
+                    ],
+                    "localization" => (object)[
+                        "links" => (object)[
+                            "self" => "https://myoroproxy.local/admin/api/productnames/19/relationships/localization",
+                            "related" => "https://myoroproxy.local/admin/api/productnames/19/localization",
+                        ],
+                        "data" => null,
+                    ],
+                ],
+
+        ];
+
+        $this->assertEquals($includedArray, $products->included[0]);
+
     }
 
     /**
@@ -1708,6 +1784,200 @@ class ProductEndpointTest extends BaseEndpointTest
               }
             }
           },
+          "included": [
+            {
+              "type": "productnames",
+              "id": "19",
+              "links": {
+                "self": "https://myoroproxy.local/admin/api/productnames/19"
+              },
+              "attributes": {
+                "string": "Product 1",
+                "fallback": null
+              },
+              "relationships": {
+                "product": {
+                  "links": {
+                    "self": "https://myoroproxy.local/admin/api/productnames/19/relationships/product",
+                    "related": "https://myoroproxy.local/admin/api/productnames/19/product"
+                  },
+                  "data": {
+                    "type": "products",
+                    "id": "7"
+                  }
+                },
+                "localization": {
+                  "links": {
+                    "self": "https://myoroproxy.local/admin/api/productnames/19/relationships/localization",
+                    "related": "https://myoroproxy.local/admin/api/productnames/19/localization"
+                  },
+                  "data": null
+                }
+              }
+            },
+            {
+              "type": "productnames",
+              "id": "20",
+              "links": {
+                "self": "https://myoroproxy.local/admin/api/productnames/20"
+              },
+              "attributes": {
+                "string": "Product 2",
+                "fallback": null
+              },
+              "relationships": {
+                "product": {
+                  "links": {
+                    "self": "https://myoroproxy.local/admin/api/productnames/20/relationships/product",
+                    "related": "https://myoroproxy.local/admin/api/productnames/20/product"
+                  },
+                  "data": {
+                    "type": "products",
+                    "id": "7"
+                  }
+                },
+                "localization": {
+                  "links": {
+                    "self": "https://myoroproxy.local/admin/api/productnames/20/relationships/localization",
+                    "related": "https://myoroproxy.local/admin/api/productnames/20/localization"
+                  },
+                  "data": {
+                    "type": "localizations",
+                    "id": "1"
+                  }
+                }
+              }
+            },
+            {
+              "type": "productnames",
+              "id": "21",
+              "links": {
+                "self": "https://myoroproxy.local/admin/api/productnames/21"
+              },
+              "attributes": {
+                "string": null,
+                "fallback": "system"
+              },
+              "relationships": {
+                "product": {
+                  "links": {
+                    "self": "https://myoroproxy.local/admin/api/productnames/21/relationships/product",
+                    "related": "https://myoroproxy.local/admin/api/productnames/21/product"
+                  },
+                  "data": {
+                    "type": "products",
+                    "id": "7"
+                  }
+                },
+                "localization": {
+                  "links": {
+                    "self": "https://myoroproxy.local/admin/api/productnames/21/relationships/localization",
+                    "related": "https://myoroproxy.local/admin/api/productnames/21/localization"
+                  },
+                  "data": {
+                    "type": "localizations",
+                    "id": "2"
+                  }
+                }
+              }
+            },
+            {
+              "type": "productdescriptions",
+              "id": "104",
+              "links": {
+                "self": "https://myoroproxy.local/admin/api/productdescriptions/104"
+              },
+              "attributes": {
+                "fallback": null,
+                "wysiwyg": null
+              },
+              "relationships": {
+                "product": {
+                  "links": {
+                    "self": "https://myoroproxy.local/admin/api/productdescriptions/104/relationships/product",
+                    "related": "https://myoroproxy.local/admin/api/productdescriptions/104/product"
+                  },
+                  "data": {
+                    "type": "products",
+                    "id": "7"
+                  }
+                },
+                "localization": {
+                  "links": {
+                    "self": "https://myoroproxy.local/admin/api/productdescriptions/104/relationships/localization",
+                    "related": "https://myoroproxy.local/admin/api/productdescriptions/104/localization"
+                  },
+                  "data": null
+                }
+              }
+            },
+            {
+              "type": "productdescriptions",
+              "id": "13",
+              "links": {
+                "self": "https://myoroproxy.local/admin/api/productdescriptions/13"
+              },
+              "attributes": {
+                "fallback": "system",
+                "wysiwyg": null
+              },
+              "relationships": {
+                "product": {
+                  "links": {
+                    "self": "https://myoroproxy.local/admin/api/productdescriptions/13/relationships/product",
+                    "related": "https://myoroproxy.local/admin/api/productdescriptions/13/product"
+                  },
+                  "data": {
+                    "type": "products",
+                    "id": "7"
+                  }
+                },
+                "localization": {
+                  "links": {
+                    "self": "https://myoroproxy.local/admin/api/productdescriptions/13/relationships/localization",
+                    "related": "https://myoroproxy.local/admin/api/productdescriptions/13/localization"
+                  },
+                  "data": {
+                    "type": "localizations",
+                    "id": "1"
+                  }
+                }
+              }
+            },
+            {
+              "type": "productdescriptions",
+              "id": "14",
+              "links": {
+                "self": "https://myoroproxy.local/admin/api/productdescriptions/14"
+              },
+              "attributes": {
+                "fallback": "system",
+                "wysiwyg": null
+              },
+              "relationships": {
+                "product": {
+                  "links": {
+                    "self": "https://myoroproxy.local/admin/api/productdescriptions/14/relationships/product",
+                    "related": "https://myoroproxy.local/admin/api/productdescriptions/14/product"
+                  },
+                  "data": {
+                    "type": "products",
+                    "id": "7"
+                  }
+                },
+                "localization": {
+                  "links": {
+                    "self": "https://myoroproxy.local/admin/api/productdescriptions/14/relationships/localization",
+                    "related": "https://myoroproxy.local/admin/api/productdescriptions/14/localization"
+                  },
+                  "data": {
+                    "type": "localizations",
+                    "id": "2"
+                  }
+                }
+              }
+            }
+          ],
           "links": {
             "self": "https://myoroproxy.local/admin/api/products"
           }
@@ -2077,6 +2347,200 @@ class ProductEndpointTest extends BaseEndpointTest
                   "data": {
                     "type": "prodinventorystatuses",
                     "id": "out_of_stock"
+                  }
+                }
+              }
+            }
+          ],
+          "included": [
+            {
+              "type": "productnames",
+              "id": "19",
+              "links": {
+                "self": "https://myoroproxy.local/admin/api/productnames/19"
+              },
+              "attributes": {
+                "string": "Product 1",
+                "fallback": null
+              },
+              "relationships": {
+                "product": {
+                  "links": {
+                    "self": "https://myoroproxy.local/admin/api/productnames/19/relationships/product",
+                    "related": "https://myoroproxy.local/admin/api/productnames/19/product"
+                  },
+                  "data": {
+                    "type": "products",
+                    "id": "7"
+                  }
+                },
+                "localization": {
+                  "links": {
+                    "self": "https://myoroproxy.local/admin/api/productnames/19/relationships/localization",
+                    "related": "https://myoroproxy.local/admin/api/productnames/19/localization"
+                  },
+                  "data": null
+                }
+              }
+            },
+            {
+              "type": "productnames",
+              "id": "20",
+              "links": {
+                "self": "https://myoroproxy.local/admin/api/productnames/20"
+              },
+              "attributes": {
+                "string": "Product 2",
+                "fallback": null
+              },
+              "relationships": {
+                "product": {
+                  "links": {
+                    "self": "https://myoroproxy.local/admin/api/productnames/20/relationships/product",
+                    "related": "https://myoroproxy.local/admin/api/productnames/20/product"
+                  },
+                  "data": {
+                    "type": "products",
+                    "id": "7"
+                  }
+                },
+                "localization": {
+                  "links": {
+                    "self": "https://myoroproxy.local/admin/api/productnames/20/relationships/localization",
+                    "related": "https://myoroproxy.local/admin/api/productnames/20/localization"
+                  },
+                  "data": {
+                    "type": "localizations",
+                    "id": "1"
+                  }
+                }
+              }
+            },
+            {
+              "type": "productnames",
+              "id": "21",
+                "links": {
+                "self": "https://myoroproxy.local/admin/api/productnames/21"
+              },
+              "attributes": {
+                "string": null,
+                "fallback": "system"
+              },
+              "relationships": {
+                "product": {
+                  "links": {
+                    "self": "https://myoroproxy.local/admin/api/productnames/21/relationships/product",
+                    "related": "https://myoroproxy.local/admin/api/productnames/21/product"
+                  },
+                  "data": {
+                    "type": "products",
+                    "id": "7"
+                  }
+                },
+                "localization": {
+                  "links": {
+                    "self": "https://myoroproxy.local/admin/api/productnames/21/relationships/localization",
+                    "related": "https://myoroproxy.local/admin/api/productnames/21/localization"
+                  },
+                  "data": {
+                    "type": "localizations",
+                    "id": "2"
+                  }
+                }
+              }
+            },
+            {
+              "type": "productdescriptions",
+              "id": "104",
+              "links": {
+                "self": "https://myoroproxy.local/admin/api/productdescriptions/104"
+              },
+              "attributes": {
+                "fallback": null,
+                "wysiwyg": null
+              },
+              "relationships": {
+                "product": {
+                  "links": {
+                    "self": "https://myoroproxy.local/admin/api/productdescriptions/104/relationships/product",
+                    "related": "https://myoroproxy.local/admin/api/productdescriptions/104/product"
+                  },
+                  "data": {
+                    "type": "products",
+                    "id": "7"
+                  }
+                },
+                "localization": {
+                  "links": {
+                    "self": "https://myoroproxy.local/admin/api/productdescriptions/104/relationships/localization",
+                    "related": "https://myoroproxy.local/admin/api/productdescriptions/104/localization"
+                  },
+                  "data": null
+                }
+              }
+            },
+            {
+              "type": "productdescriptions",
+              "id": "13",
+              "links": {
+                "self": "https://myoroproxy.local/admin/api/productdescriptions/13"
+              },
+              "attributes": {
+                "fallback": "system",
+                "wysiwyg": null
+              },
+              "relationships": {
+                "product": {
+                  "links": {
+                    "self": "https://myoroproxy.local/admin/api/productdescriptions/13/relationships/product",
+                    "related": "https://myoroproxy.local/admin/api/productdescriptions/13/product"
+                  },
+                  "data": {
+                    "type": "products",
+                    "id": "7"
+                  }
+                },
+                "localization": {
+                  "links": {
+                    "self": "https://myoroproxy.local/admin/api/productdescriptions/13/relationships/localization",
+                    "related": "https://myoroproxy.local/admin/api/productdescriptions/13/localization"
+                  },
+                  "data": {
+                    "type": "localizations",
+                    "id": "1"
+                  }
+                }
+              }
+            },
+            {
+              "type": "productdescriptions",
+              "id": "14",
+              "links": {
+                "self": "https://myoroproxy.local/admin/api/productdescriptions/14"
+              },
+              "attributes": {
+                "fallback": "system",
+                "wysiwyg": null
+              },
+              "relationships": {
+                "product": {
+                  "links": {
+                    "self": "https://myoroproxy.local/admin/api/productdescriptions/14/relationships/product",
+                    "related": "https://myoroproxy.local/admin/api/productdescriptions/14/product"
+                  },
+                  "data": {
+                    "type": "products",
+                    "id": "7"
+                  }
+                },
+                "localization": {
+                  "links": {
+                    "self": "https://myoroproxy.local/admin/api/productdescriptions/14/relationships/localization",
+                    "related": "https://myoroproxy.local/admin/api/productdescriptions/14/localization"
+                  },
+                  "data": {
+                    "type": "localizations",
+                    "id": "2"
                   }
                 }
               }

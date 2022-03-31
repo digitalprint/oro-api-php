@@ -3,7 +3,7 @@
 try {
     require "../initialize.php";
 
-    $product = $oro->products->get(116);
+    $product = $oro->products->get(1);
 
     echo '<b>' . $product->type . ' ' . $product->id . '</b><br>';
 

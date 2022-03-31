@@ -41,7 +41,7 @@ class ResourceFactory
         $resourceCollectionClass = $resourceCollectionClass ?: $resourceClass . 'Collection';
         $data = $data ?: [];
 
-        $result = new $resourceCollectionClass(count($data), $_links);
+        $result = new $resourceCollectionClass($_links);
         foreach ($data as $item) {
             $result[] = static::createFromApiResult($item, new $resourceClass($client));
         }
@@ -67,10 +67,10 @@ class ResourceFactory
         if (null === $resourceCollectionClass) {
             $resourceCollectionClass = $resourceClass.'Collection';
         }
-
-        $data = new $resourceCollectionClass($client, count($input), $_links);
+        
+        $data = new $resourceCollectionClass($client, $_links);
         foreach ($input as $item) {
-            $data[] = static::createFromApiResult($item, new $resourceClass($client));
+            $data[] = static::createFromApiResult($item, new $resourceClass($client, []));
         }
 
         return $data;

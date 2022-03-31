@@ -16,25 +16,22 @@ class UserEndpoint extends CollectionEndpointAbstract
     protected string $resourcePath = "api/users";
 
     /**
-     * Get the object that is used by this API. Every API uses one type of object.
-     *
+     * @param array $included
      * @return User
      */
-    protected function getResourceObject(): User
+    protected function getResourceObject(array $included = []): User
     {
-        return new User($this->client);
+        return new User($this->client, $included);
     }
 
     /**
-     * Get the collection object that is used by this API. Every API uses one type of collection object.
-     *
      * @param stdClass $links
-     *
+     * @param array $included
      * @return UserCollection
      */
-    protected function getResourceCollectionObject(stdClass $links): UserCollection
+    protected function getResourceCollectionObject(stdClass $links, array $included = []): UserCollection
     {
-        return new UserCollection($this->client, $links);
+        return new UserCollection($this->client, $links, $included);
     }
 
     /**

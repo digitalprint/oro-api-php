@@ -4,20 +4,22 @@ namespace Digitalprint\Oro\Api\Resources;
 
 use Digitalprint\Oro\Api\Exceptions\ApiException;
 use Digitalprint\Oro\Api\OroApiClient;
-use stdClass;
 
 abstract class CursorCollection extends BaseCollection
 {
-    protected $client;
+    /**
+     * @var OroApiClient
+     */
+    protected OroApiClient $client;
 
     /**
      * @param $client
-     * @param stdClass $links
+     * @param $links
+     * @param $included
      */
-    final public function __construct($client, $links)
+    final public function __construct($client, $links, $included = [])
     {
-        parent::__construct($links);
-
+        parent::__construct($links, $included);
         $this->client = $client;
     }
 

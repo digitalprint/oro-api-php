@@ -102,7 +102,7 @@ abstract class EndpointAbstract
             $this->parseRequestBody($body)
         );
 
-        return ResourceFactory::createFromApiResult($result->data, $this->getResourceObject());
+        return ResourceFactory::createFromApiResult($result->data, $this->getResourceObject($result->included ?? []));
     }
 
     /**
@@ -125,7 +125,7 @@ abstract class EndpointAbstract
             $this->getResourcePath() . "/" . $id . $this->buildQueryString($filter)
         );
 
-        return ResourceFactory::createFromApiResult($result->data, $this->getResourceObject());
+        return ResourceFactory::createFromApiResult($result->data, $this->getResourceObject($result->included ?? []));
     }
 
     /**
@@ -149,10 +149,10 @@ abstract class EndpointAbstract
         );
 
         /** @var BaseCollection $collection */
-        $collection = $this->getResourceCollectionObject($result->links);
+        $collection = $this->getResourceCollectionObject($result->links, $result->included ?? []);
 
         foreach ($result->data as $dataResult) {
-            $collection[] = ResourceFactory::createFromApiResult($dataResult, $this->getResourceObject());
+            $collection[] = ResourceFactory::createFromApiResult($dataResult, $this->getResourceObject($result->included ?? []));
         }
 
         return $collection;
@@ -176,7 +176,7 @@ abstract class EndpointAbstract
             return null;
         }
 
-        return ResourceFactory::createFromApiResult($result->data, $this->getResourceObject());
+        return ResourceFactory::createFromApiResult($result->data, $this->getResourceObject($result->included ?? []));
     }
 
     /**
@@ -197,15 +197,14 @@ abstract class EndpointAbstract
             return null;
         }
 
-        return ResourceFactory::createFromApiResult($result->data, $this->getResourceObject());
+        return ResourceFactory::createFromApiResult($result->data, $this->getResourceObject($result->included ?? []));
     }
 
     /**
-     * Get the object that is used by this API endpoint. Every API endpoint uses one type of object.
-     *
+     * @param array $included
      * @return BaseResource
      */
-    abstract protected function getResourceObject(): BaseResource;
+    abstract protected function getResourceObject(array $included = []): BaseResource;
 
     /**
      * @param string $resourcePath

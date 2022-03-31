@@ -29,11 +29,6 @@ abstract class BaseResource
     /**
      * @var object
      */
-    public object $links;
-
-    /**
-     * @var object
-     */
     public object $attributes;
 
     /**
@@ -42,10 +37,22 @@ abstract class BaseResource
     public object $relationships;
 
     /**
-     * @param OroApiClient $client
+     * @var object
      */
-    public function __construct(OroApiClient $client)
+    public object $links;
+
+    /**
+     * @var array
+     */
+    public array $included;
+
+    /**
+     * @param OroApiClient $client
+     * @param array $included
+     */
+    public function __construct(OroApiClient $client, array $included = [])
     {
+        $this->included = $included;
         $this->client = $client;
     }
 }

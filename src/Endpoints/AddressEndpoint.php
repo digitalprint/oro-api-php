@@ -16,27 +16,23 @@ class AddressEndpoint extends CollectionEndpointAbstract
     protected string $resourcePath = "api/addresses";
 
     /**
-     * Get the object that is used by this API. Every API uses one type of object.
-     *
+     * @param array $included
      * @return Address
      */
-    protected function getResourceObject(): Address
+    protected function getResourceObject(array $included = []): Address
     {
-        return new Address($this->client);
+        return new Address($this->client, $included);
     }
 
     /**
-     * Get the collection object that is used by this API. Every API uses one type of collection object.
-     *
      * @param stdClass $links
-     *
+     * @param array $included
      * @return AddressCollection
      */
-    protected function getResourceCollectionObject(stdClass $links): AddressCollection
+    protected function getResourceCollectionObject(stdClass $links, array $included = []): AddressCollection
     {
-        return new AddressCollection($this->client, $links);
+        return new AddressCollection($this->client, $links, $included);
     }
-
 
     /**
      * @param array|null $data

@@ -52,6 +52,11 @@ $oro->setAccessToken($res->access_token);
 $product = $oro->products->get(100);
 ``` 
 
+#### Get a single product with related entities included
+```php
+$oro->products->get(1, ['include' => 'names,descriptions']);
+``` 
+
 #### Get a list of products
 ```php
 $products = $oro->products->page();

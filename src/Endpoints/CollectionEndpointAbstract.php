@@ -8,11 +8,9 @@ use stdClass;
 abstract class CollectionEndpointAbstract extends EndpointAbstract
 {
     /**
-     * Get the collection object that is used by this API endpoint. Every API endpoint uses one type of collection object.
-     *
      * @param stdClass $links
-     *
+     * @param array $included
      * @return BaseCollection
      */
-    abstract protected function getResourceCollectionObject(stdClass $links): BaseCollection;
+    abstract protected function getResourceCollectionObject(stdClass $links, array $included = []): BaseCollection;
 }

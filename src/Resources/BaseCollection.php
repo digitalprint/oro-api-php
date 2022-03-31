@@ -9,16 +9,23 @@ abstract class BaseCollection extends ArrayObject
 {
 
     /**
+     * @var array
+     */
+    public array $included;
+
+    /**
      * @var stdClass
      */
-    public $links;
+    public stdClass $links;
 
     /**
      * @param stdClass $links
+     * @param array $included
      */
-    public function __construct($links)
+    public function __construct(stdClass $links, array $included = [])
     {
         $this->links = $links;
+        $this->included = $included;
         parent::__construct();
     }
 

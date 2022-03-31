@@ -16,25 +16,22 @@ class ProductpriceEndpoint extends CollectionEndpointAbstract
     protected string $resourcePath = "api/productprices";
 
     /**
-     * Get the object that is used by this API. Every API uses one type of object.
-     *
+     * @param array $included
      * @return Productprice
      */
-    protected function getResourceObject(): Productprice
+    protected function getResourceObject(array $included = []): Productprice
     {
-        return new Productprice($this->client);
+        return new Productprice($this->client, $included);
     }
 
     /**
-     * Get the collection object that is used by this API. Every API uses one type of collection object.
-     *
      * @param stdClass $links
-     *
+     * @param array $included
      * @return ProductpriceCollection
      */
-    protected function getResourceCollectionObject(stdClass $links): ProductpriceCollection
+    protected function getResourceCollectionObject(stdClass $links, array $included = []): ProductpriceCollection
     {
-        return new ProductpriceCollection($this->client, $links);
+        return new ProductpriceCollection($this->client, $links, $included);
     }
 
     /**

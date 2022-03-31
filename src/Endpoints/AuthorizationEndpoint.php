@@ -25,11 +25,12 @@ class AuthorizationEndpoint extends EndpointAbstract
     }
 
     /**
+     * @param array $included
      * @return Authorization
      */
-    protected function getResourceObject(): Authorization
+    protected function getResourceObject(array $included = []): Authorization
     {
-        return new Authorization($this->client);
+        return new Authorization($this->client, $included);
     }
 
     /**

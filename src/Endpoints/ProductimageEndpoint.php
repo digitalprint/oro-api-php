@@ -8,9 +8,6 @@ use Digitalprint\Oro\Api\Resources\ProductimageCollection;
 use JsonException;
 use stdClass;
 
-/**
- *
- */
 class ProductimageEndpoint extends CollectionEndpointAbstract
 {
     /**
@@ -19,25 +16,22 @@ class ProductimageEndpoint extends CollectionEndpointAbstract
     protected string $resourcePath = "api/productimages";
 
     /**
-     * Get the object that is used by this API. Every API uses one type of object.
-     *
+     * @param array $included
      * @return Productimage
      */
-    protected function getResourceObject(): Productimage
+    protected function getResourceObject(array $included = []): Productimage
     {
-        return new Productimage($this->client);
+        return new Productimage($this->client, $included);
     }
 
     /**
-     * Get the collection object that is used by this API. Every API uses one type of collection object.
-     *
      * @param stdClass $links
-     *
+     * @param array $included
      * @return ProductimageCollection
      */
-    protected function getResourceCollectionObject(stdClass $links): ProductimageCollection
+    protected function getResourceCollectionObject(stdClass $links, array $included = []): ProductimageCollection
     {
-        return new ProductimageCollection($this->client, $links);
+        return new ProductimageCollection($this->client, $links, $included);
     }
 
     /**

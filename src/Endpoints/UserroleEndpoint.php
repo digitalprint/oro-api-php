@@ -16,25 +16,22 @@ class UserroleEndpoint extends CollectionEndpointAbstract
     protected string $resourcePath = "api/userroles";
 
     /**
-     * Get the object that is used by this API. Every API uses one type of object.
-     *
+     * @param array $included
      * @return Userrole
      */
-    protected function getResourceObject(): Userrole
+    protected function getResourceObject(array $included = []): Userrole
     {
-        return new Userrole($this->client);
+        return new Userrole($this->client, $included);
     }
 
     /**
-     * Get the collection object that is used by this API. Every API uses one type of collection object.
-     *
      * @param stdClass $links
-     *
+     * @param array $included
      * @return UserroleCollection
      */
-    protected function getResourceCollectionObject(stdClass $links): UserroleCollection
+    protected function getResourceCollectionObject(stdClass $links, array $included = []): UserroleCollection
     {
-        return new UserroleCollection($this->client, $links);
+        return new UserroleCollection($this->client, $links, $included);
     }
 
     /**
