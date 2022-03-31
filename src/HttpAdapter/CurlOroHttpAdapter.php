@@ -96,12 +96,12 @@ final class CurlOroHttpAdapter implements OroHttpAdapterInterface
     /**
      * @param string $response
      * @param int $statusCode
-     * @param string $httpBody
+     * @param string|null $httpBody
      * @return stdClass|null
      * @throws ApiException
      * @throws JsonException
      */
-    protected function parseResponseBody(string $response, int $statusCode, string $httpBody): ?stdClass
+    protected function parseResponseBody(string $response, int $statusCode, ?string $httpBody): ?stdClass
     {
         if (empty($response)) {
             if ($statusCode === self::HTTP_NO_CONTENT) {
