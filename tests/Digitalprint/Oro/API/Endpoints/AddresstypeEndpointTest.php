@@ -41,39 +41,6 @@ class AddresstypeEndpointTest extends BaseEndpointTest
     }
 
     /**
-     * @return void
-     * @throws ApiException
-     * @throws IncompatiblePlatform
-     * @throws UnrecognizedClientException
-     */
-    public function testListAdresstypes(): void
-    {
-        $this->mockApiCall(
-            new Request(
-                "GET",
-                "/admin/api/addresstypes",
-                [],
-                ''
-            ),
-            new Response(
-                200,
-                [],
-                $this->getAddresstypeCollectionResponse()
-            )
-        );
-
-        $addresses = $this->apiClient->addresstypes->page();
-
-        $this->assertInstanceOf(AddresstypeCollection::class, $addresses);
-
-        foreach ($addresses as $address) {
-            $this->assertInstanceOf(Addresstype::class, $address);
-            $this->assertEquals("addresstypes", $address->type);
-            $this->assertNotEmpty($address->attributes);
-        }
-    }
-
-    /**
      * @param $addresstype
      * @return void
      */
@@ -115,28 +82,4 @@ class AddresstypeEndpointTest extends BaseEndpointTest
         }';
     }
 
-    /**
-     * @return string
-     */
-    protected function getAddresstypeCollectionResponse(): string
-    {
-        return '{
-          "data": [
-            {
-              "type": "addresstypes",
-              "id": "billing",
-              "attributes": {
-                "label": "Billing"
-              }
-            },
-            {
-              "type": "addresstypes",
-              "id": "shipping",
-              "attributes": {
-                "label": "Shipping"
-              }
-            }
-          ]
-        }';
-    }
 }
