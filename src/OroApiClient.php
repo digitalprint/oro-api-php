@@ -6,6 +6,7 @@ use Digitalprint\Oro\Api\Endpoints\AddressEndpoint;
 use Digitalprint\Oro\Api\Endpoints\AddresstypeEndpoint;
 use Digitalprint\Oro\Api\Endpoints\AsyncoperationEndpoint;
 use Digitalprint\Oro\Api\Endpoints\AuthorizationEndpoint;
+use Digitalprint\Oro\Api\Endpoints\CustomerproductvisibilityEndpoint;
 use Digitalprint\Oro\Api\Endpoints\ProductdescriptionEndpoint;
 use Digitalprint\Oro\Api\Endpoints\ProductEndpoint;
 use Digitalprint\Oro\Api\Endpoints\ProductimageEndpoint;
@@ -95,6 +96,11 @@ class OroApiClient
     public ProductpriceEndpoint $productprices;
 
     /**
+     * @var CustomerproductvisibilityEndpoint
+     */
+    public CustomerproductvisibilityEndpoint $customerproductvisibilities;
+
+    /**
      * @var UserEndpoint
      */
     public UserEndpoint $users;
@@ -145,6 +151,7 @@ class OroApiClient
         $this->addresses = new AddressEndpoint($this);
         $this->addresstypes = new AddresstypeEndpoint($this);
         $this->asyncoperations = new AsyncoperationEndpoint($this);
+        $this->customerproductvisibilities = new CustomerproductvisibilityEndpoint($this);
         $this->products = new ProductEndpoint($this);
         $this->productdescriptions = new ProductdescriptionEndpoint($this);
         $this->productimages = new ProductimageEndpoint($this);
