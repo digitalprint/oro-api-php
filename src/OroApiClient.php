@@ -48,7 +48,7 @@ class OroApiClient
      */
     protected string $apiEndpoint;
 
-    protected string $user;
+    protected ?string $user = null;
 
     /**
      * @var AuthorizationEndpoint
@@ -194,9 +194,9 @@ class OroApiClient
     }
 
     /**
-     * @return string
+     * @return null|string
      */
-    public function getUser(): string
+    public function getUser(): ?string
     {
         return $this->user;
     }
@@ -273,7 +273,11 @@ class OroApiClient
      */
     public function performHttpCall(string $httpMethod, string $apiMethod, string $httpBody = null): ?stdClass
     {
-        $url = $this->apiEndpoint . "/" . $this->user . "/" . $apiMethod;
+        if ($this->user !== null) {
+            $url = $this->apiEndpoint . "/" . $this->user . "/" . $apiMethod;
+        } else {
+            $url = $this->apiEndpoint . "/" . $apiMethod;
+        }
 
         return $this->performHttpCallToFullUrl($httpMethod, $url, $httpBody);
     }
